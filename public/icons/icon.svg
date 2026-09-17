@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Original BOUNDLESS OPS icon: stencil B over a chevron on olive drab. No real insignia. -->
+  <rect width="512" height="512" fill="#4B5320"/>
+  <rect width="512" height="512" fill="#0E100C" opacity="0.18"/>
+  <!-- chevron -->
+  <path d="M96 332 L256 196 L416 332 L416 400 L256 264 L96 400 Z" fill="#C2B280"/>
+  <!-- stencil B: outer form with bridge gaps -->
+  <g fill="#FF6A13">
+    <rect x="176" y="88" width="46" height="188"/>
+    <path d="M222 88 h74 a56 56 0 0 1 0 112 h-74 v-30 h70 a26 26 0 0 0 0-52 h-70 z"/>
+    <path d="M222 178 h84 a52 52 0 0 1 0 104 h-84 v-30 h80 a22 22 0 0 0 0-44 h-80 z" opacity="0.001"/>
+  </g>
+  <!-- bridges cut through the B (stencil look) -->
+  <rect x="166" y="150" width="120" height="14" fill="#4B5320"/>
+  <rect x="166" y="234" width="120" height="14" fill="#4B5320"/>
+  <path d="M96 332 L256 196 L416 332" fill="none" stroke="#0E100C" stroke-width="6" opacity="0.25"/>
+</svg>
