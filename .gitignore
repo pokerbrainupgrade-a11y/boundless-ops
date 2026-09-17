@@ -1,0 +1,23 @@
+# Source material and build prompts never enter the public repo
+*.pdf
+/*.md
+!README.md
+.env
+.env.*
+
+# Node / build
+node_modules/
+dist/
+dev-dist/
+coverage/
+.vite/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# OS / editor
+.DS_Store
+*.log
