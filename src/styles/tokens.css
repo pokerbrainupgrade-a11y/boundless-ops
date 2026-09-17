@@ -1,0 +1,40 @@
+/* BOUNDLESS OPS design tokens — military field-manual palette, dark only. */
+:root {
+  --bg: #0E100C;
+  --surface: #1A1D16;
+  --surface-2: #24281E;
+  --od: #4B5320;
+  --tan: #C2B280;
+  --text: #E8E4D4;
+  --signal: #FF6A13;
+  --rest: #6B8F71;
+  /* lighter REST tone for small text on raised surfaces (AA) */
+  --rest-hi: #8FB596;
+  --danger: #C0392B;
+  --ink: #0E100C;
+  --muted: #C2B280;
+
+  --font-display: 'Black Ops One', 'Impact', sans-serif;
+  --font-timer: 'JetBrains Mono', 'Menlo', monospace;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --radius: 4px;
+  --radius-sm: 3px;
+  --notch: 14px;
+  --tap: 48px;
+  --tap-lg: 64px;
+  --gap: 12px;
+  --pad: 16px;
+  --ease: ease-out;
+  --dur: 150ms;
+  --hairline: 1px solid rgba(194, 178, 128, 0.45);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --tabbar-h: 64px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+  }
+}
