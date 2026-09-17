@@ -193,6 +193,18 @@ textarea.input { min-height: 88px; resize: vertical; }
 .banner.info { border-left-color: var(--rest); }
 .banner.warn { border-left-color: var(--signal); }
 
+/* Full-screen scrollable overlay (day preview) */
+.modal-full {
+  position: fixed; inset: 0; z-index: 40; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--bg); padding: calc(var(--pad) + var(--safe-top)) var(--pad) calc(var(--pad) + var(--safe-bottom) + 24px);
+  max-width: 640px; margin: 0 auto;
+}
+.modal-full .modal-head { position: sticky; top: calc(-1 * (var(--pad) + var(--safe-top))); background: var(--bg); padding: 6px 0; z-index: 1; border-bottom: var(--hairline); }
+/* Sticky bottom call to action */
+.sticky-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px var(--pad) calc(10px + var(--safe-bottom)); background: linear-gradient(to top, var(--bg) 70%, transparent); max-width: 640px; margin: 0 auto; }
+.scroll-pane { min-height: 0; padding-bottom: 4px; }
+.scroll-pane .sticky-cta { position: sticky; bottom: 0; margin: auto calc(-1 * var(--pad)) 0; padding-bottom: calc(10px + var(--safe-bottom)); }
+
 /* Modal */
 .modal-bg { position: fixed; inset: 0; background: rgba(6, 7, 5, 0.85); z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
 .modal { background: var(--surface); border-top: 2px solid var(--tan); padding: 20px 16px calc(20px + var(--safe-bottom)); width: 100%; max-width: 640px; max-height: 90dvh; overflow-y: auto; }

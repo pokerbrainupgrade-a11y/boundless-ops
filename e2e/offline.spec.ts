@@ -29,6 +29,8 @@ test('installs the service worker, then works offline on every screen and a time
   await expect(page.getByTestId('timer')).toHaveAttribute('data-index', '1');
   // a stepper runs offline
   await page.goto('/boundless-ops/#/session/B?day=3&slot=main&variant=seqA');
+  await expect(page.getByTestId('stepper-brief')).toBeVisible();
+  await page.getByTestId('start').click();
   await expect(page.getByTestId('foundation-stepper')).toBeVisible();
   // fonts came from the cache, not the network
   const fontOk = await page.evaluate(() => document.fonts.check('16px "Black Ops One"') && document.fonts.check('700 16px "JetBrains Mono"') && document.fonts.check('16px Inter'));

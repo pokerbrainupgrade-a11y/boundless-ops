@@ -96,6 +96,7 @@ test.describe('timer presets (mocked clock)', () => {
   test('7-Minute shows the current move drawing and the next preview; W2 uses swaps', async ({ page }) => {
     await page.clock.install({ time: new Date('2026-09-22T14:00:00-07:00') });
     await page.goto('/boundless-ops/#/session/C?day=2&slot=main');
+    expect(await page.getByTestId('brief-move').count()).toBe(12);
     await page.getByTestId('start').click();
     await page.clock.runFor(10_000);
     await expect(page.getByTestId('seven-move')).toHaveAttribute('data-move', 'jumpingJacks');
@@ -124,11 +125,17 @@ test.describe('timer presets (mocked clock)', () => {
     await page.clock.install({ time: new Date('2026-09-21T15:00:00Z') });
     await page.reload();
     await page.goto('/boundless-ops/#/session/B?day=1&slot=main&variant=seqA');
+    // brief first: every exercise is listed before START
+    await expect(page.getByTestId('stepper-brief')).toBeVisible();
+    expect(await page.getByTestId('brief-exercise').count()).toBe(7);
+    await page.getByTestId('start').click();
     const f = page.getByTestId('foundation-stepper');
     await expect(f).toBeVisible();
     for (let i = 0; i < 3; i++) await page.getByTestId('rep-done').click();
     await expect(f).toHaveAttribute('data-index', '1');
     await page.goto('/boundless-ops/#/session/E?day=3&slot=main');
+    await expect(page.getByTestId('stepper-brief')).toBeVisible();
+    await page.getByTestId('start').click();
     await expect(page.getByTestId('mobility-stepper')).toBeVisible();
     await page.getByLabel('plus one pass').click();
     await expect(page.getByTestId('passes')).toHaveText('1');

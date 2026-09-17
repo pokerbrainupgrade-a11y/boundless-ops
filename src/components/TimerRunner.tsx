@@ -153,14 +153,14 @@ export function TimerRunner(p: TimerRunnerProps) {
       </div>
 
       {st.status === 'idle' ? (
-        <div class="stack grow" style="justify-content:center">
-          {p.preStart}
+        <div class="stack grow scroll-pane" data-testid="setup">
           <div class="card">
             <div class="muted small">Plan</div>
             <div class="mono" style="font-size:1.4rem">{fmtClock(p.built.totalMs)}{p.built.segments.some((s) => s.open) ? ' +' : ''}</div>
             <div class="muted small">{p.built.segments.length} segments · lead-in {settings.value.leadInSec} s</div>
           </div>
-          <button type="button" class="btn btn-primary btn-xl btn-block" data-testid="start" onClick={start}>START</button>
+          {p.preStart}
+          <div class="sticky-cta" style="bottom:0"><button type="button" class="btn btn-primary btn-xl btn-block" data-testid="start" onClick={start}>START</button></div>
         </div>
       ) : st.status === 'done' ? (
         <div class="stack grow fade-in" style="justify-content:center;align-items:center">

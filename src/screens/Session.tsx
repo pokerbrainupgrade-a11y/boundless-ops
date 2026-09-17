@@ -13,9 +13,10 @@ import { FoundationStepper, MobilityStepper, DecompressionPacer, type StepperRes
 import { Pose } from '@/components/Pose';
 import { BoxBreath } from '@/components/BreathPacer';
 import { flash } from '@/components/Flash';
+import { SessionBrief } from '@/components/SessionBrief';
 import { chime, tickBeep } from '@/lib/audio';
 
-type Phase = { kind: 'setup' } | { kind: 'log'; draft: SessionLog; note?: string };
+type Phase = { kind: 'setup' } | { kind: 'run' } | { kind: 'log'; draft: SessionLog; note?: string };
 
 export function Session() {
   const r = route.value;
@@ -62,11 +63,26 @@ export function Session() {
   const abort = () => navigate('/today', true);
   const preset: TimerPreset = session.timerPreset;
 
-  if (preset === 'foundation') {
+  if (preset === 'foundation' || preset === 'mobility') {
     const v = (variant === 'seqA' || variant === 'seqB' || variant === 'applied' ? variant : dayObj.foundation === 'A' ? 'seqA' : dayObj.foundation === 'B' ? 'seqB' : 'applied') as 'seqA' | 'seqB' | 'applied';
-    return <FoundationStepper variant={v} onDone={onStepper} onAbort={abort} />;
+    // Brief first: review every exercise, then begin the stepper.
+    if (phase.kind === 'setup') {
+      return (
+        <div class="screen-full" data-testid="stepper-brief">
+          <div class="row between" style="margin-bottom:6px">
+            <div class="grow" style="min-width:0"><div class="wordmark" style="font-size:1rem">{session.name}</div><div class="muted small">{preset === 'foundation' ? (v === 'seqA' ? 'Sequence A' : v === 'seqB' ? 'Sequence B' : 'Applied day') : '15 stations'} · Day {String(day).padStart(2, '0')}</div></div>
+            <button type="button" class="btn btn-ghost" onClick={abort}>Back</button>
+          </div>
+          <div class="stack grow scroll-pane">
+            <SessionBrief session={session} week={week} variant={preset === 'foundation' ? v : undefined} />
+            <div class="sticky-cta" style="bottom:0"><button type="button" class="btn btn-primary btn-xl btn-block" data-testid="start" onClick={() => setPhase({ kind: 'run' })}>START</button></div>
+          </div>
+        </div>
+      );
+    }
+    if (preset === 'foundation') return <FoundationStepper variant={v} onDone={onStepper} onAbort={abort} />;
+    return <MobilityStepper onDone={onStepper} onAbort={abort} />;
   }
-  if (preset === 'mobility') return <MobilityStepper onDone={onStepper} onAbort={abort} />;
   if (preset === 'decompression') return <DecompressionPacer title={session.name} onDone={onStepper} onAbort={abort} />;
 
   return <IntervalSession key={session.id + variant} session={session} week={week} day={day} variant={variant} onDone={(res, data, note) => setPhase({ kind: 'log', draft: draft(res, data), note })} onAbort={abort} />;
@@ -145,7 +161,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
       {preset === 'swim' && (
         <MinutesPicker label="Rounds" value={opts.swimRounds!} min={10} max={12} step={1} onChange={(v) => setOpts({ ...opts, swimRounds: v })} />
       )}
-      {session.safety.length > 0 && <details><summary class="muted small">Safety notes</summary><div class="banner danger" style="margin-top:6px"><ul class="small">{session.safety.map((x) => <li key={x}>{x}</li>)}</ul></div></details>}
+      <SessionBrief session={session} week={week} variant={preset === 'tabata' ? opts.tabataMove : variant} />
     </div>
   );
 

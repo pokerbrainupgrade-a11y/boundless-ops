@@ -73,13 +73,15 @@ export function Schedule() {
       </div>
 
       {preview !== null && (
-        <div class="modal-bg" onClick={() => setPreview(null)}>
-          <div class="modal stack" role="dialog" aria-label={`Day ${preview}`} onClick={(e) => e.stopPropagation()} data-testid="day-preview">
-            <div class="row between"><h2>Day {String(preview).padStart(2, '0')} · W{getDay(preview).week} D{getDay(preview).day}</h2><button type="button" class="btn btn-ghost" onClick={() => setPreview(null)}>Close</button></div>
-            <div class="muted small">{getDay(preview).load} · {getDay(preview).timeEstimate}{b ? ` · ${fmtShortDate(dateOfDay(preview)!)}` : ''}</div>
-            <h3>AM PT</h3>{getDay(preview).am.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="am" compact />)}
-            <h3>Main effort</h3>{getDay(preview).main.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="main" compact />)}
-            <h3>Recovery</h3>{getDay(preview).pm.length ? getDay(preview).pm.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="pm" compact />) : <div class="muted small">—</div>}
+        <div class="modal-full stack" role="dialog" aria-label={`Day ${preview}`} data-testid="day-preview">
+          <div class="row between modal-head"><div><h2>Day {String(preview).padStart(2, '0')} · W{getDay(preview).week} D{getDay(preview).day}</h2><div class="muted small">{getDay(preview).load} · {getDay(preview).timeEstimate}{b ? ` · ${fmtShortDate(dateOfDay(preview)!)}` : ''}</div></div><button type="button" class="btn btn-ghost" onClick={() => setPreview(null)}>Close</button></div>
+          <p class="muted small" style="margin:0">Tap a session to see its exercises and cues before you start it.</p>
+          <section class="card stack"><h3>AM PT</h3>{getDay(preview).am.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="am" />)}</section>
+          <section class="card stack"><h3>MAIN EFFORT</h3>{getDay(preview).main.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="main" />)}</section>
+          <section class="card stack"><h3>RECOVERY</h3>{getDay(preview).pm.length ? getDay(preview).pm.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="pm" />) : <div class="muted small">Nothing scheduled.</div>}</section>
+          <div class="row" style="justify-content:space-between">
+            <button type="button" class="btn" disabled={preview <= 1} onClick={() => setPreview(preview - 1)}>← Previous day</button>
+            <button type="button" class="btn" disabled={preview >= 14} onClick={() => setPreview(preview + 1)}>Next day →</button>
           </div>
         </div>
       )}

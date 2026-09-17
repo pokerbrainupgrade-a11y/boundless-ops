@@ -47,6 +47,14 @@ test.describe('schedule and Phoenix day math', () => {
     await expect(page.getByTestId('day-13')).toContainText('H');
     await page.getByTestId('day-13').click();
     await expect(page.getByTestId('day-preview')).toContainText('5x4 VO2 max');
+    // tap a session in the preview → brief with a Start button → the timer
+    await page.getByTestId('day-preview').getByTestId('view-session').filter({ hasText: '5x4' }).click();
+    await expect(page.getByTestId('session-detail')).toBeVisible();
+    await expect(page.getByTestId('session-brief')).toContainText('87 to 97%');
+    await page.getByTestId('brief-start').click();
+    await expect(page.getByTestId('timer')).toHaveAttribute('data-segments', '11');
+    await page.goto('/boundless-ops/#/schedule');
+    await page.getByTestId('day-13').click();
     await page.getByRole('button', { name: 'Close' }).click();
     await page.getByRole('button', { name: 'Edit start date' }).click();
     await page.getByTestId('edit-start-input').fill('2026-09-28');

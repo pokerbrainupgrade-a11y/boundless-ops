@@ -4,27 +4,35 @@ import { program, foundationExercises } from '@/data/program';
 import type { Session, FoundationExercise } from '@/data/schema';
 import { Pose } from '@/components/Pose';
 import { foundationFrames } from '@/components/Steppers';
+import { SessionBrief } from '@/components/SessionBrief';
+import { getDay } from '@/data/program';
+import { dayN } from '@/lib/store';
+import { tabataMovements } from '@/data/program';
 
-function SessionDetail({ s }: { s: Session }) {
+/** Session brief. Reached from the Library (no day) or from a Today/Schedule row (day + slot → Start button). */
+function SessionDetail({ s, query }: { s: Session; query: URLSearchParams }) {
+  const dayQ = query.get('day');
+  const day = dayQ ? Number(dayQ) : null;
+  const slot = query.get('slot');
+  const variant = query.get('variant') ?? undefined;
+  const dayObj = day && day >= 1 && day <= 14 ? getDay(day) : dayN.value && dayN.value >= 1 && dayN.value <= 14 ? getDay(dayN.value) : getDay(1);
+  const fromDay = day !== null && !!slot;
+  const startUrl = `/session/${s.id}?day=${day ?? dayN.value ?? 1}&slot=${slot ?? 'main'}${variant ? `&variant=${variant}` : ''}`;
+  const variantLabel = s.id === 'A' && variant ? tabataMovements[variant]?.name : s.id === 'B' && variant ? (variant === 'seqA' ? 'Sequence A' : variant === 'seqB' ? 'Sequence B' : 'Applied day') : undefined;
   return (
-    <main class="screen" data-testid="session-detail">
-      <button type="button" class="btn btn-ghost" style="align-self:flex-start" onClick={() => navigate('/library')}>← Library</button>
+    <main class="screen" data-testid="session-detail" style={fromDay ? 'padding-bottom:calc(var(--tabbar-h) + var(--safe-bottom) + 110px)' : undefined}>
       <div class="row between">
-        <div class="section-h" style="flex:1"><h1 style="font-size:1.2rem;white-space:normal">{s.letter ? `${s.letter}. ` : ''}{s.name}</h1></div>
-        <Pose id={s.drawingId} size={96} glow />
+        <button type="button" class="btn btn-ghost" onClick={() => (fromDay ? history.back() : navigate('/library'))}>← Back</button>
+        {fromDay && <span class="chip chip-tan">Day {String(day).padStart(2, '0')} · {slot === 'am' ? 'AM PT' : slot === 'pm' ? 'Recovery' : slot === 'habit' ? 'Standing order' : 'Main effort'}</span>}
       </div>
-      <p>{s.purpose}</p>
-      <h2>Cues</h2>
-      <ul>{s.cues.map((x) => <li key={x}>{x}</li>)}</ul>
-      {s.safety.length > 0 && <><h2>Safety</h2><div class="banner danger"><ul>{s.safety.map((x) => <li key={x}>{x}</li>)}</ul></div></>}
-      {s.dose && <><h2>Dose</h2><p>{s.dose}</p></>}
+      <div class="section-h"><h1 style="font-size:1.2rem;white-space:normal">{s.letter ? `${s.letter}. ` : ''}{s.name}{variantLabel ? ` · ${variantLabel}` : ''}</h1></div>
+      <SessionBrief session={s} week={dayObj.week} variant={variant} />
+      {s.id === 'A' && <div class="muted small">Rotation · W1: {program.tabataRotation.w1.map((m) => tabataMovements[m]!.name).join(' → ')} · W2: {program.tabataRotation.w2.map((m) => tabataMovements[m]!.name).join(' → ')}</div>}
+      {s.id === 'B' && !variant && <FoundationList />}
       {s.ch10System && <div class="muted small">System: {s.ch10System}</div>}
-      {s.id === 'A' && <><h2>Rotation</h2><p class="small">W1: {program.tabataRotation.w1.map((m) => program.tabataMovements.find((x) => x.id === m)!.name).join(' → ')}<br />W2: {program.tabataRotation.w2.map((m) => program.tabataMovements.find((x) => x.id === m)!.name).join(' → ')}</p></>}
-      {s.id === 'C' && <SevenMinuteList />}
-      {s.id === 'F' && <SuperSlowList />}
-      {s.id === 'E' && <StationList />}
-      {s.id === 'B' && <FoundationList />}
-      {s.id === 'decompression' && <ol>{program.foundation.breathing.cues.map((k) => <li key={k.name}><strong>{k.name}.</strong> {k.text}</li>)}</ol>}
+      {fromDay && (
+        <div class="sticky-cta"><button type="button" class="btn btn-primary btn-xl btn-block" data-testid="brief-start" onClick={() => navigate(startUrl)}>START</button></div>
+      )}
     </main>
   );
 }
@@ -131,7 +139,7 @@ export function Library() {
   const [q, setQ] = useState('');
   const [tab, setTab] = useState<'library' | 'reference'>(id === 'reference' ? 'reference' : 'library');
   if (id && id !== 'reference') {
-    if (program.sessions[id]) return <SessionDetail s={program.sessions[id]!} />;
+    if (program.sessions[id]) return <SessionDetail s={program.sessions[id]!} query={r.query} />;
     if (foundationExercises[id]) return <FoundationDetail ex={foundationExercises[id]!} />;
   }
   const ql = q.trim().toLowerCase();
