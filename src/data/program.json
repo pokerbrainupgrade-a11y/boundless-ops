@@ -1,0 +1,1902 @@
+{
+  "meta": {
+    "title": "Two-Week Time-Hacked Boundless Training",
+    "version": "v5",
+    "disclaimer": "Personal use. Not medical advice.",
+    "orderWithinDay": "Fasted cardio always runs first, before breakfast. Foundation Training runs every day as a 10 to 15 min block, either as the full session or as the warm-up before the main session. Intensity sessions go later in the day. Sauna and contrast go last.",
+    "app": "BOUNDLESS OPS"
+  },
+  "days": [
+    {
+      "n": 1,
+      "week": 1,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "bike"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 2,
+      "week": 1,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×2–3"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 3,
+      "week": 1,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "E"
+        },
+        {
+          "id": "A",
+          "variant": "kbSwings"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 4,
+      "week": 1,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "week": 1,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "55–85 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "rower"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "week": 1,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "55–70 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "G"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "week": 1,
+      "day": 7,
+      "load": "Recovery",
+      "timeEstimate": "95–135 min",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "K",
+          "note": "45–60 min"
+        },
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "applied day"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "week": 2,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "A",
+          "variant": "burpees"
+        },
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 9,
+      "week": 2,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×2–3, explosive swaps"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 10,
+      "week": 2,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "treadmill"
+        },
+        {
+          "id": "E"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 11,
+      "week": 2,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "week": 2,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "60–90 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "mtnClimbers"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "week": 2,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "75–90 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "H"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "week": 2,
+      "day": 7,
+      "load": "Recovery / Stamina",
+      "timeEstimate": "2.5–3.5 h",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "L",
+          "note": "2 h+, pre-dawn, fasted or minimal fuel"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "hinges and breathing during the session"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    }
+  ],
+  "sessions": {
+    "A": {
+      "id": "A",
+      "letter": "A",
+      "name": "Tabata Sets",
+      "short": "Tabata",
+      "kind": "session",
+      "drawingId": "cardioBike",
+      "purpose": "Muscular endurance and aerobic capacity in 4 minutes of work.",
+      "cues": [
+        "Warm-up: 10 to 15 min, easy to moderate. Foundation covers the first 10 min.",
+        "Main set: 8 rounds of 20 s all-out, 10 s rest (4 min). One movement for the whole set.",
+        "Cool-down: 5 to 10 min of easy movement with nasal breathing.",
+        "Rotation: a different movement each session. W1 bike, swings, rower; W2 burpees, treadmill, mountain climbers.",
+        "Log reps or calories per round and track the round-8 drop-off."
+      ],
+      "safety": [
+        "Eat before Tabata; this is not a fasted session.",
+        "If morning resting HR is 7+ bpm above baseline, swap for the fasted aerobic block and mobility."
+      ],
+      "timerPreset": "tabata",
+      "logFields": [
+        {
+          "key": "movement",
+          "label": "Movement",
+          "type": "text"
+        },
+        {
+          "key": "rounds",
+          "label": "Per-round reps or cals",
+          "type": "text"
+        },
+        {
+          "key": "total",
+          "label": "Total",
+          "type": "number"
+        },
+        {
+          "key": "dropoff",
+          "label": "Round-8 drop-off",
+          "type": "number",
+          "unit": "%"
+        }
+      ],
+      "ch10System": "2. Muscular endurance + aerobic capacity",
+      "dose": "The book cites studies using 2 to 4 Tabatas per week and recommends 2. This plan runs 3 per week, the high end but inside the studied range."
+    },
+    "B": {
+      "id": "B",
+      "letter": "B",
+      "name": "Foundation Training",
+      "short": "Foundation",
+      "kind": "session",
+      "drawingId": "founder",
+      "purpose": "Posterior-chain and decompression work. Precise positions and the specific muscles fatiguing, not getting tired overall.",
+      "cues": [
+        "Six-day structure: Sequence A on D1/D3/D5, Sequence B on D2/D4/D6, day 7 applied.",
+        "3 repetitions of each exercise; one full pass takes 10 to 15 min.",
+        "Standalone session on W1 D1 and W2 D1/D5. On every other day it replaces the first 10 min of the warm-up.",
+        "Decompression breathing is the core of every exercise."
+      ],
+      "safety": [
+        "About 1 in 10 people get briefly lightheaded on their first full breaths. A few more breaths clear it. Do the first sessions standing near support."
+      ],
+      "timerPreset": "foundation",
+      "logFields": [
+        {
+          "key": "sequence",
+          "label": "Sequence",
+          "type": "select",
+          "options": [
+            "A",
+            "B",
+            "applied"
+          ]
+        },
+        {
+          "key": "completed",
+          "label": "Exercises done",
+          "type": "number"
+        }
+      ],
+      "ch10System": null
+    },
+    "C": {
+      "id": "C",
+      "letter": "C",
+      "name": "7-Minute Workout",
+      "short": "7-Minute",
+      "kind": "session",
+      "drawingId": "jumpingJacks",
+      "purpose": "The high-intensity, low-load strength session.",
+      "cues": [
+        "30 s work, 10 s transition, 12 moves in order.",
+        "One round is about 7 min; do 2 to 3 rounds if time allows.",
+        "Except for the wall sit and planks, move explosively and get as many clean reps as possible in each 30 s.",
+        "Use the base version in W1 and the explosive swaps in W2."
+      ],
+      "safety": [
+        "Clean reps over fast reps. Stop a move if form breaks."
+      ],
+      "timerPreset": "sevenMinute",
+      "logFields": [
+        {
+          "key": "rounds",
+          "label": "Rounds completed",
+          "type": "number"
+        },
+        {
+          "key": "reps",
+          "label": "Reps per move",
+          "type": "text",
+          "optional": true
+        }
+      ],
+      "ch10System": "3. Strength-to-muscle-mass ratio",
+      "dose": "1 to 2 per week."
+    },
+    "D": {
+      "id": "D",
+      "letter": "D",
+      "name": "Hypoxic Swim Sets",
+      "short": "Hypoxic Swim",
+      "kind": "session",
+      "drawingId": "swim",
+      "purpose": "Stroke efficiency under breath restriction. Optional.",
+      "cues": [
+        "Warm up with 4 to 8 easy laps.",
+        "Swim 10 to 12 rounds of 25 m freestyle, breathing as seldom as you comfortably can, with 10 s rest between rounds.",
+        "The pace is smooth, not a sprint."
+      ],
+      "safety": [
+        "Never train breath restriction alone in the water.",
+        "Never hyperventilate before a round.",
+        "Stop at any tingling or tunnel vision. Shallow-water blackout gives no warning."
+      ],
+      "timerPreset": "swim",
+      "logFields": [
+        {
+          "key": "rounds",
+          "label": "Rounds",
+          "type": "number"
+        }
+      ],
+      "ch10System": null
+    },
+    "E": {
+      "id": "E",
+      "letter": "E",
+      "name": "Metabolic Mobility",
+      "short": "Metabolic Mobility",
+      "kind": "session",
+      "drawingId": "rollCalf",
+      "purpose": "Foam roller circuit paired with movement. 15 stations.",
+      "cues": [
+        "At each station, give the target 20 to 30 slow passes with the roller (one pass is up and back down the muscle), paired with the movement.",
+        "Burpee and jack totals: 100 burpees and 150 jacks."
+      ],
+      "safety": [
+        "Keep the roller off joints and the lower back's bony points."
+      ],
+      "timerPreset": "mobility",
+      "logFields": [
+        {
+          "key": "stations",
+          "label": "Stations done",
+          "type": "number"
+        }
+      ],
+      "ch10System": null
+    },
+    "F": {
+      "id": "F",
+      "letter": "F",
+      "name": "Super-Slow Strength",
+      "short": "Super-Slow",
+      "kind": "session",
+      "drawingId": "chestPress",
+      "purpose": "One multi-joint lift per movement pattern, one set each, taken to true failure.",
+      "cues": [
+        "Tempo is extremely slow: 30 to 60 s per rep, for about 2 min under tension per set (2 to 4 reps).",
+        "Use a relatively heavy load. Rest 1 to 2 min between lifts. Total time 20 to 30 min.",
+        "Order: upper push, upper pull, lower push, lower pull.",
+        "If a set passes about 2.5 min, add load next session; under about 90 s, reduce it."
+      ],
+      "safety": [
+        "Machines (chest press, pull-down, leg press) are safer for failure at this tempo than free-bar squats and deadlifts."
+      ],
+      "timerPreset": "superSlow",
+      "logFields": [
+        {
+          "key": "lifts",
+          "label": "Load × seconds to failure per lift",
+          "type": "text"
+        }
+      ],
+      "ch10System": "3. Strength-to-muscle-mass ratio",
+      "dose": "2 per week at most; 1 is enough if every set reaches true failure."
+    },
+    "G": {
+      "id": "G",
+      "letter": "G",
+      "name": "Mitochondrial Sprints",
+      "short": "Sprints",
+      "kind": "session",
+      "drawingId": "sprint",
+      "purpose": "Short all-out efforts with long rest (about 1:4) are the signal for building new mitochondria.",
+      "cues": [
+        "Block 1: 4 rounds of 30 s all-out on a rower, bike, or elliptical. Kettlebell swings, lunge jumps, or squat jumps can substitute. 4 min active rest after each round.",
+        "Block 2: 5 all-out sprints of 4 s each, 20 s rest between.",
+        "Total about 20 min including the warm-up.",
+        "Equivalent options: 4 to 6 rounds of 30 s all-out cycling with 4 min rest; or 3 sets of 5 × 4 s treadmill sprints with 20 s rest."
+      ],
+      "safety": [
+        "Eat before sprints.",
+        "Any blood pressure, cardiac, or medication issue gets cleared with a physician first."
+      ],
+      "timerPreset": "sprints",
+      "logFields": [
+        {
+          "key": "sprints",
+          "label": "Distance / watts / cals per sprint",
+          "type": "text",
+          "optional": true
+        }
+      ],
+      "ch10System": "4. Mitochondrial density",
+      "dose": "Once a week or once every 1 to 2 weeks. Tabatas cover most of it."
+    },
+    "H": {
+      "id": "H",
+      "letter": "H",
+      "name": "5x4 VO2 max Intervals",
+      "short": "5x4 VO2 max",
+      "kind": "session",
+      "drawingId": "cardioBike",
+      "purpose": "Cardiovascular fitness (VO2 max).",
+      "cues": [
+        "5 rounds of 4 min at 87 to 97% of max heart rate, each followed by 4 min of rest or easy movement (1:1).",
+        "Bike, run, row, swim, or elliptical. Total 40 min plus the warm-up.",
+        "HR target: estimated HRmax = 208 − (0.7 × age). Use a chest strap; wrist sensors lag during 4 min intervals.",
+        "Concurrent variant: 4 min max sustainable cardio, then 1 set of a major lift to failure, then back to cardio."
+      ],
+      "safety": [
+        "Eat before this session.",
+        "Any blood pressure, cardiac, or medication issue gets cleared with a physician first."
+      ],
+      "timerPreset": "vo2",
+      "logFields": [
+        {
+          "key": "rounds",
+          "label": "Avg HR per round",
+          "type": "text"
+        }
+      ],
+      "ch10System": "1. Cardiovascular fitness (VO2 max)",
+      "dose": "Once every 1 to 2 weeks is enough to maintain VO2 max."
+    },
+    "I": {
+      "id": "I",
+      "letter": "I",
+      "name": "Sauna",
+      "short": "Sauna",
+      "kind": "session",
+      "drawingId": "sauna",
+      "purpose": "Heat exposure with breath work.",
+      "cues": [
+        "20 to 40 min in a dry sauna, as long as tolerable.",
+        "Box breathing (4 in, 4 hold, 4 out, 4 hold) with light yoga poses and stretching.",
+        "An elevated heart rate and mild discomfort are expected.",
+        "Finish with a cold shower."
+      ],
+      "safety": [
+        "Phoenix: drink to thirst and add electrolytes (sodium 500 to 1,000 mg) around sauna days."
+      ],
+      "timerPreset": "sauna",
+      "defaultMinutes": 20,
+      "minMinutes": 20,
+      "maxMinutes": 40,
+      "logFields": [
+        {
+          "key": "minutes",
+          "label": "Minutes tolerated",
+          "type": "number",
+          "unit": "min"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar"
+    },
+    "J": {
+      "id": "J",
+      "letter": "J",
+      "name": "Hot-Cold Contrast",
+      "short": "Contrast",
+      "kind": "session",
+      "drawingId": "cold",
+      "purpose": "Recovery-day heat and cold cycling.",
+      "cues": [
+        "Alternate 10 min dry or wet sauna with 5 min cold (shower, soak, or easy swim at or below 55°F).",
+        "Aim for 30 to 45 min total, which is 2 to 3 cycles.",
+        "End on cold."
+      ],
+      "safety": [
+        "Phoenix cold tap water runs warm May through October; use ice or a plunge to reach the cold dose."
+      ],
+      "timerPreset": "contrast",
+      "logFields": [
+        {
+          "key": "cycles",
+          "label": "Cycles",
+          "type": "number"
+        },
+        {
+          "key": "totalMinutes",
+          "label": "Total minutes",
+          "type": "number",
+          "unit": "min"
+        }
+      ],
+      "ch10System": null
+    },
+    "K": {
+      "id": "K",
+      "letter": "K",
+      "name": "Deep Breathing + Yoga",
+      "short": "Yoga + Breath",
+      "kind": "session",
+      "drawingId": "yoga",
+      "purpose": "Recovery day movement and breath.",
+      "cues": [
+        "45 to 60 min of yoga with slow nasal belly breathing throughout, ideally outdoors, barefoot, in morning sun.",
+        "Options: a beginner Hatha or restorative class, or a more challenging flow.",
+        "Alternative: a 20 to 60 min guided breathwork session."
+      ],
+      "safety": [],
+      "timerPreset": "countdown",
+      "defaultMinutes": 45,
+      "minMinutes": 20,
+      "maxMinutes": 60,
+      "logFields": [
+        {
+          "key": "minutes",
+          "label": "Minutes",
+          "type": "number",
+          "unit": "min"
+        },
+        {
+          "key": "style",
+          "label": "Style",
+          "type": "text",
+          "optional": true
+        }
+      ],
+      "ch10System": null
+    },
+    "L": {
+      "id": "L",
+      "letter": "L",
+      "name": "Stamina Session",
+      "short": "Stamina",
+      "kind": "session",
+      "drawingId": "stamina",
+      "purpose": "2+ hours of continuous low- to moderate-intensity work. Trains fat use as glycogen runs low near 90 min.",
+      "cues": [
+        "A long hike, long bike ride, backpack trip, or swim-bike-run. Once or twice per month.",
+        "Stay conversational the whole time (about 60 to 70% HRmax).",
+        "To push fat use, start fasted or on minimal fuel: electrolytes, essential amino acids, or exogenous ketones.",
+        "Upgrade: make it an actual event once per quarter."
+      ],
+      "safety": [
+        "Phoenix rule: limited food and water doesn't apply in desert heat. Start before dawn or ride indoors.",
+        "Carry at least 0.5 L water per hour plus sodium.",
+        "Turn around at the halfway time no matter how you feel.",
+        "If fasted, carry a real carb source for bailout.",
+        "Stop at dizziness, confusion, or cramping."
+      ],
+      "timerPreset": "stamina",
+      "defaultMinutes": 120,
+      "logFields": [
+        {
+          "key": "durationMin",
+          "label": "Duration",
+          "type": "number",
+          "unit": "min"
+        },
+        {
+          "key": "distance",
+          "label": "Distance",
+          "type": "text",
+          "optional": true
+        },
+        {
+          "key": "avgHr",
+          "label": "Avg HR",
+          "type": "number",
+          "unit": "bpm",
+          "optional": true
+        },
+        {
+          "key": "fuel",
+          "label": "Fuel used",
+          "type": "text",
+          "optional": true
+        }
+      ],
+      "ch10System": "6. Stamina",
+      "dose": "Once or twice a month. Optional unless training for an endurance event."
+    },
+    "coldShower": {
+      "id": "coldShower",
+      "name": "Cold Shower Cycle",
+      "short": "Cold Shower",
+      "kind": "protocol",
+      "drawingId": "cold",
+      "purpose": "Daily cold dose. Low risk.",
+      "cues": [
+        "Fasted. 10 s warm, then 20 s cold. Repeat 10 times (5 min total).",
+        "Pair with the morning decompression breaths."
+      ],
+      "safety": [
+        "Phoenix: cold tap water runs roughly 75 to 90°F from May through October, so the shower alone won't reach the cold dose."
+      ],
+      "timerPreset": "coldShower",
+      "logFields": [
+        {
+          "key": "done",
+          "label": "Done",
+          "type": "bool"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar",
+      "dose": "5 to 7 days per week."
+    },
+    "coldImmersion": {
+      "id": "coldImmersion",
+      "name": "Cold Immersion",
+      "short": "Cold Plunge",
+      "kind": "protocol",
+      "drawingId": "cold",
+      "purpose": "Full-body cold dose.",
+      "cues": [
+        "Full body, 2 to 5 min, water at or below 55°F.",
+        "Use an ice bath, chest-freezer plunge, gym cold plunge, or ice in the tub. Check with a thermometer."
+      ],
+      "safety": [
+        "Cold immersion within about 4 to 6 hours after resistance training blunts hypertrophy signaling. Keep it off Tabata and super-slow days, or put it before training.",
+        "Any blood pressure, cardiac, or medication issue gets cleared with a physician first."
+      ],
+      "timerPreset": "coldImmersion",
+      "defaultMinutes": 3,
+      "minMinutes": 2,
+      "maxMinutes": 5,
+      "logFields": [
+        {
+          "key": "minutes",
+          "label": "Minutes",
+          "type": "number",
+          "unit": "min"
+        },
+        {
+          "key": "waterF",
+          "label": "Water temp",
+          "type": "number",
+          "unit": "°F"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar",
+      "dose": "W1: 1 to 2 days. W2: 1 to 2 days."
+    },
+    "fastedCardio": {
+      "id": "fastedCardio",
+      "name": "Fasted Cardio",
+      "short": "Fasted Cardio",
+      "kind": "protocol",
+      "drawingId": "walk",
+      "purpose": "Fasted aerobic block. Its real value is the daily habit and morning light.",
+      "cues": [
+        "20 to 30 min at a conversational pace: brisk walk, bike, elliptical, swim, hike, or easy yoga.",
+        "Black coffee or plain tea allowed. No calories until done.",
+        "Fallback: after dinner, then nothing else eaten."
+      ],
+      "safety": [
+        "Phoenix: dawn temperatures are often in the 80s. Go before sunrise, or move indoors. Heat pushes heart rate up at the same effort."
+      ],
+      "timerPreset": "countdown",
+      "defaultMinutes": 20,
+      "minMinutes": 20,
+      "maxMinutes": 30,
+      "logFields": [
+        {
+          "key": "modality",
+          "label": "Modality",
+          "type": "text"
+        },
+        {
+          "key": "minutes",
+          "label": "Minutes",
+          "type": "number",
+          "unit": "min"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar",
+      "dose": "D2, 4, 6, 7 (both weeks)."
+    },
+    "lightMovement": {
+      "id": "lightMovement",
+      "name": "Light Fasted Movement",
+      "short": "Light Walk",
+      "kind": "protocol",
+      "drawingId": "walk",
+      "purpose": "Fills the non-cardio mornings with 10 to 30 min of light movement.",
+      "cues": [
+        "10 to 15 min easy walk, dog walk, yoga, or yard work before breakfast."
+      ],
+      "safety": [],
+      "timerPreset": "countdown",
+      "defaultMinutes": 10,
+      "minMinutes": 10,
+      "maxMinutes": 15,
+      "logFields": [
+        {
+          "key": "modality",
+          "label": "Modality",
+          "type": "text"
+        },
+        {
+          "key": "minutes",
+          "label": "Minutes",
+          "type": "number",
+          "unit": "min"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar",
+      "dose": "D1, 3, 5 (both weeks)."
+    },
+    "postMealWalk": {
+      "id": "postMealWalk",
+      "name": "Post-Meal Walk",
+      "short": "Post-Meal Walk",
+      "kind": "protocol",
+      "drawingId": "walk",
+      "purpose": "Blunts the post-meal glucose rise.",
+      "cues": [
+        "15 min easy walk after the day's biggest meal."
+      ],
+      "safety": [],
+      "timerPreset": "countdown",
+      "defaultMinutes": 15,
+      "minMinutes": 10,
+      "maxMinutes": 30,
+      "logFields": [
+        {
+          "key": "done",
+          "label": "Done",
+          "type": "bool"
+        }
+      ],
+      "ch10System": "5. Fat burning, metabolic efficiency, blood sugar",
+      "dose": "Daily."
+    },
+    "decompression": {
+      "id": "decompression",
+      "name": "Decompression Breathing",
+      "short": "Decompression",
+      "kind": "protocol",
+      "drawingId": "breathing",
+      "purpose": "The core of every Foundation exercise. Lengthens the spine and widens the ribcage.",
+      "cues": [
+        "Set up: lift the head off the neck, positioned back over the spine. Chin in, neck long.",
+        "Measure: thumbs on the lowest ribs, pinky fingers on the front top rim of the pelvis. Every inhale widens the gap; every exhale holds it.",
+        "Inhale: no shrugging. Lift the sternum so the breath rises from below; the abdomen draws in toward the navel. Fill the ribs evenly front, back, and sides.",
+        "Exhale: pull the abdomen in tight and keep the ribcage lifted and wide as long as possible. Let the lungs empty gradually, top to bottom."
+      ],
+      "safety": [
+        "About 1 in 10 people get briefly lightheaded on their first full breaths. Do the first sessions standing near support."
+      ],
+      "timerPreset": "decompression",
+      "logFields": [
+        {
+          "key": "reps",
+          "label": "Reps",
+          "type": "number"
+        }
+      ],
+      "ch10System": null,
+      "dose": "3+ reps on waking, 3+ mid-afternoon, 3+ before bed, and inside every Foundation exercise."
+    }
+  },
+  "foundation": {
+    "breathing": {
+      "intro": "Decompression breathing is the core of every exercise.",
+      "cues": [
+        {
+          "name": "Set up",
+          "text": "Lift the head off the neck, positioned back over the spine. Chin in, neck long, as if a line runs from skull to tailbone."
+        },
+        {
+          "name": "Measure",
+          "text": "Make a shaka sign with both hands: thumbs on the lowest ribs you can feel, pinky fingers on the front top rim of the pelvis. Every inhale should widen the gap between thumb and pinky; every exhale holds it."
+        },
+        {
+          "name": "Inhale",
+          "text": "No shrugging. Lift the sternum so the breath rises from below: the ribcage travels up off the hips while the abdomen draws in toward the navel. Fill the ribs evenly front, back, and sides, including the lower back ribs. Cue: chin back, chest up, hips hinged back slightly."
+        },
+        {
+          "name": "Exhale",
+          "text": "Pull the abdomen in tight and keep the ribcage lifted and wide as long as possible. Hold tension in the muscles you lengthened and let the lungs empty gradually, top of the ribcage to the bottom."
+        }
+      ],
+      "dose": "3 reps minimum per bout. At least 3 on waking, 3 in the afternoon, 3 before bed, and inside every Foundation exercise.",
+      "firstTime": "About 1 in 10 people get briefly lightheaded on their first full breaths. It isn't a faint risk; a few more breaths clear it. Do the first sessions standing near support."
+    },
+    "seqA": [
+      {
+        "id": "standingDecompression",
+        "name": "Standing Decompression",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "standingDecompression",
+        "frames": [
+          "standingDecompression",
+          "standingDecompressionArmsUp"
+        ],
+        "steps": [
+          "Stand with the balls of the big toes touching and heels about 1 inch apart.",
+          "Open the arms with elbows soft, spreading the chest using the upper and mid back, thumbs pointing away.",
+          "Raise the arms without tensing the neck; drive the crown of the head back and up, expand the torso, and press the big toes down."
+        ],
+        "fatigueTarget": "Upper/mid back"
+      },
+      {
+        "id": "lungeDecompression",
+        "name": "Lunge Decompression",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "lungeDecompression",
+        "frames": [
+          "lungeDecompression",
+          "lungeDecompressionArmsUp"
+        ],
+        "steps": [
+          "Tall split stance, hips square.",
+          "Open the arms and widen the chest as in Standing Decompression.",
+          "Raise the arms, and as they rise, squeeze the inner thighs toward each other (like gently closing scissors)."
+        ],
+        "fatigueTarget": "Mid back, adductors"
+      },
+      {
+        "id": "woodpecker",
+        "name": "Woodpecker",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "woodpecker",
+        "frames": [
+          "woodpeckerStart",
+          "woodpecker"
+        ],
+        "steps": [
+          "Tall split stance, hips square, front knee slightly bent; take 3 decompression breaths.",
+          "Open the arms and hinge the hips back to load the back of the front leg.",
+          "When the hamstrings and low back are working, reach the arms forward to counterbalance and sink deeper.",
+          "Hold chin back, chest up for 3 to 5 more breaths."
+        ],
+        "fatigueTarget": "Front hamstring, low back"
+      },
+      {
+        "id": "internalLegTracing",
+        "name": "Internal Leg Tracing",
+        "reps": 3,
+        "position": "supine",
+        "drawingId": "internalLegTracing",
+        "steps": [
+          "Lying on your back with the top leg internally rotated, slide its heel up the shin of the other leg to just above the kneecap.",
+          "Press the opposite palm into the inside of that knee with about 10 lb of pressure.",
+          "Keep the internal rotation as you slide the heel back down.",
+          "Repeat on the other side."
+        ],
+        "fatigueTarget": "Inner-leg anchoring muscles"
+      },
+      {
+        "id": "anchoredBridge",
+        "name": "Anchored Bridge",
+        "reps": 3,
+        "position": "supine",
+        "drawingId": "anchoredBridge",
+        "frames": [
+          "anchoredBridgeStart",
+          "anchoredBridge"
+        ],
+        "steps": [
+          "Lie on your back, legs together, knees slightly bent (knees no higher than the chest).",
+          "Pull the heels toward the hips isometrically without moving them.",
+          "Keep pulling, squeeze the knees together, and lift the hips 1 to 3 inches."
+        ],
+        "fatigueTarget": "Hamstrings (fast)"
+      },
+      {
+        "id": "anchoredBackExtension",
+        "name": "Anchored Back Extension",
+        "reps": 3,
+        "position": "prone",
+        "drawingId": "anchoredBackExtension",
+        "steps": [
+          "Lie face down, knees together and on the ground, feet a few inches up.",
+          "Lift the chin, chest, wrists, and elbows while squeezing the knees harder.",
+          "Take several decompression breaths, getting longer through the torso on each one; keep the height on each exhale."
+        ],
+        "fatigueTarget": "Back extensors, glutes"
+      },
+      {
+        "id": "kneelingDecompression",
+        "name": "Kneeling Decompression",
+        "reps": 3,
+        "position": "kneeling",
+        "drawingId": "kneelingDecompression",
+        "frames": [
+          "kneelingDecompressionStart",
+          "kneelingDecompression"
+        ],
+        "steps": [
+          "Kneel on a pad or towel (skip it if the knees hurt). Weight goes through the knees, toes barely touching, chin back, chest up.",
+          "Hinge the hips back while lifting the torso up and forward.",
+          "Reach the arms forward as the hips pull back to add resistance.",
+          "Take 3 to 5 decompression breaths."
+        ],
+        "fatigueTarget": "Posterior chain, back"
+      }
+    ],
+    "seqB": [
+      {
+        "id": "supineDecompression",
+        "name": "Supine Decompression",
+        "reps": 3,
+        "position": "supine",
+        "drawingId": "supineDecompression",
+        "steps": [
+          "Lie on your back relaxed, then press the feet and knees together with steady effort (toward each other if they won't meet).",
+          "With a slight bend in the knees, rotate the hips and thighs inward toward each other until the groin muscles fatigue.",
+          "Hold."
+        ],
+        "fatigueTarget": "Adductors / groin"
+      },
+      {
+        "id": "proneDecompression",
+        "name": "Prone Decompression",
+        "reps": 3,
+        "position": "prone",
+        "drawingId": "proneDecompression",
+        "steps": [
+          "Lie face down, legs together, toes and knees on the ground the whole time.",
+          "Lift the chin and nose straight away from the floor while keeping the neck long, not tilted up.",
+          "Arms forward, as wide as comfortable; press the fingertips down and lift the wrists and elbows.",
+          "This lengthens the spine; it is not a cobra or Superman."
+        ],
+        "fatigueTarget": "Abs, neck, chest, arms, shoulders"
+      },
+      {
+        "id": "founder",
+        "name": "Founder",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "founder",
+        "frames": [
+          "founderStart",
+          "founderHinge",
+          "founder"
+        ],
+        "steps": [
+          "Wide stance, feet pressing into the floor; take 3 decompression breaths.",
+          "Open the arms, widen the chest, and hinge the hips well behind the feet with the knees soft (knees stay above or behind the ankles).",
+          "Sweep the arms forward and up as the hips move farther back.",
+          "At a hard counterbalance, hold for 3 to 5 breaths."
+        ],
+        "fatigueTarget": "Hamstrings, glutes, back"
+      },
+      {
+        "id": "woodpeckerB",
+        "name": "Woodpecker",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "woodpecker",
+        "frames": [
+          "woodpeckerStart",
+          "woodpecker"
+        ],
+        "steps": [
+          "Same as Sequence A #3.",
+          "Tall split stance, hips square, front knee slightly bent; 3 decompression breaths.",
+          "Open the arms and hinge the hips back to load the front leg; reach the arms forward to counterbalance and sink deeper.",
+          "Hold chin back, chest up for 3 to 5 more breaths."
+        ],
+        "fatigueTarget": "Front hamstring, low back"
+      },
+      {
+        "id": "woodpeckerRotation",
+        "name": "Woodpecker Rotation",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "woodpeckerRotation",
+        "frames": [
+          "woodpecker",
+          "woodpeckerRotation"
+        ],
+        "steps": [
+          "Tall split stance, hips square, front knee slightly bent; 3 breaths.",
+          "Open the arms and hinge to load the front leg.",
+          "Reach forward, shift all the weight onto the front leg, and rotate 3 to 6 inches toward the front-leg side."
+        ],
+        "fatigueTarget": "Front-leg glute (fast)"
+      },
+      {
+        "id": "integratedHinges",
+        "name": "Integrated Hinges",
+        "reps": 3,
+        "position": "standing",
+        "drawingId": "integratedHinges",
+        "frames": [
+          "integratedHingesStart",
+          "integratedHinges"
+        ],
+        "steps": [
+          "Stand tall at any stance width. Bend the elbows so the hands are beside the ears, keeping the chest wide and back strong.",
+          "With the spine long and still, let only the hips hinge you slowly back and forth, 5 to 10 hinges per rep.",
+          "Option: add shoulder tracing as the arms go overhead."
+        ],
+        "fatigueTarget": "Hips, spinal stabilizers"
+      }
+    ],
+    "day7": "Day 7 is applied, not trained. Carry the patterns into real activity: kneeling decompression and integrated hinges for yard or house work, decompression breathing while playing with the kids, posture awareness during sport.",
+    "asWarmup": "On Tabata, sprint, and 5x4 days, Foundation replaces the first 10 min of the 10 to 15 min warm-up; finish with 3 to 5 min building toward working intensity. Before super-slow (D4, Seq B), integrated hinges and the Founder prime the hinge pattern for the lower-pull lift."
+  },
+  "mobilityStations": [
+    {
+      "n": 1,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "R Achilles + calf",
+      "rollDrawingId": "rollCalf",
+      "rollPosition": "seated"
+    },
+    {
+      "n": 2,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "L Achilles + calf",
+      "rollDrawingId": "rollCalf",
+      "rollPosition": "seated"
+    },
+    {
+      "n": 3,
+      "movement": "20 fwd/back leg swings R",
+      "movementId": "legSwingsFB",
+      "count": 20,
+      "roll": "R hamstring",
+      "rollDrawingId": "rollHamstring",
+      "rollPosition": "seated"
+    },
+    {
+      "n": 4,
+      "movement": "20 fwd/back leg swings L",
+      "movementId": "legSwingsFB",
+      "count": 20,
+      "roll": "L hamstring",
+      "rollDrawingId": "rollHamstring",
+      "rollPosition": "seated"
+    },
+    {
+      "n": 5,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "R outer hip",
+      "rollDrawingId": "rollHip",
+      "rollPosition": "side"
+    },
+    {
+      "n": 6,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "L outer hip",
+      "rollDrawingId": "rollHip",
+      "rollPosition": "side"
+    },
+    {
+      "n": 7,
+      "movement": "20 side-to-side leg swings R",
+      "movementId": "legSwingsSide",
+      "count": 20,
+      "roll": "R IT band",
+      "rollDrawingId": "rollITBand",
+      "rollPosition": "side"
+    },
+    {
+      "n": 8,
+      "movement": "20 side-to-side leg swings L",
+      "movementId": "legSwingsSide",
+      "count": 20,
+      "roll": "L IT band",
+      "rollDrawingId": "rollITBand",
+      "rollPosition": "side"
+    },
+    {
+      "n": 9,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "R adductors",
+      "rollDrawingId": "rollAdductor",
+      "rollPosition": "prone"
+    },
+    {
+      "n": 10,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "L adductors",
+      "rollDrawingId": "rollAdductor",
+      "rollPosition": "prone"
+    },
+    {
+      "n": 11,
+      "movement": "50 jumping jacks",
+      "movementId": "jumpingJacks",
+      "count": 50,
+      "roll": "Back, bottom to top",
+      "rollDrawingId": "rollBack",
+      "rollPosition": "supine"
+    },
+    {
+      "n": 12,
+      "movement": "50 jumping jacks",
+      "movementId": "jumpingJacks",
+      "count": 50,
+      "roll": "R shoulder complex",
+      "rollDrawingId": "rollShoulder",
+      "rollPosition": "side"
+    },
+    {
+      "n": 13,
+      "movement": "50 jumping jacks",
+      "movementId": "jumpingJacks",
+      "count": 50,
+      "roll": "L shoulder complex",
+      "rollDrawingId": "rollShoulder",
+      "rollPosition": "side"
+    },
+    {
+      "n": 14,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "Neck: back, L, R",
+      "rollDrawingId": "rollNeck",
+      "rollPosition": "supine"
+    },
+    {
+      "n": 15,
+      "movement": "10 burpees",
+      "movementId": "burpees",
+      "count": 10,
+      "roll": "Both quads (front)",
+      "rollDrawingId": "rollQuad",
+      "rollPosition": "prone"
+    }
+  ],
+  "sevenMinute": [
+    {
+      "id": "jumpingJacks",
+      "name": "Jumping jacks",
+      "cue": "Arms and legs wide, land soft.",
+      "drawingId": "jumpingJacks",
+      "w2Swap": {
+        "id": "burpees",
+        "name": "Burpees",
+        "cue": "Chest to floor, jump at the top.",
+        "drawingId": "burpee"
+      }
+    },
+    {
+      "id": "wallSit",
+      "name": "Wall sit",
+      "cue": "Thighs parallel, back flat on the wall.",
+      "drawingId": "wallSit",
+      "isometric": true,
+      "w2Swap": null
+    },
+    {
+      "id": "pushups",
+      "name": "Push-ups",
+      "cue": "Body in one line, chest to the floor.",
+      "drawingId": "pushup",
+      "w2Swap": {
+        "id": "clappingPushups",
+        "name": "Clapping push-ups",
+        "cue": "Explode up, clap, land soft.",
+        "drawingId": "clappingPushup"
+      }
+    },
+    {
+      "id": "crunches",
+      "name": "Crunches",
+      "cue": "Ribs toward hips, chin off chest.",
+      "drawingId": "crunch",
+      "w2Swap": {
+        "id": "kneeUps",
+        "name": "Knee-ups",
+        "cue": "Knees to chest, control the lower.",
+        "drawingId": "kneeUp"
+      }
+    },
+    {
+      "id": "stepUps",
+      "name": "Step-ups",
+      "cue": "Full foot on the box, drive through the heel.",
+      "drawingId": "stepUp",
+      "w2Swap": {
+        "id": "lungeJumps",
+        "name": "Lunge jumps",
+        "cue": "Switch legs in the air, land soft.",
+        "drawingId": "lungeJump"
+      }
+    },
+    {
+      "id": "squats",
+      "name": "Squats",
+      "cue": "Hips back, knees over toes, chest up.",
+      "drawingId": "squat",
+      "w2Swap": {
+        "id": "squatJumps",
+        "name": "Squat jumps",
+        "cue": "Jump from the bottom, land quiet.",
+        "drawingId": "squatJump"
+      }
+    },
+    {
+      "id": "dips",
+      "name": "Dips",
+      "cue": "Elbows back, shoulders down.",
+      "drawingId": "dip",
+      "w2Swap": null
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "cue": "Straight line, squeeze glutes, breathe.",
+      "drawingId": "plank",
+      "isometric": true,
+      "w2Swap": null
+    },
+    {
+      "id": "highKnees",
+      "name": "High-knee run in place",
+      "cue": "Knees to hip height, quick feet.",
+      "drawingId": "highKnees",
+      "w2Swap": {
+        "id": "jumpRope",
+        "name": "Jump rope or stair sprints",
+        "cue": "Quick, light, on the toes.",
+        "drawingId": "jumpRope"
+      }
+    },
+    {
+      "id": "lunges",
+      "name": "Lunges",
+      "cue": "Back knee to the floor, front shin vertical.",
+      "drawingId": "lunge",
+      "w2Swap": {
+        "id": "lungeJumpsB",
+        "name": "Lunge jumps",
+        "cue": "Switch legs in the air, land soft.",
+        "drawingId": "lungeJump"
+      }
+    },
+    {
+      "id": "pushupRotation",
+      "name": "Push-ups with rotation",
+      "cue": "Push up, open to a side plank, reach high.",
+      "drawingId": "pushupRotation",
+      "w2Swap": null
+    },
+    {
+      "id": "sidePlank",
+      "name": "Side plank",
+      "cue": "Hips high, body in one line; switch halfway.",
+      "drawingId": "sidePlank",
+      "isometric": true,
+      "w2Swap": null
+    }
+  ],
+  "superSlowPatterns": [
+    {
+      "id": "upperPush",
+      "name": "Upper push",
+      "options": [
+        "Chest press",
+        "Overhead press",
+        "Push-up"
+      ],
+      "drawingId": "chestPress"
+    },
+    {
+      "id": "upperPull",
+      "name": "Upper pull",
+      "options": [
+        "Lat pull-down",
+        "Row",
+        "Pull-up"
+      ],
+      "drawingId": "latPulldown"
+    },
+    {
+      "id": "lowerPush",
+      "name": "Lower push",
+      "options": [
+        "Leg press",
+        "Squat"
+      ],
+      "drawingId": "legPress"
+    },
+    {
+      "id": "lowerPull",
+      "name": "Lower pull",
+      "options": [
+        "Deadlift",
+        "Romanian deadlift",
+        "Back extension",
+        "Reverse hyper"
+      ],
+      "drawingId": "deadlift"
+    }
+  ],
+  "tabataMovements": [
+    {
+      "id": "bike",
+      "name": "Bike",
+      "drawingId": "cardioBike",
+      "impact": "low",
+      "unit": "cals"
+    },
+    {
+      "id": "kbSwings",
+      "name": "Kettlebell swings",
+      "drawingId": "kbSwing",
+      "impact": "low",
+      "unit": "reps"
+    },
+    {
+      "id": "rower",
+      "name": "Rower",
+      "drawingId": "rower",
+      "impact": "low",
+      "unit": "cals"
+    },
+    {
+      "id": "burpees",
+      "name": "Burpees",
+      "drawingId": "burpee",
+      "impact": "high",
+      "unit": "reps"
+    },
+    {
+      "id": "treadmill",
+      "name": "Treadmill",
+      "drawingId": "sprint",
+      "impact": "high",
+      "unit": "cals"
+    },
+    {
+      "id": "mtnClimbers",
+      "name": "Mountain climbers",
+      "drawingId": "mountainClimber",
+      "impact": "high",
+      "unit": "reps"
+    },
+    {
+      "id": "jumpingJacks",
+      "name": "Jumping jacks",
+      "drawingId": "jumpingJacks",
+      "impact": "high",
+      "unit": "reps"
+    },
+    {
+      "id": "squats",
+      "name": "Squats",
+      "drawingId": "squat",
+      "impact": "low",
+      "unit": "reps"
+    },
+    {
+      "id": "marching",
+      "name": "Marching",
+      "drawingId": "marching",
+      "impact": "low",
+      "unit": "reps"
+    },
+    {
+      "id": "stepBacks",
+      "name": "Step-backs",
+      "drawingId": "stepBack",
+      "impact": "low",
+      "unit": "reps"
+    }
+  ],
+  "tabataRotation": {
+    "w1": [
+      "bike",
+      "kbSwings",
+      "rower"
+    ],
+    "w2": [
+      "burpees",
+      "treadmill",
+      "mtnClimbers"
+    ]
+  },
+  "rules": {
+    "standingProtocols": [
+      {
+        "id": "coldShower",
+        "name": "Cold shower cycling",
+        "dose": "Fasted. 10 s warm, then 20 s cold. Repeat 10 times (5 min total).",
+        "frequency": "5 to 7 days per week"
+      },
+      {
+        "id": "coldImmersion",
+        "name": "Cold immersion",
+        "dose": "Full body, 2 to 5 min, water at or below 55°F.",
+        "frequency": "W1: 1 to 2 days. W2: 1 to 2 days"
+      },
+      {
+        "id": "fastedCardio",
+        "name": "Fasted aerobic block",
+        "dose": "20 to 30 min at a conversational pace: brisk walk, bike, elliptical, swim, hike, or easy yoga. Black coffee or plain tea allowed. No calories until done. Fallback: after dinner, then nothing else eaten.",
+        "frequency": "D2, 4, 6, 7 (both weeks)"
+      },
+      {
+        "id": "lightMovement",
+        "name": "Light fasted movement",
+        "dose": "10 to 15 min easy walk, dog walk, yoga, or yard work before breakfast. Ch. 10 calls for 10 to 30 min every morning; this fills the non-cardio days.",
+        "frequency": "D1, 3, 5 (both weeks)"
+      },
+      {
+        "id": "decompression",
+        "name": "Decompression breathing",
+        "dose": "3+ reps each: on waking, mid-afternoon, before bed.",
+        "frequency": "Daily"
+      },
+      {
+        "id": "postMealWalk",
+        "name": "Post-meal walk",
+        "dose": "15 min easy walk after the day's biggest meal. Blunts the post-meal glucose rise.",
+        "frequency": "Daily"
+      },
+      {
+        "id": "allDayMovement",
+        "name": "All-day movement",
+        "dose": "Standing desk when possible. Every 45 to 60 min of sitting: 30 to 50 jumping jacks, a 3 to 5 min walk, or seated decompression breathing.",
+        "frequency": "Daily"
+      },
+      {
+        "id": "fueling",
+        "name": "Fueling pattern (Ch. 10)",
+        "dose": "No frequent snacking. Fats and protein through the day, with carbohydrate saved for the evening meal and limited to nutrient-dense sources (sweet potato, dark leafy greens). Exception: eat before Tabata, sprints, and 5x4 sessions. Protein: 1.6 to 2.2 g/kg/day spread over 3 to 4 meals.",
+        "frequency": "Daily"
+      }
+    ],
+    "phoenixAdjustments": [
+      {
+        "id": "phxCold",
+        "title": "Cold water",
+        "text": "Cold tap water in Phoenix runs roughly 75 to 90°F from May through October, so a cold shower won't reach the cold dose. Use an ice bath or chest-freezer plunge, a gym cold plunge, or ice in the tub. Check the temperature with a thermometer; 55°F is the target."
+      },
+      {
+        "id": "phxHeat",
+        "title": "Fasted cardio outdoors",
+        "text": "September dawn temperatures are often in the 80s. Go before sunrise, or move the session indoors to a bike, rower, or incline treadmill. Keep the pace conversational; heat pushes heart rate up at the same effort."
+      },
+      {
+        "id": "phxSauna",
+        "title": "Sauna hydration",
+        "text": "The book says to drink as little water as you can get away with during the sauna. In desert heat on a training day, that cue is a dehydration risk. Drink to thirst and add electrolytes (sodium 500 to 1,000 mg) around sauna days."
+      }
+    ],
+    "executionRules": [
+      {
+        "id": "coldAfterStrength",
+        "title": "Cold after strength",
+        "text": "Cold immersion within about 4 to 6 hours after resistance training blunts hypertrophy signaling in trained lifters (moderate evidence). If muscle gain is a goal, keep immersion off Tabata and super-slow days, or put it before training. The cold shower cycle is low risk."
+      },
+      {
+        "id": "intensityCheck",
+        "title": "Intensity check",
+        "text": "This plan has 5 to 6 true high-intensity exposures per week, still under the Ch. 10 ceiling. If morning resting HR is 7 or more bpm above baseline, or HRV is clearly suppressed, swap that day's intensity for the fasted aerobic block and mobility."
+      },
+      {
+        "id": "fastedTraining",
+        "title": "Fasted training",
+        "text": "Fasted work is limited to low-intensity aerobic sessions. Eat before Tabata, sprints, and 5x4 days."
+      },
+      {
+        "id": "physicianCall",
+        "title": "Physician call",
+        "text": "Sauna, cold immersion, and all-out intervals stack cardiovascular stress. Any blood pressure, cardiac, or medication issue gets cleared with a physician first."
+      }
+    ],
+    "evidenceFlags": [
+      {
+        "id": "mortalityCeiling",
+        "title": "Mortality ceiling",
+        "text": "The upper-limit claim comes from observational cohort data (a J-shaped curve). It shows association, not a proven harm threshold, and the curve is disputed. Treat it as a volume sanity check, not a hard limit."
+      },
+      {
+        "id": "leanMuscle",
+        "title": "\"Lean muscle 70 to 90%\" of ideal body weight",
+        "text": "That range describes lean body mass, which includes bone, organs, and water. It is not skeletal muscle. Skeletal muscle is typically 40 to 50% of body weight in trained men. Don't use 70 to 90% as a muscle target."
+      },
+      {
+        "id": "superSlowVsConventional",
+        "title": "Super-slow vs. conventional lifting",
+        "text": "Evidence supports super-slow for time efficiency and joint load. For maximal hypertrophy and strength, standard tempos with more volume perform as well or better. Pick super-slow here for minimum dose, not maximum gain."
+      },
+      {
+        "id": "fastedFatLoss",
+        "title": "Fasted cardio for fat loss",
+        "text": "Fasted aerobic work raises fat burned during the session, but controlled trials show no extra fat loss over weeks when total calories match. Its real value here is the daily habit and morning light, not a fat-loss edge."
+      },
+      {
+        "id": "protein",
+        "title": "\"Moderate\" protein",
+        "text": "For someone lifting to keep or build muscle, the evidence-based target is 1.6 to 2.2 g/kg/day (about 0.7 to 1.0 g/lb), spread over 3 to 4 meals of 30 to 50 g. Don't let the fat-forward pattern push protein below that."
+      }
+    ],
+    "doseFramework": [
+      {
+        "system": "1. Cardiovascular fitness (VO2 max)",
+        "dose": "5 × 4 min at 87 to 97% HRmax, 4 min easy between. Once every 1 to 2 weeks.",
+        "coveredBy": "H. 5x4 intervals",
+        "w1w2": "W1: 0 | W2: 1. Meets dose (1 per 2 wks)"
+      },
+      {
+        "system": "2. Muscular endurance + aerobic capacity",
+        "dose": "Tabata, 8 rounds of 20 s on / 10 s off. 2 per week recommended; studies use 2 to 4.",
+        "coveredBy": "A. Tabata",
+        "w1w2": "W1: 3 | W2: 3. High end of studied range"
+      },
+      {
+        "system": "3. Strength-to-muscle-mass ratio",
+        "dose": "2 to 4 strength sessions per week: 1 to 2 slow and heavy, 1 to 2 explosive bodyweight or low-load.",
+        "coveredBy": "F. Super-slow, C. 7-Minute",
+        "w1w2": "W1: 1 + 1 | W2: 1 + 1. Meets floor (2/wk)"
+      },
+      {
+        "system": "4. Mitochondrial density",
+        "dose": "Short all-out sprints, about 1:4 work to rest. Tabatas cover most of it; add sprints once a week or once every 1 to 2 weeks.",
+        "coveredBy": "G. Sprints, A. Tabata",
+        "w1w2": "W1: 1 | W2: 0 (Tabata). Meets dose"
+      },
+      {
+        "system": "5. Fat burning, metabolic efficiency, blood sugar",
+        "dose": "10 to 30 min light fasted movement every morning; at least 1 cold shower a day; sauna at least once a week; no frequent snacking; carbs late and nutrient-dense; active all day; 15 min walk after the main meal.",
+        "coveredBy": "Fasted blocks, cold / sauna, daily habits",
+        "w1w2": "Fasted AM: 7/7. Sauna: 2/wk (D5 + D7). Meets dose"
+      },
+      {
+        "system": "6. Stamina",
+        "dose": "Once or twice a month, 2 h+ at low to moderate intensity, fasted or on minimal fuel. Optional unless training for an endurance event.",
+        "coveredBy": "L. Stamina Session",
+        "w1w2": "W1: 0 | W2: 1. Meets dose (1 per 2 wks)"
+      }
+    ],
+    "upperLimit": {
+      "text": "Ch. 10 cites data suggesting that more than 3 hard lifting sessions or more than 130 min of hard lifting per week, or more than 75 min of vigorous cardio per week, may be linked to higher mortality. The floor it sets: at least 20 min of structured exercise per day on top of low-intensity movement through the day, with 20 to 30 min of the weekly total at vigorous intensity.",
+      "rows": [
+        {
+          "item": "Tabata work: 8 × 20 s × 3 sessions",
+          "w1": "8 min",
+          "w2": "8 min",
+          "ceiling": ""
+        },
+        {
+          "item": "Sprints: 4 × 30 s + 5 × 4 s | 5x4 intervals: 5 × 4 min",
+          "w1": "2.3 min",
+          "w2": "20 min",
+          "ceiling": ""
+        },
+        {
+          "item": "7-Minute Workout, 2 to 3 rounds (counted as vigorous)",
+          "w1": "14–21 min",
+          "w2": "14–21 min",
+          "ceiling": ""
+        },
+        {
+          "item": "Total vigorous cardio",
+          "w1": "24–31 min",
+          "w2": "42–49 min",
+          "ceiling": "75 min/wk"
+        },
+        {
+          "item": "Hard lifting sessions",
+          "w1": "1 (super-slow)",
+          "w2": "1 (super-slow)",
+          "ceiling": "3/wk or 130 min"
+        }
+      ]
+    }
+  },
+  "habits": [
+    {
+      "id": "breathWake",
+      "label": "Decompression breaths ×3 · wake",
+      "count": 1,
+      "sessionId": "decompression"
+    },
+    {
+      "id": "breathAfternoon",
+      "label": "Decompression breaths ×3 · afternoon",
+      "count": 1,
+      "sessionId": "decompression"
+    },
+    {
+      "id": "breathBed",
+      "label": "Decompression breaths ×3 · bed",
+      "count": 1,
+      "sessionId": "decompression"
+    },
+    {
+      "id": "postMealWalk",
+      "label": "Post-meal walk · 15 min",
+      "count": 1,
+      "sessionId": "postMealWalk"
+    },
+    {
+      "id": "coldShower",
+      "label": "Cold shower cycle",
+      "count": 1,
+      "sessionId": "coldShower"
+    },
+    {
+      "id": "movementBreaks",
+      "label": "Movement breaks every 45–60 min of sitting",
+      "count": 1
+    }
+  ]
+}
