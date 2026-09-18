@@ -5,6 +5,11 @@ import { block, dayN, todayYmd, startBlock, habitDone, toggleHabit, logs, blockL
 import { settings } from '@/lib/settings';
 import { fmtDate, daysBetween } from '@/lib/time';
 import { SessionRow } from '@/components/SessionRow';
+import { StackRow } from '@/components/StackRow';
+import { BLOCK_ORDER } from '@/data/stackSchema';
+import { blockProgress, fastedConflict } from '@/lib/stack';
+import { stackItemsResolved, stackLogIndex } from '@/lib/store';
+import { blockDue, blockLabel as stackBlockLabel, fastedAmToday, fastedSessionLogged, highLoadToday } from '@/screens/Stack';
 
 export function LoadChip({ load }: { load: string }) {
   const cls = load === 'High' ? 'chip-signal' : load === 'Moderate' ? 'chip-tan' : 'chip-rest';
@@ -91,8 +96,11 @@ export function Today() {
         {day.pm.length ? day.pm.map((r, i) => <SessionRow key={i} r={r} day={n!} slot="pm" />) : <div class="muted small">Nothing scheduled. Post-meal walk and evening breaths.</div>}
       </section>
 
+      <StackStrip />
+
       <section class="card stack" data-testid="habits">
         <h3>DAILY STANDING ORDERS</h3>
+        <WakeBlock />
         {program.habits.map((h) => {
           const on = habitDone(h.id);
           return (
@@ -116,6 +124,60 @@ export function Today() {
         <div class="muted small">If resting HR is 7+ bpm above baseline or HRV is clearly down, swap today's intensity for the aerobic block and mobility.</div>
       </section>
     </main>
+  );
+}
+
+/** Four block dots under the session cards; tapping opens the STACK tab. */
+function StackStrip() {
+  const items = stackItemsResolved.value;
+  if (items.length === 0) return null;
+  const logs = stackLogIndex.value;
+  const date = todayYmd.value;
+  const progress = BLOCK_ORDER.map((b) => blockProgress(items, logs, date, b));
+  const doneBlocks = progress.filter((p) => p.complete).length;
+  return (
+    <section class="card" data-testid="stack-strip">
+      <button type="button" class="stack-strip" onClick={() => navigate('/stack')} aria-label="Open the supplement stack">
+        <div class="row" style="gap:8px">
+          {progress.map((p) => <span key={p.block} class={`blockdot ${p.complete ? 'on' : ''} ${blockDue(p.block, p.complete) ? 'due' : ''}`} aria-label={`${stackBlockLabel(p.block)} ${p.done} of ${p.total}`} />)}
+        </div>
+        <div class="grow">
+          <div style="font-weight:600">STACK</div>
+          <div class="muted small">{doneBlocks} of 4 blocks done</div>
+        </div>
+        <span class="muted">›</span>
+      </button>
+    </section>
+  );
+}
+
+/** The wake block sits with the cold shower in the standing orders. */
+function WakeBlock() {
+  const items = stackItemsResolved.value;
+  if (items.length === 0) return null;
+  const logs = stackLogIndex.value;
+  const date = todayYmd.value;
+  const p = blockProgress(items, logs, date, 'wake');
+  const highLoad = highLoadToday();
+  const fastedDay = fastedAmToday();
+  const fastedDone = fastedSessionLogged();
+  if (p.required.length === 0 && p.optional.length === 0 && p.offCycle.length === 0) return null;
+  return (
+    <div class="stack" style="gap:4px" data-testid="wake-block">
+      <div class="row between">
+        <span class="chip chip-od">{stackBlockLabel('wake')}</span>
+        <span class={`chip ${p.complete ? 'chip-rest' : 'chip-muted'}`}>{p.done}/{p.total}</span>
+      </div>
+      {p.required.map((item) => (
+        <StackRow key={item.id} item={item} logs={logs} date={date} compact
+          note={fastedDay && !fastedDone ? fastedConflict(item, true, false) ?? undefined : undefined} />
+      ))}
+      {p.offCycle.map((item) => <StackRow key={item.id} item={item} logs={logs} date={date} offDay compact />)}
+      {p.optional.map((item) => (
+        <StackRow key={item.id} item={item} logs={logs} date={date} compact
+          note={item.optionalTrigger === 'high-load-day' && highLoad ? 'High-load day — this is the day for it.' : undefined} />
+      ))}
+    </div>
   );
 }
 
