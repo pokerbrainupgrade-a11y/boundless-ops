@@ -2,6 +2,7 @@ import { signal, computed } from '@preact/signals';
 import { db, requestPersistentStorage, type Block, type SessionLog, type HabitLog, type Vital } from './db';
 import { loadSettings } from './settings';
 import { phxDate, phxHour, dayIndex, dateForDay } from './time';
+import { BLOCK_DAYS } from '@/data/program';
 
 export const todayYmd = signal(phxDate());
 export const block = signal<Block | null>(null);
@@ -12,9 +13,9 @@ export const vitals = signal<Vital[]>([]);
 export const booted = signal(false);
 export const persisted = signal<boolean | null>(null);
 
-/** Program day for today: 0 before start, 1..14 in block, >14 after. null with no block. */
+/** Program day for today: 0 before start, 1..BLOCK_DAYS in block, greater after. null with no block. */
 export const dayN = computed(() => (block.value ? dayIndex(block.value.startDate, todayYmd.value, block.value.shift) : null));
-export const inBlock = computed(() => dayN.value !== null && dayN.value >= 1 && dayN.value <= 14);
+export const inBlock = computed(() => dayN.value !== null && dayN.value >= 1 && dayN.value <= BLOCK_DAYS);
 
 function refreshToday() {
   const t = phxDate();

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { buildPreset, sevenMinuteSequence, tabataMoves, superSlowOptions, ENGINE_PRESETS, STATE_COPY, type PresetOptions } from '@/lib/presets';
+import { BLOCK_DAYS, tabataRotationFor, sprintPresetFor, superSlowDefault, sevenRoundsFor } from '@/data/program';
 
 const base = (extra: Partial<PresetOptions> = {}): PresetOptions => ({ leadInSec: 10, week: 1, ...extra });
 
@@ -41,11 +42,27 @@ describe('presets (segment count + total duration)', () => {
     expect(three.totalMs).toBe(10_000 + 36 * 30_000 + 35 * 10_000);
     expect(three.segments[1]!.meta?.next).toBe('wallSit');
   });
-  it('7-minute W2 uses the explosive swaps', () => {
-    expect(sevenMinuteSequence(1).map((m) => m.id)[0]).toBe('jumpingJacks');
-    expect(sevenMinuteSequence(2).map((m) => m.id)[0]).toBe('burpees');
-    expect(sevenMinuteSequence(2).filter((m) => m.swapped).length).toBe(7);
-    expect(buildPreset('sevenMinute', base({ week: 2 })).meta.explosive).toBe(true);
+  it('7-minute: odd weeks base, even weeks explosive swaps', () => {
+    for (const w of [1, 3, 5]) expect(sevenMinuteSequence(w).map((m) => m.id)[0]).toBe('jumpingJacks');
+    for (const w of [2, 4, 6]) expect(sevenMinuteSequence(w).map((m) => m.id)[0]).toBe('burpees');
+    expect(sevenMinuteSequence(4).filter((m) => m.swapped).length).toBe(7);
+    expect(buildPreset('sevenMinute', base({ week: 6 })).meta.explosive).toBe(true);
+    expect(buildPreset('sevenMinute', base({ week: 5 })).meta.explosive).toBe(false);
+  });
+  it('six-week rotations', () => {
+    expect(BLOCK_DAYS).toBe(42);
+    const trios = [1, 2, 3, 4, 5, 6].map((w) => tabataRotationFor(w).join('/'));
+    expect(new Set(trios).size).toBe(6);
+    for (const w of [1, 2, 3, 4, 5, 6]) expect(new Set(tabataRotationFor(w)).size).toBe(3);
+    expect(tabataRotationFor(1)).toEqual(['bike', 'kbSwings', 'rower']);
+    expect(tabataRotationFor(2)).toEqual(['burpees', 'treadmill', 'mtnClimbers']);
+    expect(sprintPresetFor(1)).toBe('G1');
+    expect(sprintPresetFor(3)).toBe('G3');
+    expect(superSlowDefault('upperPush', 1)).toBe('Chest press');
+    expect(superSlowDefault('upperPush', 2)).toBe('Overhead press');
+    expect(superSlowDefault('upperPush', 4)).toBe('Chest press');
+    expect(sevenRoundsFor(4)).toBe(2);
+    expect(sevenRoundsFor(5)).toBe(3);
   });
   it('super-slow: 4 open lifts with 3 rests, FAILURE ends the lift', () => {
     const b = buildPreset('superSlow', base({ restSec: 90 }));

@@ -1,4 +1,5 @@
 import type { SessionLog, Vital, Block } from './db';
+import { BLOCK_WEEKS } from '@/data/program';
 
 export type ChartMode = 'weeks' | 'blocks';
 
@@ -22,16 +23,13 @@ export interface ChartData {
   empty?: string;
 }
 
-const COLORS = ['var(--signal)', 'var(--tan)', 'var(--rest-hi)', 'var(--text)', 'var(--od)'];
+const COLORS = ['var(--signal)', 'var(--tan)', 'var(--rest-hi)', 'var(--text)', '#E8A04B', '#8FA3B5'];
 
-/** Group logs into comparison groups: W1/W2 of a block, or one group per block. */
+/** Group logs into comparison groups: one per week of a block, or one group per block. */
 export function groups(logs: SessionLog[], blocks: Block[], mode: ChartMode, blockId: number | null): { name: string; logs: SessionLog[] }[] {
   if (mode === 'weeks') {
     const ls = logs.filter((l) => blockId === null || l.blockId === blockId);
-    return [
-      { name: 'Week 1', logs: ls.filter((l) => l.week === 1) },
-      { name: 'Week 2', logs: ls.filter((l) => l.week === 2) },
-    ];
+    return Array.from({ length: BLOCK_WEEKS }, (_, i) => ({ name: `Week ${i + 1}`, logs: ls.filter((l) => l.week === i + 1) }));
   }
   return blocks.map((b) => ({ name: `Block ${String(b.n).padStart(2, '0')}`, logs: logs.filter((l) => l.blockId === b.id) }));
 }

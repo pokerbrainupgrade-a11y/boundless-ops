@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { navigate } from '@/router';
-import { program, getDay } from '@/data/program';
+import { program, getDay, BLOCK_DAYS, BLOCK_WEEKS } from '@/data/program';
 import { block, dayN, todayYmd, startBlock, habitDone, toggleHabit, logs, blockLabel, dayLabel, dateOfDay, vitals, saveVital } from '@/lib/store';
 import { settings } from '@/lib/settings';
 import { fmtDate, daysBetween } from '@/lib/time';
@@ -51,7 +51,7 @@ export function Today() {
       </main>
     );
   }
-  if (n !== null && n > 14) {
+  if (n !== null && n > BLOCK_DAYS) {
     return (
       <main class="screen">
         <Header />
@@ -72,7 +72,7 @@ export function Today() {
       <div class="row wrap" style="gap:8px">
         <span class="chip chip-outline">{blockLabel(b.n)}</span>
         <span class="chip chip-tan" data-testid="day-chip">{dayLabel(n!)}</span>
-        <span class="chip chip-outline">Week {day.week}</span>
+        <span class="chip chip-outline">Week {day.week} / {BLOCK_WEEKS}</span>
         <LoadChip load={day.load} />
       </div>
       <div class="muted small">{fmtDate(dateOfDay(n!)!)} · about {day.timeEstimate}{s.callsign ? ` · ${s.callsign}` : ''}</div>

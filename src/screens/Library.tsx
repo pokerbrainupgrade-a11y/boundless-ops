@@ -5,7 +5,7 @@ import type { Session, FoundationExercise } from '@/data/schema';
 import { Pose } from '@/components/Pose';
 import { foundationFrames } from '@/components/Steppers';
 import { SessionBrief } from '@/components/SessionBrief';
-import { getDay } from '@/data/program';
+import { getDay, BLOCK_DAYS, tabataRotationFor, BLOCK_WEEKS } from '@/data/program';
 import { dayN } from '@/lib/store';
 import { tabataMovements } from '@/data/program';
 
@@ -15,7 +15,7 @@ function SessionDetail({ s, query }: { s: Session; query: URLSearchParams }) {
   const day = dayQ ? Number(dayQ) : null;
   const slot = query.get('slot');
   const variant = query.get('variant') ?? undefined;
-  const dayObj = day && day >= 1 && day <= 14 ? getDay(day) : dayN.value && dayN.value >= 1 && dayN.value <= 14 ? getDay(dayN.value) : getDay(1);
+  const dayObj = day && day >= 1 && day <= BLOCK_DAYS ? getDay(day) : dayN.value && dayN.value >= 1 && dayN.value <= BLOCK_DAYS ? getDay(dayN.value) : getDay(1);
   const fromDay = day !== null && !!slot;
   const startUrl = `/session/${s.id}?day=${day ?? dayN.value ?? 1}&slot=${slot ?? 'main'}${variant ? `&variant=${variant}` : ''}`;
   const variantLabel = s.id === 'A' && variant ? tabataMovements[variant]?.name : s.id === 'B' && variant ? (variant === 'seqA' ? 'Sequence A' : variant === 'seqB' ? 'Sequence B' : 'Applied day') : undefined;
@@ -27,7 +27,7 @@ function SessionDetail({ s, query }: { s: Session; query: URLSearchParams }) {
       </div>
       <div class="section-h"><h1 style="font-size:1.2rem;white-space:normal">{s.letter ? `${s.letter}. ` : ''}{s.name}{variantLabel ? ` · ${variantLabel}` : ''}</h1></div>
       <SessionBrief session={s} week={dayObj.week} variant={variant} />
-      {s.id === 'A' && <div class="muted small">Rotation · W1: {program.tabataRotation.w1.map((m) => tabataMovements[m]!.name).join(' → ')} · W2: {program.tabataRotation.w2.map((m) => tabataMovements[m]!.name).join(' → ')}</div>}
+      {s.id === 'A' && <div class="card stack" style="gap:4px"><h3>Six-week rotation</h3>{Array.from({ length: BLOCK_WEEKS }, (_, i) => <div key={i} class="small"><span class="mono muted">W{i + 1}</span> {tabataRotationFor(i + 1).map((m) => tabataMovements[m]!.name).join(' → ')}</div>)}</div>}
       {s.id === 'B' && !variant && <FoundationList />}
       {s.ch10System && <div class="muted small">System: {s.ch10System}</div>}
       {fromDay && (

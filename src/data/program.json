@@ -4,7 +4,9 @@
     "version": "v5",
     "disclaimer": "Personal use. Not medical advice.",
     "orderWithinDay": "Fasted cardio always runs first, before breakfast. Foundation Training runs every day as a 10 to 15 min block, either as the full session or as the warm-up before the main session. Intensity sessions go later in the day. Sauna and contrast go last.",
-    "app": "BOUNDLESS OPS"
+    "app": "BOUNDLESS OPS",
+    "blockWeeks": 6,
+    "blockNote": "Six-week block: weeks 1 and 2 follow the source plan; weeks 3 to 6 repeat that two-week pattern with rotated Tabata movements, alternating base and explosive 7-Minute moves (3 rounds from week 5), sprint presets rotating on odd weeks, 5x4 intervals on even weeks, the stamina session on even-week Sundays, and a different super-slow lift per pattern each week."
   },
   "days": [
     {
@@ -190,7 +192,9 @@
           "note": "warm-up"
         },
         {
-          "id": "G"
+          "id": "G",
+          "variant": "G1",
+          "note": "preset G1"
         }
       ],
       "pm": [
@@ -427,6 +431,900 @@
     {
       "n": 14,
       "week": 2,
+      "day": 7,
+      "load": "Recovery / Stamina",
+      "timeEstimate": "2.5–3.5 h",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "L",
+          "note": "2 h+, pre-dawn, fasted or minimal fuel"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "hinges and breathing during the session"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "week": 3,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "jumpingJacks"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 16,
+      "week": 3,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×2–3"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 17,
+      "week": 3,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "E"
+        },
+        {
+          "id": "A",
+          "variant": "squats"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 18,
+      "week": 3,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "week": 3,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "55–85 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "bike"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "week": 3,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "55–70 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "G",
+          "variant": "G3",
+          "note": "preset G3"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "week": 3,
+      "day": 7,
+      "load": "Recovery",
+      "timeEstimate": "95–135 min",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "K",
+          "note": "45–60 min"
+        },
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "applied day"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "week": 4,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "A",
+          "variant": "kbSwings"
+        },
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 23,
+      "week": 4,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×2–3, explosive swaps"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 24,
+      "week": 4,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "rower"
+        },
+        {
+          "id": "E"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 25,
+      "week": 4,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "week": 4,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "60–90 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "burpees"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 27,
+      "week": 4,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "75–90 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "H"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "week": 4,
+      "day": 7,
+      "load": "Recovery / Stamina",
+      "timeEstimate": "2.5–3.5 h",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "L",
+          "note": "2 h+, pre-dawn, fasted or minimal fuel"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "hinges and breathing during the session"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "week": 5,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "treadmill"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 30,
+      "week": 5,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×3"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 31,
+      "week": 5,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "E"
+        },
+        {
+          "id": "A",
+          "variant": "mtnClimbers"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 32,
+      "week": 5,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 33,
+      "week": 5,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "55–85 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "jumpingJacks"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 34,
+      "week": 5,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "55–70 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "G",
+          "variant": "G2",
+          "note": "preset G2"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 35,
+      "week": 5,
+      "day": 7,
+      "load": "Recovery",
+      "timeEstimate": "95–135 min",
+      "foundation": "applied",
+      "foundationMode": "applied",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "K",
+          "note": "45–60 min"
+        },
+        {
+          "id": "B",
+          "variant": "applied",
+          "note": "applied day"
+        }
+      ],
+      "pm": [
+        {
+          "id": "J",
+          "note": "30–45 min"
+        }
+      ]
+    },
+    {
+      "n": 36,
+      "week": 6,
+      "day": 1,
+      "load": "High",
+      "timeEstimate": "40–45 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "A",
+          "variant": "squats"
+        },
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 37,
+      "week": 6,
+      "day": 2,
+      "load": "Moderate",
+      "timeEstimate": "55–85 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "C",
+          "note": "×3, explosive swaps"
+        },
+        {
+          "id": "D",
+          "optional": true
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 38,
+      "week": 6,
+      "day": 3,
+      "load": "High",
+      "timeEstimate": "65–80 min",
+      "foundation": "A",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "warm-up"
+        },
+        {
+          "id": "A",
+          "variant": "bike"
+        },
+        {
+          "id": "E"
+        }
+      ],
+      "pm": []
+    },
+    {
+      "n": 39,
+      "week": 6,
+      "day": 4,
+      "load": "Moderate",
+      "timeEstimate": "60–75 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "F",
+          "note": "push / pull / squat / hinge"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "optional": true,
+          "note": "optional slot, 6h+ after lifting"
+        }
+      ]
+    },
+    {
+      "n": 40,
+      "week": 6,
+      "day": 5,
+      "load": "High",
+      "timeEstimate": "60–90 min",
+      "foundation": "A",
+      "foundationMode": "full",
+      "am": [
+        {
+          "id": "lightMovement"
+        },
+        {
+          "id": "coldShower"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqA",
+          "note": "full session"
+        },
+        {
+          "id": "A",
+          "variant": "kbSwings"
+        }
+      ],
+      "pm": [
+        {
+          "id": "I",
+          "note": "20–40 min"
+        }
+      ]
+    },
+    {
+      "n": 41,
+      "week": 6,
+      "day": 6,
+      "load": "High",
+      "timeEstimate": "75–90 min",
+      "foundation": "B",
+      "foundationMode": "warmup",
+      "am": [
+        {
+          "id": "fastedCardio"
+        }
+      ],
+      "main": [
+        {
+          "id": "B",
+          "variant": "seqB",
+          "note": "warm-up"
+        },
+        {
+          "id": "H"
+        }
+      ],
+      "pm": [
+        {
+          "id": "coldImmersion",
+          "note": "2–5 min"
+        }
+      ]
+    },
+    {
+      "n": 42,
+      "week": 6,
       "day": 7,
       "load": "Recovery / Stamina",
       "timeEstimate": "2.5–3.5 h",
@@ -1660,15 +2558,37 @@
     }
   ],
   "tabataRotation": {
-    "w1": [
-      "bike",
-      "kbSwings",
-      "rower"
-    ],
-    "w2": [
-      "burpees",
-      "treadmill",
-      "mtnClimbers"
+    "weeks": [
+      [
+        "bike",
+        "kbSwings",
+        "rower"
+      ],
+      [
+        "burpees",
+        "treadmill",
+        "mtnClimbers"
+      ],
+      [
+        "jumpingJacks",
+        "squats",
+        "bike"
+      ],
+      [
+        "kbSwings",
+        "rower",
+        "burpees"
+      ],
+      [
+        "treadmill",
+        "mtnClimbers",
+        "jumpingJacks"
+      ],
+      [
+        "squats",
+        "bike",
+        "kbSwings"
+      ]
     ]
   },
   "rules": {
@@ -1898,5 +2818,13 @@
       "label": "Movement breaks every 45–60 min of sitting",
       "count": 1
     }
+  ],
+  "sprintRotation": [
+    "G1",
+    "G1",
+    "G3",
+    "G1",
+    "G2",
+    "G1"
   ]
 }

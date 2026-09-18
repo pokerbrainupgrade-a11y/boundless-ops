@@ -20,7 +20,7 @@ export function Intel() {
     <main class="screen" data-testid="intel" data-mode={mode}>
       <div class="section-h"><h1>Intel</h1></div>
       <div class="row" role="radiogroup" aria-label="Compare">
-        <button type="button" role="radio" aria-checked={mode === 'weeks'} class={`btn grow ${mode === 'weeks' ? 'btn-primary' : ''}`} data-testid="mode-weeks" onClick={() => setMode('weeks')}>W1 vs W2</button>
+        <button type="button" role="radio" aria-checked={mode === 'weeks'} class={`btn grow ${mode === 'weeks' ? 'btn-primary' : ''}`} data-testid="mode-weeks" onClick={() => setMode('weeks')}>Week vs week</button>
         <button type="button" role="radio" aria-checked={mode === 'blocks'} class={`btn grow ${mode === 'blocks' ? 'btn-primary' : ''}`} data-testid="mode-blocks" onClick={() => setMode('blocks')}>Block vs Block</button>
       </div>
       {mode === 'weeks' && blocks.value.length > 1 && (

@@ -12,18 +12,26 @@ test.describe('schedule and Phoenix day math', () => {
     await page.clock.runFor(31 * 60_000);
     await expect(page.getByTestId('day-chip')).toHaveText('Day 04', { timeout: 10_000 });
     await expect(page.getByTestId('load-chip')).toHaveText('Moderate');
-    // Day 14 and then the block ends
+    // Day 14 (W2 D7 = stamina), Day 42 (W6 D7 = stamina), then the block ends
     await page.clock.setSystemTime(new Date('2026-10-04T20:00:00Z'));
     await page.reload();
     await expect(page.getByTestId('day-chip')).toHaveText('Day 14');
     await expect(page.getByTestId('card-am').getByTestId('session-row').first()).toHaveAttribute('data-session', 'L');
-    await page.clock.setSystemTime(new Date('2026-10-05T20:00:00Z'));
+    await page.clock.setSystemTime(new Date('2026-10-11T20:00:00Z'));
+    await page.reload();
+    await expect(page.getByTestId('day-chip')).toHaveText('Day 21');
+    await expect(page.getByTestId('card-main')).toContainText('Yoga');
+    await page.clock.setSystemTime(new Date('2026-11-01T20:00:00Z'));
+    await page.reload();
+    await expect(page.getByTestId('day-chip')).toHaveText('Day 42');
+    await expect(page.getByText('Week 6 / 6')).toBeVisible();
+    await page.clock.setSystemTime(new Date('2026-11-02T20:00:00Z'));
     await page.reload();
     await expect(page.getByText('Operation Block 01 complete')).toBeVisible();
-    await page.getByTestId('start-date-input').fill('2026-10-12');
+    await page.getByTestId('start-date-input').fill('2026-11-09');
     await page.getByTestId('start-block').click();
     await expect(page.getByText('Operation Block 02 starts')).toBeVisible();
-    await page.clock.setSystemTime(new Date('2026-10-12T20:00:00Z'));
+    await page.clock.setSystemTime(new Date('2026-11-09T20:00:00Z'));
     await page.reload();
     await expect(page.getByTestId('day-chip')).toHaveText('Day 01');
     await expect(page.getByText('Operation Block 02')).toBeVisible();
@@ -45,6 +53,9 @@ test.describe('schedule and Phoenix day math', () => {
     await setup(page, {}, '2026-09-21');
     await page.goto('/boundless-ops/#/schedule');
     await expect(page.getByTestId('day-13')).toContainText('H');
+    await expect(page.getByTestId('week-6')).toBeVisible();
+    await expect(page.getByTestId('day-42')).toContainText('L');
+    await expect(page.getByTestId('day-20')).toContainText('G');
     await page.getByTestId('day-13').click();
     await expect(page.getByTestId('day-preview')).toContainText('5x4 VO2 max');
     // tap a session in the preview → brief with a Start button → the timer

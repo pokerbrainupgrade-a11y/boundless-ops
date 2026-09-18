@@ -14,8 +14,8 @@ export const SessionRef = z.object({
 export type SessionRef = z.infer<typeof SessionRef>;
 
 export const Day = z.object({
-  n: z.number().int().min(1).max(14),
-  week: z.union([z.literal(1), z.literal(2)]),
+  n: z.number().int().min(1).max(42),
+  week: z.number().int().min(1).max(6),
   day: z.number().int().min(1).max(7),
   am: z.array(SessionRef),
   main: z.array(SessionRef),
@@ -117,8 +117,8 @@ export const TabataMovement = z.object({
 export const Rule = z.object({ id: z.string(), title: z.string(), text: z.string() });
 
 export const Program = z.object({
-  meta: z.object({ title: z.string(), app: z.string(), version: z.string(), disclaimer: z.string(), orderWithinDay: z.string() }),
-  days: z.array(Day).length(14),
+  meta: z.object({ title: z.string(), app: z.string(), version: z.string(), disclaimer: z.string(), orderWithinDay: z.string(), blockWeeks: z.number().int().min(1), blockNote: z.string() }),
+  days: z.array(Day).length(42),
   sessions: z.record(z.string(), Session),
   foundation: z.object({
     breathing: z.object({
@@ -136,7 +136,10 @@ export const Program = z.object({
   sevenMinute: z.array(SevenMinuteMove).length(12),
   superSlowPatterns: z.array(SuperSlowPattern).length(4),
   tabataMovements: z.array(TabataMovement),
-  tabataRotation: z.object({ w1: z.array(z.string()).length(3), w2: z.array(z.string()).length(3) }),
+  /** Tabata movement per week for D1, D3, D5. */
+  tabataRotation: z.object({ weeks: z.array(z.array(z.string()).length(3)).length(6) }),
+  /** Sprint preset per week (used on odd weeks). */
+  sprintRotation: z.array(z.enum(['G1', 'G2', 'G3'])).length(6),
   rules: z.object({
     standingProtocols: z.array(z.object({ id: z.string(), name: z.string(), dose: z.string(), frequency: z.string() })),
     phoenixAdjustments: z.array(Rule),

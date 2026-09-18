@@ -14,7 +14,7 @@ const LogSchema = z.object({
   id: z.number().optional(),
   blockId: z.number(),
   dayN: z.number().int(),
-  week: z.union([z.literal(1), z.literal(2)]),
+  week: z.number().int().min(1).max(6),
   day: z.number().int(),
   slot: z.enum(['am', 'main', 'pm', 'habit']),
   sessionId: z.string(),

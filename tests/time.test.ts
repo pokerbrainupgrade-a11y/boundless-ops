@@ -19,7 +19,8 @@ describe('Phoenix date math', () => {
     expect(dayIndex(start, '2026-09-27')).toBe(7);
     expect(dayIndex(start, '2026-09-28')).toBe(8);
     expect(dayIndex(start, '2026-10-04')).toBe(14);
-    expect(dayIndex(start, '2026-10-05')).toBe(15);
+    expect(dayIndex(start, '2026-11-01')).toBe(42);
+    expect(dayIndex(start, '2026-11-02')).toBe(43);
     expect(dayIndex(start, '2026-09-20')).toBe(0);
     // instants around midnight
     const before = Date.UTC(2026, 8, 22, 6, 59); // 23:59 Phoenix on 21st
@@ -32,8 +33,10 @@ describe('Phoenix date math', () => {
     const start = '2026-09-21';
     expect(dayIndex(start, '2026-09-25', 1)).toBe(4);
     expect(dayForDate(start, '2026-10-05', 1)).toBe(14);
-    expect(dayForDate(start, '2026-10-06', 1)).toBeNull();
-    expect(dateForDay(start, 14, 1)).toBe('2026-10-05');
+    expect(dayForDate(start, '2026-11-02', 1)).toBe(42);
+    expect(dayForDate(start, '2026-11-03', 1)).toBeNull();
+    expect(dayForDate(start, '2026-10-06', 1, 14)).toBeNull();
+    expect(dateForDay(start, 42, 1)).toBe('2026-11-02');
   });
 
   it('daysBetween / addDays cross month and year boundaries', () => {

@@ -1,11 +1,11 @@
-import { program, foundationSequence, sevenMinuteMoves, tabataMovements } from '@/data/program';
+import { program, foundationSequence, sevenMinuteMoves, tabataMovements, tabataRotationFor, sevenExplosive, sevenRoundsFor, superSlowDefault, sprintPresetFor } from '@/data/program';
 import type { Session } from '@/data/schema';
 import { sevenMinuteSequence } from '@/lib/presets';
 import { Pose } from './Pose';
 
 export interface BriefProps {
   session: Session;
-  week: 1 | 2;
+  week: number;
   /** Tabata movement id or Foundation seqA | seqB | applied. */
   variant?: string;
   /** Skip the title block (when the host screen already shows it). */
@@ -35,7 +35,8 @@ export function SessionBrief({ session: s, week, variant, noHeader = false }: Br
       {preset === 'foundation' && <FoundationBrief variant={variant} />}
       {preset === 'sevenMinute' && <SevenBrief week={week} />}
       {preset === 'mobility' && <MobilityBrief />}
-      {preset === 'superSlow' && <SuperSlowBrief />}
+      {preset === 'superSlow' && <SuperSlowBrief week={week} />}
+      {preset === 'sprints' && <div class="card"><strong>This week's preset: {sprintPresetFor(week)}</strong><div class="muted small">G1: 4 × (0:30 all out / 4:00 easy) · G2: 5 × (0:04 / 0:20) · G3: 3 sets × 5 × (0:04 / 0:20)</div></div>}
       {preset === 'tabata' && <TabataBrief week={week} variant={variant} />}
       {preset === 'decompression' && (
         <div class="card stack" style="gap:6px">
@@ -86,11 +87,11 @@ function FoundationBrief({ variant }: { variant?: string }) {
   );
 }
 
-function SevenBrief({ week }: { week: 1 | 2 }) {
+function SevenBrief({ week }: { week: number }) {
   const seq = sevenMinuteSequence(week);
   return (
     <div class="stack" style="gap:8px">
-      <h2>{week === 2 ? 'Week 2 · explosive swaps' : 'Week 1 · base moves'} · 30 s on / 10 s off</h2>
+      <h2>Week {week} · {sevenExplosive(week) ? 'explosive swaps' : 'base moves'} · {sevenRoundsFor(week)} rounds · 30 s on / 10 s off</h2>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         {seq.map((m, i) => (
           <div key={m.id} class="card" style="padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center" data-testid="brief-move">
@@ -116,19 +117,19 @@ function MobilityBrief() {
   );
 }
 
-function SuperSlowBrief() {
+function SuperSlowBrief({ week }: { week: number }) {
   return (
     <div class="stack" style="gap:8px">
-      <h2>Four lifts · one set each to failure</h2>
+      <h2>Four lifts · one set each to failure · week {week}</h2>
       {program.superSlowPatterns.map((p, i) => (
-        <div key={p.id} class="card row" style="gap:10px;padding:10px 12px"><Pose id={p.drawingId} size={56} /><div><strong>{i + 1}. {p.name}</strong><div class="muted small">{p.options.join(' · ')}</div></div></div>
+        <div key={p.id} class="card row" style="gap:10px;padding:10px 12px"><Pose id={p.drawingId} size={56} /><div><strong>{i + 1}. {p.name}: {superSlowDefault(p.id, week)}</strong><div class="muted small">Rotation: {p.options.join(' → ')}</div></div></div>
       ))}
     </div>
   );
 }
 
-function TabataBrief({ week, variant }: { week: 1 | 2; variant?: string }) {
-  const rotation = week === 1 ? program.tabataRotation.w1 : program.tabataRotation.w2;
+function TabataBrief({ week, variant }: { week: number; variant?: string }) {
+  const rotation = tabataRotationFor(week);
   const move = variant ? tabataMovements[variant] : undefined;
   return (
     <div class="stack" style="gap:8px">
@@ -136,7 +137,7 @@ function TabataBrief({ week, variant }: { week: 1 | 2; variant?: string }) {
       {move && (
         <div class="card row" style="gap:10px;padding:10px 12px"><Pose id={move.drawingId} size={72} glow /><div><strong>Today: {move.name}</strong><div class="muted small">Log {move.unit} each round during the 10 s rest.</div></div></div>
       )}
-      <div class="muted small">This week's rotation: {rotation.map((id) => tabataMovements[id]?.name ?? id).join(' → ')}</div>
+      <div class="muted small">Week {week} rotation (D1 → D3 → D5): {rotation.map((id) => tabataMovements[id]?.name ?? id).join(' → ')}</div>
     </div>
   );
 }

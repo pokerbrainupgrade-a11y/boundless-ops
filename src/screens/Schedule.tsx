@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { program, getDay } from '@/data/program';
+import { program, getDay, BLOCK_DAYS, BLOCK_WEEKS } from '@/data/program';
 import { block, dayN, dateOfDay, setStartDate, shiftRemaining, startBlock, blockLabel, logsFor, todayYmd } from '@/lib/store';
 import { fmtShortDate } from '@/lib/time';
 import { SessionRow } from '@/components/SessionRow';
@@ -42,10 +42,14 @@ export function Schedule() {
     <main class="screen">
       <div class="section-h"><h1>Schedule</h1></div>
       {b && <div class="muted small">{blockLabel(b.n)} · starts {b.startDate}{b.shift ? ` · shifted +${b.shift}` : ''}</div>}
-      <div class="sched">
-        <div class="col"><h2>Week 1</h2>{[1, 2, 3, 4, 5, 6, 7].map(cell)}</div>
-        <div class="col"><h2>Week 2</h2>{[8, 9, 10, 11, 12, 13, 14].map(cell)}</div>
-      </div>
+      {Array.from({ length: Math.ceil(BLOCK_WEEKS / 2) }, (_, r) => (
+        <div class="sched" key={r}>
+          {[r * 2 + 1, r * 2 + 2].filter((w) => w <= BLOCK_WEEKS).map((w) => (
+            <div class="col" key={w} data-testid={`week-${w}`}><h2>Week {w}</h2>{Array.from({ length: 7 }, (_, i) => (w - 1) * 7 + i + 1).map(cell)}</div>
+          ))}
+        </div>
+      ))}
+      <div class="card stack"><h3>SIX-WEEK BLOCK</h3><p class="small muted" style="margin:0">{program.meta.blockNote}</p></div>
 
       <div class="card stack">
         <h3>ADJUST</h3>
@@ -81,7 +85,7 @@ export function Schedule() {
           <section class="card stack"><h3>RECOVERY</h3>{getDay(preview).pm.length ? getDay(preview).pm.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="pm" />) : <div class="muted small">Nothing scheduled.</div>}</section>
           <div class="row" style="justify-content:space-between">
             <button type="button" class="btn" disabled={preview <= 1} onClick={() => setPreview(preview - 1)}>← Previous day</button>
-            <button type="button" class="btn" disabled={preview >= 14} onClick={() => setPreview(preview + 1)}>Next day →</button>
+            <button type="button" class="btn" disabled={preview >= BLOCK_DAYS} onClick={() => setPreview(preview + 1)}>Next day →</button>
           </div>
         </div>
       )}

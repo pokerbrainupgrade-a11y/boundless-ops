@@ -73,6 +73,13 @@ test.describe('timer presets (mocked clock)', () => {
     expect(count).toBe(1);
   });
 
+  test('week 3 tabata defaults to the rotated movement and sprints to G3', async ({ page }) => {
+    await page.goto('/boundless-ops/#/session/A?day=15&slot=main&variant=jumpingJacks');
+    await expect(page.getByTestId('tabata-move')).toHaveValue('jumpingJacks');
+    await page.goto('/boundless-ops/#/session/G?day=20&slot=main&variant=G3');
+    await expect(page.getByTestId('timer')).toHaveAttribute('data-segments', '33');
+  });
+
   test('5x4 shows the 87–97% HRmax band from the age in Kit', async ({ page }) => {
     await page.goto('/boundless-ops/#/session/H?day=13&slot=main');
     // age 34 → HRmax 184 → 160–178
@@ -107,6 +114,9 @@ test.describe('timer presets (mocked clock)', () => {
     await page.getByTestId('start').click();
     await page.clock.runFor(10_000);
     await expect(page.getByTestId('seven-move')).toHaveAttribute('data-move', 'burpees');
+    // week 5 defaults to 3 rounds and base moves
+    await page.goto('/boundless-ops/#/session/C?day=30&slot=main');
+    await expect(page.getByTestId('timer')).toHaveAttribute('data-segments', '72');
   });
 
   test('Stamina shows the Phoenix rule and fires TURN AROUND at halfway', async ({ page }) => {

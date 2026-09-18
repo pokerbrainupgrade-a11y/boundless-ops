@@ -4,6 +4,40 @@ import { Program as ProgramSchema, type Program, type Session, type Day, type Fo
 /** Program content, validated against the Zod schema at build time (the build fails on an invalid file). */
 export const program: Program = ProgramSchema.parse(raw);
 
+/** Length of an Operation Block in days (6 weeks). */
+export const BLOCK_DAYS = program.days.length;
+export const BLOCK_WEEKS = program.meta.blockWeeks;
+
+export function weekOf(n: number): number {
+  return Math.ceil(n / 7);
+}
+
+/** Tabata movements for the week (D1, D3, D5). */
+export function tabataRotationFor(week: number): string[] {
+  return program.tabataRotation.weeks[(week - 1) % program.tabataRotation.weeks.length]!;
+}
+
+/** Sprint preset for the week. */
+export function sprintPresetFor(week: number): 'G1' | 'G2' | 'G3' {
+  return program.sprintRotation[(week - 1) % program.sprintRotation.length]!;
+}
+
+/** Even weeks use the explosive 7-Minute swaps. */
+export function sevenExplosive(week: number): boolean {
+  return week % 2 === 0;
+}
+
+/** Default 7-Minute rounds: 2, rising to 3 from week 5. */
+export function sevenRoundsFor(week: number): number {
+  return week >= 5 ? 3 : 2;
+}
+
+/** Super-slow: rotate through each pattern's exercise options week by week. */
+export function superSlowDefault(patternId: string, week: number): string {
+  const p = program.superSlowPatterns.find((x) => x.id === patternId)!;
+  return p.options[(week - 1) % p.options.length]!;
+}
+
 export function getSession(id: string): Session {
   const s = program.sessions[id];
   if (!s) throw new Error(`Unknown session ${id}`);

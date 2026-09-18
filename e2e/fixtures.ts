@@ -2,7 +2,7 @@
 export function demoExport(startDate = '2026-09-21') {
   const b1 = 1, b2 = 2;
   const log = (blockId: number, dayN: number, sessionId: string, data: Record<string, unknown>, extra: Record<string, unknown> = {}) => ({
-    blockId, dayN, week: (dayN <= 7 ? 1 : 2) as 1 | 2, day: ((dayN - 1) % 7) + 1, slot: 'main' as const, sessionId,
+    blockId, dayN, week: Math.ceil(dayN / 7), day: ((dayN - 1) % 7) + 1, slot: 'main' as const, sessionId,
     startedAt: new Date(Date.UTC(2026, 8, 20 + dayN, 14, 0)).toISOString(), endedAt: new Date(Date.UTC(2026, 8, 20 + dayN, 14, 30)).toISOString(),
     completed: true, data, ...extra,
   });

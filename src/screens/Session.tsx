@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
 import { route, navigate } from '@/router';
-import { program, getDay, sevenMinuteMoves } from '@/data/program';
+import { program, getDay, sevenMinuteMoves, BLOCK_DAYS, tabataRotationFor, sprintPresetFor, sevenRoundsFor, superSlowDefault } from '@/data/program';
 import type { Session as SessionT, TimerPreset } from '@/data/schema';
 import { buildPreset, tabataMoves, superSlowOptions, type PresetOptions } from '@/lib/presets';
 import { dayN, block } from '@/lib/store';
@@ -38,7 +38,7 @@ export function Session() {
     );
   }
 
-  const dayObj = day >= 1 && day <= 14 ? getDay(day) : getDay(1);
+  const dayObj = day >= 1 && day <= BLOCK_DAYS ? getDay(day) : getDay(1);
   const week = dayObj.week;
   const b = block.value;
   const draft = (res: { startedAt: string; endedAt: string; completed: boolean }, data: Record<string, unknown>): SessionLog => ({
@@ -91,13 +91,13 @@ export function Session() {
 /* ---------------- interval presets ---------------- */
 
 function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
-  session: SessionT; week: 1 | 2; day: number; variant?: string;
+  session: SessionT; week: number; day: number; variant?: string;
   onDone: (r: RunResult, data: Record<string, unknown>, note?: string) => void; onAbort: () => void;
 }) {
   const s = settings.value;
   const preset = session.timerPreset;
-  const rotation = week === 1 ? program.tabataRotation.w1 : program.tabataRotation.w2;
-  const dayObj = day >= 1 && day <= 14 ? getDay(day) : null;
+  const rotation = tabataRotationFor(week);
+  const dayObj = day >= 1 && day <= BLOCK_DAYS ? getDay(day) : null;
   const dayIdx = dayObj ? [1, 3, 5].indexOf(dayObj.day) : -1;
   const defaultMove = variant ?? (dayIdx >= 0 ? rotation[dayIdx] : rotation[0]) ?? 'bike';
   const allowedMoves = tabataMoves();
@@ -105,8 +105,8 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
     leadInSec: s.leadInSec,
     week,
     tabataMove: allowedMoves.some((m) => m.id === defaultMove) ? defaultMove : allowedMoves[0]!.id,
-    sevenRounds: 2,
-    sprintVariant: 'G1',
+    sevenRounds: sevenRoundsFor(week),
+    sprintVariant: variant === 'G1' || variant === 'G2' || variant === 'G3' ? variant : sprintPresetFor(week),
     minutes: preset === 'stamina' ? 120 : (session.defaultMinutes ?? 20),
     cycles: 2,
     restSec: 90,
@@ -118,7 +118,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
   const set = (patch: Record<string, unknown>) => { collected.current = { ...collected.current, ...patch }; bump((n) => n + 1); };
   const stamina = useRef({ halfway: false, hydrated: 0 });
   const [banner, setBanner] = useState('');
-  const superSlow = useRef<{ exercise: string; load?: number; seconds?: number; reps?: number; pattern: string }[]>(program.superSlowPatterns.map((p) => ({ pattern: p.id, exercise: superSlowOptions(p.id)[0]! })));
+  const superSlow = useRef<{ exercise: string; load?: number; seconds?: number; reps?: number; pattern: string }[]>(program.superSlowPatterns.map((p) => ({ pattern: p.id, exercise: superSlowDefault(p.id, week) })));
   const max = hrMax(s.age);
 
   const preStart: ComponentChildren = (
@@ -143,7 +143,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
       {preset === 'sprints' && (
         <label class="field"><span>Preset</span>
           <div class="row">{(['G1', 'G2', 'G3'] as const).map((v) => <button key={v} type="button" class={`btn grow ${opts.sprintVariant === v ? 'btn-primary' : ''}`} onClick={() => setOpts({ ...opts, sprintVariant: v })}>{v}</button>)}</div>
-          <div class="muted small">G1: 4 × (0:30 / 4:00) · G2: 5 × (0:04 / 0:20) · G3: 3 sets × 5 × (0:04 / 0:20)</div>
+          <div class="muted small">G1: 4 × (0:30 / 4:00) · G2: 5 × (0:04 / 0:20) · G3: 3 sets × 5 × (0:04 / 0:20) · this week: {sprintPresetFor(week)}</div>
         </label>
       )}
       {(preset === 'coldImmersion' || preset === 'sauna' || preset === 'countdown' || preset === 'stamina') && (
@@ -155,7 +155,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
       {preset === 'superSlow' && (
         <div class="stack">
           <MinutesPicker label="Rest between lifts (s)" value={opts.restSec!} min={60} max={120} step={15} onChange={(v) => setOpts({ ...opts, restSec: v })} />
-          <div class="muted small">Rep length {s.repLengthSec} s (Kit). Metronome ticks every 5 s, accent on each rep.</div>
+          <div class="muted small">Rep length {s.repLengthSec} s (Kit). Metronome ticks every 5 s, accent on each rep. Week {week} lifts are preselected; change any in the picker.</div>
         </div>
       )}
       {preset === 'swim' && (
@@ -225,7 +225,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
           <div class="card stack" data-testid="lift-card">
             <div class="row between">
               <select class="input grow" value={cur.exercise} onChange={(e) => { cur.exercise = (e.target as HTMLSelectElement).value; bump((n) => n + 1); }}>
-                {superSlowOptions(pattern.id).map((o) => <option key={o} value={o}>{o}</option>)}
+                {superSlowOptions(pattern.id).map((o) => <option key={o} value={o}>{o}{o === superSlowDefault(pattern.id, week) ? ' · this week' : ''}</option>)}
               </select>
               <Pose id={pattern.drawingId} size={64} glow />
             </div>

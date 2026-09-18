@@ -1,10 +1,10 @@
-import { program, sevenMinuteMoves } from '@/data/program';
+import { program, sevenMinuteMoves, sevenExplosive } from '@/data/program';
 import type { TimerPreset } from '@/data/schema';
 import { prep, rounds, type Segment } from './engine';
 
 export interface PresetOptions {
   leadInSec: number;
-  week: 1 | 2;
+  week: number;
   tabataMove?: string;
   sevenRounds?: number;
   sprintVariant?: 'G1' | 'G2' | 'G3';
@@ -35,10 +35,11 @@ function lead(o: PresetOptions): Segment[] {
   return o.leadInSec > 0 ? [prep(o.leadInSec, STATE_COPY.prep)] : [];
 }
 
-/** Which seven-minute moves run this week (W2 uses the explosive swaps). */
-export function sevenMinuteSequence(week: 1 | 2) {
+/** Which seven-minute moves run this week (even weeks use the explosive swaps). */
+export function sevenMinuteSequence(week: number) {
+  const explosive = sevenExplosive(week);
   return program.sevenMinute.map((m) => {
-    const id = week === 2 && m.w2Swap ? m.w2Swap.id : m.id;
+    const id = explosive && m.w2Swap ? m.w2Swap.id : m.id;
     const move = sevenMinuteMoves[id]!;
     return { ...move, baseId: m.id, swapped: id !== m.id };
   });
@@ -90,7 +91,7 @@ export function buildPreset(preset: TimerPreset, o: PresetOptions): BuiltPreset 
           if (!last) segs.push({ label: 'NEXT UP', kind: 'transition', durationMs: 10_000, cue: next.name, meta: { moveId: next.id, next: next.id, round: r, of: n, i, transition: true } });
         });
       }
-      return finish(segs, '7-Minute Workout', { rounds: n, moves: seq.map((m) => m.id), explosive: o.week === 2 });
+      return finish(segs, '7-Minute Workout', { rounds: n, moves: seq.map((m) => m.id), explosive: sevenExplosive(o.week) });
     }
     case 'superSlow': {
       const rest = Math.min(120, Math.max(60, o.restSec ?? 90));

@@ -41,16 +41,16 @@ export function addDays(ymd: string, n: number): string {
 /**
  * 1-based program day for a block that started on `startDate` (Phoenix date).
  * `shift` is the number of days the remaining schedule has been pushed.
- * Returns 0 before the start, and >14 after the block ends.
+ * Returns 0 before the start, and > block length after the block ends.
  */
 export function dayIndex(startDate: string, today: string, shift = 0): number {
   return daysBetween(startDate, today) + 1 - shift;
 }
 
-/** Program day for an arbitrary date, clamped to 1..14 or null when outside the block. */
-export function dayForDate(startDate: string, date: string, shift = 0): number | null {
+/** Program day for an arbitrary date, or null when outside the block. */
+export function dayForDate(startDate: string, date: string, shift = 0, blockDays = 42): number | null {
   const n = dayIndex(startDate, date, shift);
-  return n >= 1 && n <= 14 ? n : null;
+  return n >= 1 && n <= blockDays ? n : null;
 }
 
 /** Calendar date on which program day n falls. */

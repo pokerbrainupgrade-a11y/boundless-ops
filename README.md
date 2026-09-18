@@ -1,6 +1,6 @@
 # BOUNDLESS OPS
 
-An installable, offline-first web app for iPhone that runs and logs a 14-day training program on the gym floor, then repeats it in Operation Blocks. Dark field-manual UI, big tap targets, timestamp-accurate interval timers, and on-device After Action Reports with Intel charts.
+An installable, offline-first web app for iPhone that runs and logs a six-week (42-day) training program on the gym floor, then repeats it in Operation Blocks. Dark field-manual UI, big tap targets, timestamp-accurate interval timers, and on-device After Action Reports with Intel charts.
 
 **Live:** https://pokerbrainupgrade-a11y.github.io/boundless-ops/
 
@@ -17,11 +17,11 @@ The first screen asks for a start date (Day 01). Today's day is computed on the 
 ## What it does
 
 - **Today** — block, day, week, and load tag; AM PT / MAIN EFFORT / RECOVERY mission cards with one-tap timers; Daily Standing Orders checklist; morning resting HR / HRV entry; a backup reminder when the last export is more than 7 days old.
-- **Schedule** — the 14-day grid, day previews, "shift remaining days +1" for a missed day, start-date editor, next block.
+- **Schedule** — the six-week grid (weeks 1–2 follow the source plan; weeks 3–6 repeat the pattern with rotated Tabata movements, alternating base/explosive 7-Minute moves, rotating sprint presets and super-slow lifts, 5x4 on even weeks, stamina on even-week Sundays), day previews, "shift remaining days +1" for a missed day, start-date editor, next block.
 - **Library** — every session A–L, the Foundation sequences, 7-minute moves, super-slow patterns, and mobility stations with original line drawings, cues, and safety notes; searchable. A Reference tab holds the standing protocols, Phoenix adjustments, execution rules, dose framework, and evidence flags.
 - **AAR** — every After Action Report by block and day, editable.
-- **Intel** — Tabata totals and per-round drop-off, super-slow seconds-to-failure and load, 5x4 HR per round, sauna minutes, stamina, cold dose, and resting HR/HRV, each with W1 vs W2 and Block vs Block toggles.
-- **Timers** — Tabata, 5x4 VO2 max, sprints (G1/G2/G3), 7-minute (W2 explosive swaps), super-slow (tempo metronome + FAILURE button), cold shower cycle, cold immersion, sauna with a box-breathing pacer, hot-cold contrast, stamina with halfway and hydration alerts, simple countdowns, and steppers for Foundation, mobility, and decompression breathing. Cues are beeps plus a full-screen color flash; the screen stays awake while a timer runs.
+- **Intel** — Tabata totals and per-round drop-off, super-slow seconds-to-failure and load, 5x4 HR per round, sauna minutes, stamina, cold dose, and resting HR/HRV, each with week-vs-week and Block vs Block toggles.
+- **Timers** — Tabata, 5x4 VO2 max, sprints (G1/G2/G3), 7-minute (explosive swaps on even weeks), super-slow (tempo metronome + FAILURE button), cold shower cycle, cold immersion, sauna with a box-breathing pacer, hot-cold contrast, stamina with halfway and hydration alerts, simple countdowns, and steppers for Foundation, mobility, and decompression breathing. Cues are beeps plus a full-screen color flash; the screen stays awake while a timer runs.
 - **Apple Health bridge** — pulls average and max heart rate for a session through an iOS Shortcut and the clipboard. See [docs/HEALTH_SHORTCUT.md](docs/HEALTH_SHORTCUT.md). Manual entry always works.
 
 ## Back up your data

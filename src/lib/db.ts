@@ -21,8 +21,8 @@ export type Slot = 'am' | 'main' | 'pm' | 'habit';
 export interface SessionLog {
   id?: number;
   blockId: number;
-  dayN: number; // 1..14
-  week: 1 | 2;
+  dayN: number; // 1..42
+  week: number; // 1..6
   day: number; // 1..7
   slot: Slot;
   sessionId: string;
