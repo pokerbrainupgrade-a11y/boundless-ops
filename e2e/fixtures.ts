@@ -34,3 +34,33 @@ export function demoExport(startDate = '2026-09-21') {
     vitals: Array.from({ length: 14 }, (_, i) => ({ date: `2026-09-${String(21 + i).padStart(2, '0')}`, restingHr: 58 - (i % 4), hrv: 60 + (i % 5) * 2 })),
   };
 }
+
+/**
+ * A generic stack seed for tests. Deliberately not the real protocol: the
+ * personal one is gitignored and never reaches the repo.
+ */
+export function demoSeed() {
+  const cycle = { onDays: 5, offDays: 2, anchorDate: '2026-09-21' };
+  const it = (o: Record<string, unknown>) => ({ requirement: 'any', optional: false, order: 1, ...o });
+  return {
+    kind: 'boundless-ops-stack-seed' as const,
+    seedVersion: 1 as const,
+    title: 'Test stack',
+    blocks: [
+      { block: 'wake', label: '01 · ON WAKE', rule: 'Empty stomach · about 30 min before food', defaultTime: '06:30' },
+      { block: 'breakfast', label: '02 · BREAKFAST', rule: 'With food + dietary fat', defaultTime: '07:30' },
+      { block: 'midday', label: '03 · MIDDAY', rule: 'Pre-meal first, rest with food', defaultTime: '12:30' },
+      { block: 'bedtime', label: '04 · BEDTIME', rule: '30–60 min before bed', defaultTime: '21:30' },
+    ],
+    notes: [{ title: 'Test note', text: 'Rendered on the notes card.' }],
+    items: [
+      it({ id: 'cycled', name: 'Cycled item', dose: { amount: 3, unit: 'tabs', perServing: 1 }, doseText: '3 tabs', block: 'wake', requirement: 'empty-stomach', cycle }),
+      it({ id: 'asneeded', name: 'As-needed item', dose: { amount: 500, unit: 'mg', perServing: 1 }, doseText: '500 mg', block: 'wake', requirement: 'empty-stomach', optional: true, optionalTrigger: 'high-load-day', order: 2 }),
+      it({ id: 'inventory-item', name: 'Inventory item', dose: { amount: 2, unit: 'caps', perServing: 1 }, doseText: '2 caps', block: 'breakfast', requirement: 'with-food', inventory: { unitsPerContainer: 0, unitsPerDay: 2, containersOnHand: 0, lastRefillDate: null } }),
+      it({ id: 'with-fat', name: 'Fat-soluble item', dose: { amount: 1, unit: 'cap', perServing: 1 }, doseText: '1 cap', block: 'breakfast', requirement: 'with-fat', order: 2 }),
+      it({ id: 'multi', name: 'Three-unit item', dose: { amount: 2, unit: 'mg', perServing: 3 }, doseText: '2 mg × 3', block: 'midday', requirement: 'with-food' }),
+      it({ id: 'capped', name: 'Capped item', dose: { amount: 200, unit: 'mcg', perServing: 1 }, doseText: '200 mcg', block: 'midday', requirement: 'with-food', order: 2, ceiling: { amount: 400, unit: 'mcg', note: 'At the top of the band; the ceiling is 400 mcg.' } }),
+      it({ id: 'bedtime-item', name: 'Bedtime item', dose: { amount: 2, unit: 'caps', perServing: 1 }, doseText: '2 caps', block: 'bedtime' }),
+    ],
+  };
+}

@@ -22,11 +22,13 @@ The first screen asks for a start date (Day 01). Today's day is computed on the 
 - **AAR** — every After Action Report by block and day, editable.
 - **Intel** — Tabata totals and per-round drop-off, super-slow seconds-to-failure and load, 5x4 HR per round, sauna minutes, stamina, cold dose, and resting HR/HRV, each with week-vs-week and Block vs Block toggles.
 - **Timers** — Tabata, 5x4 VO2 max, sprints (G1/G2/G3), 7-minute (explosive swaps on even weeks), super-slow (tempo metronome + FAILURE button), cold shower cycle, cold immersion, sauna with a box-breathing pacer, hot-cold contrast, stamina with halfway and hydration alerts, simple countdowns, and steppers for Foundation, mobility, and decompression breathing. Cues are beeps plus a full-screen color flash; the screen stays awake while a timer runs.
+- **Stack** — a time-blocked daily supplement checklist: four blocks with their own rule text and due badges, large checkboxes, unit counters for multi-unit doses, cycle handling for items dosed on and off, an as-needed group that never counts against the streak, inventory and refill tracking, and a notes card. The protocol itself is personal health data: it never ships with the app and is imported once from a local seed file (Kit → Import Stack). Adherence heatmaps, per-item percentages, streak history and cycle compliance live in Intel → Stack; quarterly blood panels and their trends live in Intel → Labs.
+- **Reminders** — iOS only delivers web push from a server, and this app has none, so it does not fake scheduled alerts. It shows in-app due badges and ships an exact walkthrough for building the repeating iOS reminders yourself. See [docs/STACK_REMINDERS.md](docs/STACK_REMINDERS.md).
 - **Apple Health bridge** — pulls average and max heart rate for a session through an iOS Shortcut and the clipboard. See [docs/HEALTH_SHORTCUT.md](docs/HEALTH_SHORTCUT.md). Manual entry always works.
 
 ## Back up your data
 
-iOS can evict site data. The JSON export is the only backup.
+iOS can evict site data. The JSON export is the only backup. It contains your supplement protocol, adherence log and lab values, so keep it somewhere private.
 
 1. **Kit → Backup → Export JSON.** On iPhone this opens the share sheet; choose **Save to Files**.
 2. To restore on any device: **Kit → Import JSON**, pick the file, then choose **Merge** or **Replace**.
@@ -42,7 +44,8 @@ npm run test:e2e     # Playwright against the built app (run npm run build first
 npm run icons        # regenerate PNG icons from assets/icon.svg
 ```
 
-- `npm run verify` checks the program data (`src/data/program.json`) against its schema and prints the day-by-day table.
+- `npm run verify` checks the program data (`src/data/program.json`) against its schema and prints the day-by-day table, then validates a local stack seed if one is present.
+- `npm run verify:stack` validates `stack-seed.json` and prints its item table. The seed is personal health data: it is gitignored and the committed code ships only the schema and a generic ingredient dictionary of published upper intake levels.
 - `#/dev/poses` shows a contact sheet of every line drawing ([docs/poses.png](docs/poses.png)).
 - Deploys run from `.github/workflows/deploy.yml` on every push to `main`: unit tests → build → e2e → GitHub Pages.
 
