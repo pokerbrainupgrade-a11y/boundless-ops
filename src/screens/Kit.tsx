@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'preact/hooks';
 import { navigate } from '@/router';
 import { settings, updateSettings, hrMax, loadSettings } from '@/lib/settings';
-import { block, blocks, logs, todayYmd, persisted, setStartDate, reloadBlocks, reloadLogs, blockLabel } from '@/lib/store';
-import { buildExport, exportFilename, parseImport, applyImport, type ExportFile } from '@/lib/exportImport';
+import { block, blocks, logs, todayYmd, persisted, setStartDate, reloadBlocks, reloadLogs, reloadStack, loadStackMeta, blockLabel } from '@/lib/store';
+import { buildExport, exportFilename, parseImport, applyImport, EXPORT_PRIVACY_NOTICE, type ExportFile } from '@/lib/exportImport';
 import { recordCounts, db, requestPersistentStorage } from '@/lib/db';
 import { HEALTH_GUIDE } from '@/data/healthGuide';
 import { program } from '@/data/program';
 import { fmtDate } from '@/lib/time';
+import { KitStack } from '@/components/KitStack';
 
 /** Kit = settings. */
 export function Kit() {
   const s = settings.value;
-  const [counts, setCounts] = useState<{ blocks: number; logs: number; habits: number; vitals: number } | null>(null);
+  const [counts, setCounts] = useState<Awaited<ReturnType<typeof recordCounts>> | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
   const [pending, setPending] = useState<ExportFile | null>(null);
   const [startDate, setStart] = useState(block.value?.startDate ?? todayYmd.value);
@@ -65,8 +66,10 @@ export function Kit() {
     await loadSettings();
     await reloadBlocks();
     await reloadLogs();
+    await reloadStack();
+    await loadStackMeta();
     setPending(null);
-    setMsg(`Imported (${mode}): ${pending.logs.length} reports, ${pending.blocks.length} blocks.`);
+    setMsg(`Imported (${mode}): ${pending.logs.length} reports, ${pending.blocks.length} blocks, ${pending.stackItems.length} stack items, ${pending.labs.length} lab panels.`);
   };
 
   return (
@@ -102,6 +105,7 @@ export function Kit() {
       <section class="card stack" data-testid="backup">
         <h3>BACKUP</h3>
         <p class="muted small">Everything lives on this device. iOS can evict site data; the JSON export is the only backup.</p>
+        <div class="banner warn" data-testid="export-privacy"><span>{EXPORT_PRIVACY_NOTICE}</span></div>
         <button type="button" class="btn btn-tan btn-lg" data-testid="export-btn" onClick={doExport}>Export JSON</button>
         <label class="btn" style="cursor:pointer"><span>Import JSON</span><input type="file" accept="application/json,.json" data-testid="import-input" class="sr-only" onChange={onFile} /></label>
         {pending && (
@@ -114,7 +118,7 @@ export function Kit() {
         <div class="muted small" data-testid="storage-status">
           Storage persisted: <strong>{persisted.value === null ? '…' : persisted.value ? 'yes' : 'no'}</strong>
           {persisted.value === false && <button type="button" class="btn" style="min-height:36px;margin-left:8px" onClick={async () => { persisted.value = await requestPersistentStorage(); }}>Request</button>}
-          {' · '}records: {counts ? `${counts.logs} reports, ${counts.habits} standing orders, ${counts.vitals} vitals, ${counts.blocks} blocks` : '…'}
+          {' · '}records: {counts ? `${counts.logs} reports, ${counts.habits} standing orders, ${counts.vitals} vitals, ${counts.blocks} blocks, ${counts.stackItems} stack items, ${counts.stackLogs} stack logs, ${counts.labs} lab panels` : '…'}
           {' · '}last export: {s.lastExportAt ? s.lastExportAt.slice(0, 10) : 'never'}
         </div>
         <details>
@@ -122,6 +126,8 @@ export function Kit() {
           <button type="button" class="btn btn-danger" style="margin-top:8px" onClick={async () => { if (confirm('Delete ALL data on this device? Export first.')) { await db.delete(); location.reload(); } }}>Delete all local data</button>
         </details>
       </section>
+
+      <KitStack />
 
       <section class="card stack" data-testid="health-guide">
         <h3>HEALTH SHORTCUT</h3>
