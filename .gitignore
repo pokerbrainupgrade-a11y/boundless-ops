@@ -21,3 +21,8 @@ playwright/.cache/
 # OS / editor
 .DS_Store
 *.log
+
+# Personal health data: the supplement protocol and its seed never enter the repo
+Daily-Stack-Protocol*.pdf
+stack-seed.json
+*.seed.json
