@@ -157,8 +157,12 @@ textarea.input { min-height: 88px; resize: vertical; }
 .tabbar a {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   text-decoration: none; color: var(--tan); font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.1em; min-height: var(--tap);
-  border-top: 2px solid transparent;
+  border-top: 2px solid transparent; overflow: hidden;
 }
+/* Six tabs: tighten the label so the longest one still fits a narrow phone. */
+.tabbar[data-count='6'] { grid-template-columns: repeat(6, 1fr); }
+.tabbar[data-count='6'] a { font-size: 0.5rem; letter-spacing: 0.02em; }
+.tabbar[data-count='6'] a svg { width: 22px; height: 22px; }
 .tabbar a svg { width: 24px; height: 24px; }
 .tabbar a.on { color: var(--signal); border-top-color: var(--signal); }
 
@@ -235,3 +239,54 @@ table.tbl th { color: var(--tan); font-weight: 600; font-size: 0.75rem; letter-s
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------------- Supplement stack ---------------- */
+.stack-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-top: 1px solid var(--surface-2); }
+.stack-row:first-of-type { border-top: 0; }
+.stack-row.done { opacity: 0.72; }
+.stack-row.off-day { opacity: 0.55; }
+.stack-row .struck { text-decoration: line-through; }
+.stack-row .banner.small { font-size: 0.8rem; padding: 6px 10px; }
+
+/* Large tap target: 48px checkbox */
+.stack-check {
+  flex: none; width: 48px; height: 48px; border-radius: 4px; border: 2px solid var(--tan);
+  background: transparent; color: var(--ink); font-size: 1.5rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center; transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.stack-check.on { background: var(--rest); border-color: var(--rest); }
+.units { flex: none; display: flex; gap: 4px; }
+.units .unit {
+  width: 40px; min-height: 48px; border-radius: 4px; border: 2px solid var(--tan); background: transparent;
+  color: var(--tan); font-family: var(--font-timer); font-size: 0.95rem; cursor: pointer;
+}
+.units .unit.on { background: var(--rest); border-color: var(--rest); color: var(--ink); }
+
+.blockdot { width: 20px; height: 20px; border-radius: 3px; border: 2px solid var(--tan); display: inline-block; }
+.blockdot.on { background: var(--rest); border-color: var(--rest); }
+.blockdot.due { border-color: var(--signal); }
+.card.block-done { border-color: var(--rest); }
+.card.block-done::after { background: linear-gradient(225deg, transparent 50%, var(--rest) 50%, var(--rest) calc(50% + 1px), transparent calc(50% + 1px)); }
+.asneeded { border-top: 1px dashed var(--surface-2); padding-top: 8px; opacity: 0.85; }
+.req-empty-stomach { color: var(--signal); }
+.req-with-fat, .req-with-food { color: var(--od-text); }
+
+/* Today strip */
+.stack-strip { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: 0; color: inherit; cursor: pointer; text-align: left; min-height: var(--tap); }
+
+/* Adherence heatmap */
+.heat { display: grid; gap: 2px; grid-auto-flow: column; grid-template-rows: repeat(4, 14px); overflow-x: auto; padding-bottom: 4px; }
+.heat i { width: 14px; height: 14px; border-radius: 2px; background: var(--surface-2); display: block; }
+.heat i[data-v='1'] { background: var(--rest); }
+.heat i[data-v='p'] { background: var(--od); }
+.heat i[data-v='0'] { background: var(--surface-2); border: 1px solid rgba(194,178,128,0.25); }
+.heat i[data-v='n'] { background: transparent; }
+.bar-row { display: grid; grid-template-columns: 1fr 64px; gap: 8px; align-items: center; }
+.bar { height: 10px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--rest); }
+.cyc { display: flex; gap: 2px; flex-wrap: wrap; }
+.cyc i { width: 12px; height: 18px; border-radius: 2px; display: block; background: var(--surface-2); }
+.cyc i[data-s='on-took'] { background: var(--rest); }
+.cyc i[data-s='on-missed'] { background: transparent; border: 1px solid var(--signal); }
+.cyc i[data-s='off-took'] { background: var(--signal); }
+.cyc i[data-s='off-clear'] { background: var(--surface-2); opacity: 0.4; }

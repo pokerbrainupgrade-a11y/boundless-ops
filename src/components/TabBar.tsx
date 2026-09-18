@@ -6,12 +6,13 @@ const tabs: { id: string; label: string; icon: string }[] = [
   { id: 'library', label: 'LIBRARY', icon: 'M12 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4z M12 7v6 M12 13l-4 6 M12 13l4 6 M6 10l6-1 6 1' },
   { id: 'aar', label: 'AAR', icon: 'M6 3h12v18H6z M9 8h6 M9 12h6 M9 16h4' },
   { id: 'intel', label: 'INTEL', icon: 'M4 20h16 M6 16l4-5 4 3 5-7' },
+  { id: 'stack', label: 'STACK', icon: 'M7 4h10v4H7z M6 8h12l-1 12H7z M10 12v4 M14 12v4' },
 ];
 
 export function TabBar() {
   const cur = route.value.parts[0] ?? 'today';
   return (
-    <nav class="tabbar" aria-label="Main">
+    <nav class="tabbar" aria-label="Main" data-count={tabs.length}>
       {tabs.map((t) => (
         <a key={t.id} href={`#/${t.id}`} class={cur === t.id ? 'on' : ''} aria-current={cur === t.id ? 'page' : undefined}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

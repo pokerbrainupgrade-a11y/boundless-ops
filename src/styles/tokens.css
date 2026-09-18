@@ -4,6 +4,8 @@
   --surface: #1A1D16;
   --surface-2: #24281E;
   --od: #4B5320;
+  /* Olive drab is a fill colour; this lighter olive is the readable text tone. */
+  --od-text: #9AA86A;
   --tan: #C2B280;
   --text: #E8E4D4;
   --signal: #FF6A13;

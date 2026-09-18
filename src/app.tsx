@@ -6,6 +6,7 @@ import { Library } from '@/screens/Library';
 import { AAR } from '@/screens/AAR';
 import { Intel } from '@/screens/Intel';
 import { Kit } from '@/screens/Kit';
+import { Stack } from '@/screens/Stack';
 import { DevPoses } from '@/screens/DevPoses';
 import { Session } from '@/screens/Session';
 import { FlashOverlay } from '@/components/Flash';
@@ -22,6 +23,7 @@ export function App() {
     case 'aar': screen = <AAR />; break;
     case 'intel': screen = <Intel />; break;
     case 'kit': screen = <Kit />; break;
+    case 'stack': screen = <Stack />; break;
     case 'dev': screen = <DevPoses />; tabs = false; break;
     case 'session': screen = <Session key={r.path + '?' + r.query.toString()} />; tabs = false; break;
     case 'today':

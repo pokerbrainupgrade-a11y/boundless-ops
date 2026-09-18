@@ -33,6 +33,9 @@ describe('design tokens meet WCAG AA', () => {
     expect(contrast(token('rest'), token('bg'))).toBeGreaterThanOrEqual(4.5);
     for (const bg of bgs) expect(contrast(token('rest'), token(bg)), `rest on ${bg}`).toBeGreaterThanOrEqual(3);
   });
+  it('olive-drab text tone is readable on every background ≥ 4.5', () => {
+    for (const bg of bgs) expect(contrast(token('od-text'), token(bg)), `od-text on ${bg}`).toBeGreaterThanOrEqual(4.5);
+  });
   it('ink on filled chips/buttons and text on olive drab ≥ 4.5', () => {
     for (const c of ['signal', 'tan', 'rest']) expect(contrast(token('ink'), token(c)), `ink on ${c}`).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token('text'), token('od'))).toBeGreaterThanOrEqual(4.5);
