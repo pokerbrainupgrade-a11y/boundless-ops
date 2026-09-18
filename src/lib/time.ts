@@ -14,6 +14,13 @@ export function phxHour(ms: number = Date.now()): number {
   return Number(h) % 24;
 }
 
+/** 'HH:MM' for the instant, in Phoenix. */
+export function phxHM(ms: number = Date.now()): string {
+  const h = phxHour(ms);
+  const min = new Intl.DateTimeFormat('en-US', { timeZone: TZ, minute: '2-digit' }).format(new Date(ms));
+  return `${String(h).padStart(2, '0')}:${min.padStart(2, '0')}`;
+}
+
 export function phxMonth(ms: number = Date.now()): number {
   return Number(partsFmt.formatToParts(new Date(ms)).find((p) => p.type === 'month')?.value ?? '1');
 }
