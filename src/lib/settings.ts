@@ -13,6 +13,12 @@ export const SettingsSchema = z.object({
   repLengthSec: z.number().int().min(30).max(60).default(40),
   silentSwitchWarned: z.boolean().default(false),
   lastExportAt: z.string().nullable().default(null),
+  /** Stack module: times each block is due, used for the due-state badges. */
+  blockTimes: z.record(z.string(), z.string()).default({ wake: '06:30', breakfast: '07:30', midday: '12:30', bedtime: '21:30' }),
+  /** Overrides the cycle anchor date carried by the seed. */
+  cycleAnchor: z.string().nullable().default(null),
+  inventoryOn: z.boolean().default(false),
+  stackImportedAt: z.string().nullable().default(null),
 });
 export type Settings = z.infer<typeof SettingsSchema>;
 

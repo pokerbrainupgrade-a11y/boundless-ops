@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
+import type { StackItem, StackLogRow, LabPanel } from '@/data/stackSchema';
 
 export interface Block {
   id?: number;
@@ -63,6 +64,10 @@ export class BoundlessDB extends Dexie {
   habits!: EntityTable<HabitLog, 'id'>;
   vitals!: EntityTable<Vital, 'id'>;
   kv!: EntityTable<KV, 'key'>;
+  /** Supplement stack: items, per-day logs, and quarterly lab panels. */
+  stackItems!: EntityTable<StackItem, 'id'>;
+  stackLogs!: EntityTable<StackLogRow, 'id'>;
+  labs!: EntityTable<LabPanel, 'id'>;
 
   constructor(name = 'boundless-ops') {
     super(name);
@@ -72,6 +77,11 @@ export class BoundlessDB extends Dexie {
       habits: '++id, blockId, date, habitId, [blockId+date], [date+habitId]',
       vitals: '++id, &date',
       kv: '&key',
+    });
+    this.version(2).stores({
+      stackItems: '&id, block, order',
+      stackLogs: '++id, date, itemId, &[date+itemId]',
+      labs: '++id, &date',
     });
   }
 }
@@ -96,7 +106,9 @@ export async function isPersisted(): Promise<boolean> {
   }
 }
 
-export async function recordCounts(d: BoundlessDB = db): Promise<{ blocks: number; logs: number; habits: number; vitals: number }> {
-  const [blocks, logs, habits, vitals] = await Promise.all([d.blocks.count(), d.logs.count(), d.habits.count(), d.vitals.count()]);
-  return { blocks, logs, habits, vitals };
+export async function recordCounts(d: BoundlessDB = db): Promise<{ blocks: number; logs: number; habits: number; vitals: number; stackItems: number; stackLogs: number; labs: number }> {
+  const [blocks, logs, habits, vitals, stackItems, stackLogs, labs] = await Promise.all([
+    d.blocks.count(), d.logs.count(), d.habits.count(), d.vitals.count(), d.stackItems.count(), d.stackLogs.count(), d.labs.count(),
+  ]);
+  return { blocks, logs, habits, vitals, stackItems, stackLogs, labs };
 }

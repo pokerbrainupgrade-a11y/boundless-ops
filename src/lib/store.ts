@@ -1,6 +1,8 @@
 import { signal, computed } from '@preact/signals';
 import { db, requestPersistentStorage, type Block, type SessionLog, type HabitLog, type Vital } from './db';
-import { loadSettings } from './settings';
+import { loadSettings, settings, updateSettings } from './settings';
+import type { StackItem, StackLogRow, LabPanel, StackSeed } from '@/data/stackSchema';
+import { indexLogs } from './stack';
 import { phxDate, phxHour, dayIndex, dateForDay } from './time';
 import { BLOCK_DAYS } from '@/data/program';
 
@@ -43,6 +45,8 @@ export async function boot(): Promise<void> {
   await loadSettings();
   await reloadBlocks();
   await reloadLogs();
+  await reloadStack();
+  await loadStackMeta();
   persisted.value = await requestPersistentStorage();
   booted.value = true;
 }
@@ -140,4 +144,114 @@ export function blockLabel(n: number): string {
 
 export function dayLabel(n: number): string {
   return `Day ${String(n).padStart(2, '0')}`;
+}
+
+/* ---------------- supplement stack ---------------- */
+
+export const stackItems = signal<StackItem[]>([]);
+export const stackLogs = signal<StackLogRow[]>([]);
+export const labs = signal<LabPanel[]>([]);
+
+/** Items with the settings cycle-anchor override applied. */
+export const stackItemsResolved = computed(() => {
+  const anchor = settings.value.cycleAnchor;
+  if (!anchor) return stackItems.value;
+  return stackItems.value.map((i) => (i.cycle ? { ...i, cycle: { ...i.cycle, anchorDate: anchor } } : i));
+});
+
+export const stackLogIndex = computed(() => indexLogs(stackLogs.value));
+
+export async function reloadStack(): Promise<void> {
+  const [items, logRows, panels] = await Promise.all([
+    db.stackItems.toArray(),
+    db.stackLogs.toArray(),
+    db.labs.orderBy('date').toArray(),
+  ]);
+  stackItems.value = items.sort((a, b) => (a.block === b.block ? a.order - b.order : 0));
+  stackLogs.value = logRows;
+  labs.value = panels;
+}
+
+/** Replace the whole stack with an imported seed. Logs and labs are kept. */
+export async function importStackSeed(seed: StackSeed): Promise<void> {
+  await db.transaction('rw', [db.stackItems, db.kv], async () => {
+    await db.stackItems.clear();
+    await db.stackItems.bulkAdd(seed.items);
+    await db.kv.put({ key: 'stackMeta', value: { title: seed.title, notes: seed.notes, blocks: seed.blocks } });
+  });
+  await updateSettings({ stackImportedAt: new Date().toISOString() });
+  await reloadStack();
+  await loadStackMeta();
+}
+
+export interface StackMeta {
+  title: string;
+  notes: { title: string; text: string }[];
+  blocks: { block: string; label: string; rule: string; defaultTime: string }[];
+}
+export const stackMeta = signal<StackMeta | null>(null);
+
+export async function loadStackMeta(): Promise<void> {
+  const row = await db.kv.get('stackMeta');
+  stackMeta.value = (row?.value as StackMeta | undefined) ?? null;
+}
+
+/** Set the units taken for an item on a date. `units` of 0 clears the log. */
+export async function setStackCount(item: StackItem, units: number, date = todayYmd.value, opts: { offDayOverride?: boolean } = {}): Promise<void> {
+  const full = Math.max(1, item.dose.perServing);
+  const count = Math.max(0, Math.min(full, Math.round(units)));
+  const existing = await db.stackLogs.where('[date+itemId]').equals([date, item.id]).first();
+  if (count === 0) {
+    if (existing) await db.stackLogs.delete(existing.id!);
+  } else {
+    const row: StackLogRow = {
+      date,
+      itemId: item.id,
+      taken: count >= full,
+      count,
+      takenAt: new Date().toISOString(),
+      ...(opts.offDayOverride ? { offDayOverride: true } : {}),
+    };
+    if (existing) await db.stackLogs.update(existing.id!, { ...row, id: existing.id });
+    else await db.stackLogs.add(row);
+  }
+  await reloadStack();
+}
+
+export async function toggleStackItem(item: StackItem, date = todayYmd.value, opts: { offDayOverride?: boolean } = {}): Promise<void> {
+  const full = Math.max(1, item.dose.perServing);
+  const cur = stackLogIndex.value.get(`${date}|${item.id}`);
+  const taken = cur ? (typeof cur.count === 'number' ? cur.count : cur.taken ? full : 0) : 0;
+  await setStackCount(item, taken >= full ? 0 : full, date, opts);
+}
+
+export async function saveStackItem(item: StackItem): Promise<void> {
+  await db.stackItems.put(item);
+  await reloadStack();
+}
+
+export async function deleteStackItem(id: string): Promise<void> {
+  await db.stackItems.delete(id);
+  await reloadStack();
+}
+
+export async function saveLabPanel(panel: LabPanel): Promise<void> {
+  const existing = await db.labs.where('date').equals(panel.date).first();
+  if (existing) await db.labs.update(existing.id!, { ...panel, id: existing.id });
+  else await db.labs.add(panel);
+  await reloadStack();
+}
+
+export async function deleteLabPanel(id: number): Promise<void> {
+  await db.labs.delete(id);
+  await reloadStack();
+}
+
+/** Logged a refill: one more container on hand, stamped today. */
+export async function logRefill(item: StackItem): Promise<void> {
+  if (!item.inventory) return;
+  await saveStackItem({
+    ...item,
+    inventory: { ...item.inventory, containersOnHand: item.inventory.containersOnHand + 1, lastRefillDate: todayYmd.value },
+  });
 }

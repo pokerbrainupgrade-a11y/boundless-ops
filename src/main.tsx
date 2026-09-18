@@ -19,6 +19,6 @@ void boot();
 // Test/debug hook (no personal data; on-device only).
 import { db } from './lib/db';
 import { updateSettings, settings } from './lib/settings';
-import { startBlock, reloadBlocks, reloadLogs } from './lib/store';
+import { startBlock, reloadBlocks, reloadLogs, reloadStack, importStackSeed } from './lib/store';
 import { applyImport } from './lib/exportImport';
-(window as unknown as { __bops: unknown }).__bops = { db, updateSettings, settings, startBlock, reloadBlocks, reloadLogs, applyImport };
+(window as unknown as { __bops: unknown }).__bops = { db, updateSettings, settings, startBlock, reloadBlocks, reloadLogs, applyImport, reloadStack, importStackSeed };
