@@ -290,3 +290,56 @@ table.tbl th { color: var(--tan); font-weight: 600; font-size: 0.75rem; letter-s
 .cyc i[data-s='on-missed'] { background: transparent; border: 1px solid var(--signal); }
 .cyc i[data-s='off-took'] { background: var(--signal); }
 .cyc i[data-s='off-clear'] { background: var(--surface-2); opacity: 0.4; }
+
+/* ---------------- Celebration ----------------
+ * Base rules are the finished state; each animation only supplies its `from`, so the
+ * reduced-motion rule above (animation: none) leaves a complete static card.
+ */
+.card.celebrating { border-color: var(--rest); animation: celebrate-glow 1.5s var(--ease); }
+.card.celebrating::after { background: linear-gradient(225deg, transparent 50%, var(--rest) 50%, var(--rest) calc(50% + 1px), transparent calc(50% + 1px)); }
+@keyframes celebrate-glow {
+  0% { box-shadow: inset 0 0 0 0 rgba(107, 143, 113, 0); }
+  25% { box-shadow: inset 0 0 0 2px var(--rest), inset 0 0 28px rgba(143, 181, 150, 0.35); }
+  100% { box-shadow: inset 0 0 0 0 rgba(107, 143, 113, 0); }
+}
+.celebrate-card {
+  position: absolute; inset: 0; z-index: 2; padding: var(--pad);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  text-align: center; background: var(--surface); color: var(--rest-hi); cursor: pointer;
+  animation: celebrate-in 220ms var(--ease);
+}
+@keyframes celebrate-in { from { opacity: 0; transform: translateY(6px); } }
+.celebrate-check { color: var(--rest-hi); }
+.celebrate-check .ring { stroke-dasharray: 151; stroke-dashoffset: 0; animation: celebrate-draw 520ms ease-out; }
+.celebrate-check .tick { stroke-dasharray: 34; stroke-dashoffset: 0; animation: celebrate-draw 380ms 300ms ease-out backwards; }
+@keyframes celebrate-draw { from { stroke-dashoffset: 151; } }
+.celebrate-head { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); animation: celebrate-in 320ms 260ms var(--ease) backwards; }
+.celebrate-stat { font-variant-numeric: tabular-nums; animation: celebrate-in 320ms 420ms var(--ease) backwards; }
+.celebrate-stat .mono { color: var(--tan); font-weight: 700; }
+
+.celebrate-takeover {
+  position: fixed; inset: 0; z-index: 60; cursor: pointer;
+  background: rgba(14, 16, 12, 0.94); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(var(--pad) + var(--safe-top)) var(--pad) calc(var(--pad) + var(--safe-bottom));
+  animation: celebrate-in 260ms var(--ease);
+}
+.celebrate-confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.celebrate-takeover-body {
+  position: relative; z-index: 1; width: 100%; max-width: 480px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.celebrate-stamp { transform: rotate(-3deg); font-size: 0.8rem; padding: 5px 12px; animation: celebrate-stamp 420ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes celebrate-stamp { from { transform: rotate(-3deg) scale(2.2); opacity: 0; } }
+.celebrate-title { font-size: clamp(1.5rem, 7vw, 2.2rem); color: var(--text); line-height: 1.1; animation: celebrate-in 480ms 220ms var(--ease) backwards; }
+.celebrate-title::first-line { color: var(--signal); }
+.celebrate-recap {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%;
+  margin-top: 6px; padding-top: 14px; border-top: var(--hairline);
+  animation: celebrate-in 420ms 560ms var(--ease) backwards;
+}
+.celebrate-recap > div { display: flex; flex-direction: column; align-items: center; font-family: var(--font-timer); font-size: 1.6rem; font-weight: 700; color: var(--tan); font-variant-numeric: tabular-nums; }
+.celebrate-recap .v { display: inline-flex; align-items: baseline; gap: 1px; }
+.celebrate-recap .muted { font-size: 1rem; font-weight: 400; }
+.celebrate-recap .lbl { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--od-text); margin-top: 4px; font-weight: 400; }
+.celebrate-span { animation: celebrate-in 320ms 800ms var(--ease) backwards; }

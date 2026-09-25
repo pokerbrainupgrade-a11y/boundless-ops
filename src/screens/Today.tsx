@@ -11,6 +11,8 @@ import { BLOCK_ORDER } from '@/data/stackSchema';
 import { blockProgress, fastedConflict } from '@/lib/stack';
 import { stackItemsResolved, stackLogIndex } from '@/lib/store';
 import { blockDue, blockLabel as stackBlockLabel, fastedAmToday, fastedSessionLogged, highLoadToday } from '@/screens/Stack';
+import { DayCelebrationCard, dayCelebrationActive } from '@/components/Celebration';
+import { unlockAudio } from '@/lib/audio';
 
 export function LoadChip({ load }: { load: string }) {
   const cls = load === 'High' ? 'chip-signal' : load === 'Moderate' ? 'chip-tan' : 'chip-rest';
@@ -143,6 +145,8 @@ function CompleteAllCard({ n }: { n: number }) {
   const nextLabel = last ? `finish ${blockLabel(block.value?.n ?? 1)}` : `move to ${dayLabel(n + 1)}`;
   const run = async () => {
     if (busy) return;
+    // Unlock audio inside the tap so the celebration sound is allowed on iOS once the day is saved.
+    unlockAudio();
     setBusy(true);
     try {
       await completeDay(n);
@@ -151,7 +155,7 @@ function CompleteAllCard({ n }: { n: number }) {
     }
   };
   return (
-    <section class="card stack" data-testid="complete-all-card">
+    <section class={`card stack ${dayCelebrationActive() ? 'celebrating' : ''}`} data-testid="complete-all-card">
       <div class="row between">
         <h3>DAY PROGRESS</h3>
         <span class={`chip ${remaining === 0 ? 'chip-rest' : 'chip-muted'}`} data-testid="day-progress">{done}/{required} done</span>
@@ -164,6 +168,7 @@ function CompleteAllCard({ n }: { n: number }) {
       <button type="button" class="btn btn-primary btn-lg btn-block" data-testid="complete-all" disabled={busy} onClick={() => void run()}>
         {remaining === 0 ? (last ? 'FINISH BLOCK' : 'NEXT DAY') : 'COMPLETE ALL'}
       </button>
+      <DayCelebrationCard />
     </section>
   );
 }

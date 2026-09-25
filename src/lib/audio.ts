@@ -2,10 +2,12 @@
 let ctx: AudioContext | null = null;
 let volume = 0.8;
 let enabled = true;
+let celebrationEnabled = true;
 
-export function setAudio(opts: { volume?: number; enabled?: boolean }) {
+export function setAudio(opts: { volume?: number; enabled?: boolean; celebration?: boolean }) {
   if (opts.volume !== undefined) volume = Math.max(0, Math.min(1, opts.volume));
   if (opts.enabled !== undefined) enabled = opts.enabled;
+  if (opts.celebration !== undefined) celebrationEnabled = opts.celebration;
 }
 
 /** Must be called from a user gesture (the Start tap) to unlock audio on iOS. */
@@ -61,4 +63,62 @@ export function tickBeep(accent = false): void {
 export function chime(): void {
   beep(1046, 160, 'sine');
   setTimeout(() => beep(1318, 220, 'sine'), 170);
+}
+
+/* ---------------- celebration sounds ----------------
+ * Synthesized here, no audio files. They follow the Celebration sound toggle, not the timer
+ * cue toggle, and share the unlocked context, so they play on iOS as long as unlockAudio()
+ * ran inside the tap that finished the day.
+ */
+
+/** One note: sine body with a soft attack and an exponential tail, scheduled at `at` seconds on the context clock. */
+function note(freq: number, at: number, dur: number, peak: number, type: OscillatorType = 'sine', detune = 0): void {
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  osc.detune.value = detune;
+  gain.gain.setValueAtTime(0.0001, at);
+  gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak), at + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(at);
+  osc.stop(at + dur + 0.05);
+}
+
+/** Day tier: a short two-note chime, G5 then D6, about 0.4 s. */
+export function celebrationDayChime(): void {
+  if (!celebrationEnabled || !ctx) return;
+  try {
+    const t = ctx.currentTime + 0.01;
+    const v = volume * 0.45;
+    note(784, t, 0.22, v, 'triangle');
+    note(1175, t + 0.12, 0.34, v, 'triangle');
+    note(2350, t + 0.12, 0.2, v * 0.25); // sparkle on the second note
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Milestone tier: a rising four-note figure, C5 E5 G5 C6, landing on a held C6 with a fifth. About 1.3 s. */
+export function celebrationMilestoneFanfare(): void {
+  if (!celebrationEnabled || !ctx) return;
+  try {
+    const t = ctx.currentTime + 0.01;
+    const v = volume * 0.4;
+    const steps = [523.25, 659.25, 783.99];
+    steps.forEach((f, i) => {
+      note(f, t + i * 0.13, 0.22, v, 'triangle');
+      note(f, t + i * 0.13, 0.22, v * 0.35, 'sawtooth', 8);
+    });
+    const hold = t + steps.length * 0.13;
+    note(1046.5, hold, 0.9, v, 'triangle');
+    note(1046.5, hold, 0.9, v * 0.3, 'sawtooth', -7);
+    note(1568, hold + 0.1, 0.75, v * 0.55, 'sine'); // the fifth above
+    note(2093, hold + 0.18, 0.5, v * 0.2, 'sine'); // octave shimmer
+  } catch {
+    /* ignore */
+  }
 }

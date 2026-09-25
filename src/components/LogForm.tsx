@@ -5,6 +5,7 @@ import { program } from '@/data/program';
 import { buildHealthRequest, parseHealthResponse, shortcutUrl, healthErrorMessage } from '@/lib/health';
 import { saveLog } from '@/lib/store';
 import { hrMax, settings } from '@/lib/settings';
+import { unlockAudio } from '@/lib/audio';
 
 export interface LogFormProps {
   session: Session;
@@ -62,6 +63,8 @@ export function LogForm({ session, draft, onSaved, onCancel, note }: LogFormProp
   };
 
   const save = async () => {
+    // Inside the FILE REPORT tap: keeps the audio context unlocked for a day-complete chime on iOS.
+    unlockAudio();
     setSaving(true);
     const id = await saveLog(log);
     onSaved(id);

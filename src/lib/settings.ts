@@ -7,6 +7,8 @@ export const SettingsSchema = z.object({
   callsign: z.string().default(''),
   age: z.number().nullable().default(null),
   sound: z.boolean().default(true),
+  /** Day-complete chime and milestone fanfare. Separate from the timer cue sound above. */
+  celebrationSound: z.boolean().default(true),
   flash: z.boolean().default(true),
   volume: z.number().min(0).max(1).default(0.8),
   leadInSec: z.number().int().min(0).max(60).default(10),
@@ -54,5 +56,5 @@ export function hrMax(age: number | null): number | null {
 // keep audio module in sync
 effect(() => {
   const s = settings.value;
-  void import('./audio').then((a) => a.setAudio({ volume: s.volume, enabled: s.sound }));
+  void import('./audio').then((a) => a.setAudio({ volume: s.volume, enabled: s.sound, celebration: s.celebrationSound }));
 });

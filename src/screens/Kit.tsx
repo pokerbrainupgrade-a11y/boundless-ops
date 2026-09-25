@@ -95,6 +95,7 @@ export function Kit() {
       <section class="card stack">
         <h3>CUES</h3>
         <label class="switch"><span>Sound</span><input type="checkbox" checked={s.sound} onChange={(e) => updateSettings({ sound: (e.target as HTMLInputElement).checked })} /></label>
+        <label class="switch"><span>Celebration sound<span class="muted small" style="display:block;font-weight:400">Chime when a day is done, fanfare on milestones</span></span><input type="checkbox" data-testid="celebration-sound" checked={s.celebrationSound} onChange={(e) => updateSettings({ celebrationSound: (e.target as HTMLInputElement).checked })} /></label>
         <label class="switch"><span>Color flash</span><input type="checkbox" checked={s.flash} onChange={(e) => updateSettings({ flash: (e.target as HTMLInputElement).checked })} /></label>
         <label class="field"><span>Beep volume {Math.round(s.volume * 100)}%</span><input type="range" min="0" max="1" step="0.05" value={s.volume} onInput={(e) => updateSettings({ volume: Number((e.target as HTMLInputElement).value) })} style="min-height:var(--tap)" /></label>
         <label class="field"><span>Countdown lead-in (s)</span><input class="input" type="number" inputMode="numeric" min="0" max="60" value={s.leadInSec} onInput={(e) => updateSettings({ leadInSec: Math.max(0, Math.min(60, Number((e.target as HTMLInputElement).value) || 0)) })} /></label>

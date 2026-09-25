@@ -6,6 +6,7 @@ import { indexLogs } from './stack';
 import { phxDate, phxHour, dayIndex } from './time';
 import { BLOCK_DAYS, getDay } from '@/data/program';
 import { firstIncompleteDay, isDayComplete, remainingSessions } from './progress';
+import { decideCelebration, buildCelebration, type Celebration, type CompletionCause } from './celebration';
 
 export const todayYmd = signal(phxDate());
 export const block = signal<Block | null>(null);
@@ -92,6 +93,21 @@ export async function setStartDate(startDate: string): Promise<void> {
   await reloadBlocks();
 }
 
+/**
+ * The celebration waiting to be shown, if any. Set when a day is really finished (last log or
+ * Complete All), never by a jump. The overlay clears it; nothing about it is stored.
+ */
+export const celebration = signal<Celebration | null>(null);
+
+export function dismissCelebration(): void {
+  celebration.value = null;
+}
+
+function celebrate(day: number, cause: CompletionCause, wasComplete: boolean): void {
+  const d = decideCelebration({ day, cause, wasComplete, isComplete: isDayComplete(day, logs.value) });
+  if (d) celebration.value = buildCelebration(d, logs.value);
+}
+
 /** Move Today to program day n (1..BLOCK_DAYS + 1). Used by Complete All, auto-advance, and the Schedule jump control. */
 export async function setCurrentDay(n: number): Promise<void> {
   const b = block.value;
@@ -116,6 +132,7 @@ export async function completeDay(n: number): Promise<void> {
   if (!b || n < 1 || n > BLOCK_DAYS) return;
   const d = getDay(n);
   const now = new Date().toISOString();
+  const wasComplete = isDayComplete(n, logs.value);
   const rows: SessionLog[] = remainingSessions(n, logs.value).map((s) => ({
     blockId: b.id!,
     dayN: n,
@@ -134,6 +151,7 @@ export async function completeDay(n: number): Promise<void> {
   if (b.currentDay === n || b.currentDay === undefined) await db.blocks.update(b.id!, { currentDay: n + 1 });
   await reloadBlocks();
   await reloadLogs();
+  celebrate(n, 'completeAll', wasComplete);
 }
 
 /** Keep the standing-orders checklist in sync with logged protocols. */
@@ -149,6 +167,7 @@ async function syncHabit(log: SessionLog): Promise<void> {
 }
 
 export async function saveLog(log: SessionLog): Promise<number> {
+  const wasComplete = block.value?.id === log.blockId && isDayComplete(log.dayN, logs.value);
   const id = (await db.logs.put(log)) as number;
   await syncHabit(log);
   await reloadLogs();
@@ -156,6 +175,7 @@ export async function saveLog(log: SessionLog): Promise<number> {
   const b = block.value;
   if (b && log.completed && log.blockId === b.id && log.dayN === b.currentDay && isDayComplete(log.dayN, logs.value)) {
     await setCurrentDay(log.dayN + 1);
+    celebrate(log.dayN, 'log', wasComplete);
   }
   return id;
 }

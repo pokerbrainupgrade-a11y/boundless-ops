@@ -10,6 +10,7 @@ import { Stack } from '@/screens/Stack';
 import { DevPoses } from '@/screens/DevPoses';
 import { Session } from '@/screens/Session';
 import { FlashOverlay } from '@/components/Flash';
+import { MilestoneTakeover } from '@/components/Celebration';
 import { booted } from '@/lib/store';
 
 export function App() {
@@ -33,6 +34,7 @@ export function App() {
   return (
     <>
       <FlashOverlay />
+      <MilestoneTakeover />
       {screen}
       {tabs && <TabBar />}
     </>
