@@ -3,8 +3,9 @@ import { db, requestPersistentStorage, type Block, type SessionLog, type HabitLo
 import { loadSettings, settings, updateSettings } from './settings';
 import type { StackItem, StackLogRow, LabPanel, StackSeed } from '@/data/stackSchema';
 import { indexLogs } from './stack';
-import { phxDate, phxHour, dayIndex, dateForDay } from './time';
-import { BLOCK_DAYS } from '@/data/program';
+import { phxDate, phxHour, dayIndex } from './time';
+import { BLOCK_DAYS, getDay } from '@/data/program';
+import { firstIncompleteDay, isDayComplete, remainingSessions } from './progress';
 
 export const todayYmd = signal(phxDate());
 export const block = signal<Block | null>(null);
@@ -15,8 +16,18 @@ export const vitals = signal<Vital[]>([]);
 export const booted = signal(false);
 export const persisted = signal<boolean | null>(null);
 
-/** Program day for today: 0 before start, 1..BLOCK_DAYS in block, greater after. null with no block. */
-export const dayN = computed(() => (block.value ? dayIndex(block.value.startDate, todayYmd.value, block.value.shift) : null));
+/**
+ * Program day Today shows: 0 or less before the start date, 1..BLOCK_DAYS in the block,
+ * BLOCK_DAYS + 1 once every day is complete. null with no block.
+ * The day does not follow the calendar; it advances when the day's required sessions are logged.
+ */
+export const dayN = computed(() => {
+  const b = block.value;
+  if (!b) return null;
+  const untilStart = dayIndex(b.startDate, todayYmd.value);
+  if (untilStart < 1) return untilStart;
+  return b.currentDay ?? 1;
+});
 export const inBlock = computed(() => dayN.value !== null && dayN.value >= 1 && dayN.value <= BLOCK_DAYS);
 
 function refreshToday() {
@@ -39,6 +50,16 @@ export async function reloadLogs(): Promise<void> {
   logs.value = b ? await db.logs.where('blockId').equals(b.id!).toArray() : [];
   habitLogs.value = b ? await db.habits.where('blockId').equals(b.id!).toArray() : [];
   vitals.value = await db.vitals.orderBy('date').toArray();
+  await ensureCurrentDay();
+}
+
+/** Blocks from before Today was completion-gated have no current day: pick up at the first incomplete day. */
+async function ensureCurrentDay(): Promise<void> {
+  const b = block.value;
+  if (!b || b.currentDay !== undefined) return;
+  const currentDay = firstIncompleteDay(logs.value);
+  await db.blocks.update(b.id!, { currentDay });
+  await reloadBlocks();
 }
 
 export async function boot(): Promise<void> {
@@ -54,7 +75,7 @@ export async function boot(): Promise<void> {
 export async function startBlock(startDate: string): Promise<Block> {
   const prev = block.value;
   if (prev && !prev.endedAt) await db.blocks.update(prev.id!, { endedAt: new Date().toISOString() });
-  const b: Block = { n: (prev?.n ?? 0) + 1, startDate, shift: 0, createdAt: new Date().toISOString() };
+  const b: Block = { n: (prev?.n ?? 0) + 1, startDate, shift: 0, currentDay: 1, createdAt: new Date().toISOString() };
   b.id = (await db.blocks.add(b)) as number;
   await reloadBlocks();
   await reloadLogs();
@@ -71,27 +92,71 @@ export async function setStartDate(startDate: string): Promise<void> {
   await reloadBlocks();
 }
 
-/** Missed a day: push the remaining schedule by one day. */
-export async function shiftRemaining(by = 1): Promise<void> {
+/** Move Today to program day n (1..BLOCK_DAYS + 1). Used by Complete All, auto-advance, and the Schedule jump control. */
+export async function setCurrentDay(n: number): Promise<void> {
   const b = block.value;
   if (!b) return;
-  await db.blocks.update(b.id!, { shift: b.shift + by });
+  const currentDay = Math.max(1, Math.min(BLOCK_DAYS + 1, Math.round(n)));
+  await db.blocks.update(b.id!, { currentDay });
   await reloadBlocks();
+}
+
+/** Required sessions still open on the current day. Empty when the day is done or Today is not in the block. */
+export const remainingToday = computed(() => {
+  const n = dayN.value;
+  return n !== null && n >= 1 && n <= BLOCK_DAYS ? remainingSessions(n, logs.value) : [];
+});
+
+/**
+ * Complete All: log every required session on day n that is still open, then move Today to the next day.
+ * Bulk logs carry `data.completeAll` so the AAR can tell them from timed sessions.
+ */
+export async function completeDay(n: number): Promise<void> {
+  const b = block.value;
+  if (!b || n < 1 || n > BLOCK_DAYS) return;
+  const d = getDay(n);
+  const now = new Date().toISOString();
+  const rows: SessionLog[] = remainingSessions(n, logs.value).map((s) => ({
+    blockId: b.id!,
+    dayN: n,
+    week: d.week,
+    day: d.day,
+    slot: s.slot,
+    sessionId: s.id,
+    variant: s.variant,
+    startedAt: now,
+    endedAt: now,
+    completed: true,
+    data: { completeAll: true },
+  }));
+  if (rows.length) await db.logs.bulkAdd(rows);
+  for (const row of rows) await syncHabit(row);
+  if (b.currentDay === n || b.currentDay === undefined) await db.blocks.update(b.id!, { currentDay: n + 1 });
+  await reloadBlocks();
+  await reloadLogs();
+}
+
+/** Keep the standing-orders checklist in sync with logged protocols. */
+async function syncHabit(log: SessionLog): Promise<void> {
+  const ts = Date.parse(log.startedAt);
+  if (!log.completed || !block.value || isNaN(ts)) return;
+  const date = phxDate(ts);
+  if (log.sessionId === 'decompression') {
+    const h = phxHour(ts);
+    await setHabit(h < 12 ? 'breathWake' : h < 18 ? 'breathAfternoon' : 'breathBed', true, date);
+  } else if (log.sessionId === 'coldShower') await setHabit('coldShower', true, date);
+  else if (log.sessionId === 'postMealWalk') await setHabit('postMealWalk', true, date);
 }
 
 export async function saveLog(log: SessionLog): Promise<number> {
   const id = (await db.logs.put(log)) as number;
-  // Keep the standing-orders checklist in sync with logged protocols.
-  const ts = Date.parse(log.startedAt);
-  const date = phxDate(isNaN(ts) ? Date.now() : ts);
-  if (log.completed && block.value && !isNaN(ts)) {
-    if (log.sessionId === 'decompression') {
-      const h = phxHour(ts);
-      await setHabit(h < 12 ? 'breathWake' : h < 18 ? 'breathAfternoon' : 'breathBed', true, date);
-    } else if (log.sessionId === 'coldShower') await setHabit('coldShower', true, date);
-    else if (log.sessionId === 'postMealWalk') await setHabit('postMealWalk', true, date);
-  }
+  await syncHabit(log);
   await reloadLogs();
+  // Logging the last required session of the current day moves Today to the next day.
+  const b = block.value;
+  if (b && log.completed && log.blockId === b.id && log.dayN === b.currentDay && isDayComplete(log.dayN, logs.value)) {
+    await setCurrentDay(log.dayN + 1);
+  }
   return id;
 }
 
@@ -133,9 +198,26 @@ export async function saveVital(v: Vital): Promise<void> {
   await reloadLogs();
 }
 
+/**
+ * Calendar date program day n was (or is being) trained on: the earliest completed log for
+ * that day, else today for the current day, else the start date for Day 01 before the block
+ * opens. Null for days not reached yet: the schedule no longer promises them a date.
+ */
 export function dateOfDay(n: number): string | null {
   const b = block.value;
-  return b ? dateForDay(b.startDate, n, b.shift) : null;
+  if (!b) return null;
+  let first: string | null = null;
+  for (const l of logs.value) {
+    if (l.dayN !== n || !l.completed) continue;
+    const ts = Date.parse(l.startedAt);
+    if (isNaN(ts)) continue;
+    const d = phxDate(ts);
+    if (first === null || d < first) first = d;
+  }
+  if (first) return first;
+  const cur = dayN.value;
+  if (cur !== null && cur < 1) return n === 1 ? b.startDate : null;
+  return n === cur ? todayYmd.value : null;
 }
 
 export function blockLabel(n: number): string {

@@ -12,12 +12,12 @@ Everything is stored on the device. No account, no backend, no analytics.
 2. Tap **Share** → **Add to Home Screen** → **Add**.
 3. Open it from the Home Screen once while online. After that it works in airplane mode.
 
-The first screen asks for a start date (Day 01). Today's day is computed on the Phoenix calendar.
+The first screen asks for a start date (Day 01). From there the program does not follow the calendar: **Today moves to the next day only when the current day's required sessions are all logged**, either one at a time from their cards or with the **Complete All** button, which logs whatever is still open and advances. Optional sessions never hold a day back.
 
 ## What it does
 
-- **Today** — block, day, week, and load tag; AM PT / MAIN EFFORT / RECOVERY mission cards with one-tap timers; Daily Standing Orders checklist; morning resting HR / HRV entry; a backup reminder when the last export is more than 7 days old.
-- **Schedule** — the six-week grid (weeks 1–2 follow the source plan; weeks 3–6 repeat the pattern with rotated Tabata movements, alternating base/explosive 7-Minute moves, rotating sprint presets and super-slow lifts, 5x4 on even weeks, stamina on even-week Sundays), day previews, "shift remaining days +1" for a missed day, start-date editor, next block.
+- **Today** — block, day, week, and load tag; AM PT / MAIN EFFORT / RECOVERY mission cards with one-tap timers; a Day Progress card with the Complete All button; Daily Standing Orders checklist; morning resting HR / HRV entry; a backup reminder when the last export is more than 7 days old.
+- **Schedule** — the six-week grid (weeks 1–2 follow the source plan; weeks 3–6 repeat the pattern with rotated Tabata movements, alternating base/explosive 7-Minute moves, rotating sprint presets and super-slow lifts, 5x4 on even weeks, stamina on even-week Sundays), day previews with done / current / upcoming states, a "set current day" control to skip ahead or go back, start-date editor, next block.
 - **Library** — every session A–L, the Foundation sequences, 7-minute moves, super-slow patterns, and mobility stations with original line drawings, cues, and safety notes; searchable. A Reference tab holds the standing protocols, Phoenix adjustments, execution rules, dose framework, and evidence flags.
 - **AAR** — every After Action Report by block and day, editable.
 - **Intel** — Tabata totals and per-round drop-off, super-slow seconds-to-failure and load, 5x4 HR per round, sauna minutes, stamina, cold dose, and resting HR/HRV, each with week-vs-week and Block vs Block toggles.
@@ -55,7 +55,7 @@ Vite, TypeScript, Preact + signals, `vite-plugin-pwa` (Workbox), Dexie (IndexedD
 
 ## Notes
 
-- All day math uses the `America/Phoenix` calendar.
+- Calendar dates (standing orders, vitals, the stack, the start-date countdown) use the `America/Phoenix` calendar. The program day itself is stored on the block (`currentDay`) and only changes on completion; blocks from before this rule pick up at their first incomplete day.
 - Timers are timestamp-based and recompute their state when the app returns from the background.
 - The iPhone silent switch mutes web audio; the color flash is the backup cue.
 - Personal use. Not medical advice.

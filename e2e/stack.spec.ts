@@ -99,8 +99,9 @@ test.describe('stack', () => {
   });
 
   test('a fasted-cardio day holds the breakfast block until the AM session is logged', async ({ page }) => {
-    // Day 02 runs fasted cardio in the AM
+    // Day 02 runs fasted cardio in the AM; days are completion-gated, so move there through the hook
     await setup(page, {}, '2026-09-21', '2026-09-22T20:00:00Z');
+    await page.evaluate(() => (window as unknown as { __bops: { setCurrentDay: (n: number) => Promise<void> } }).__bops.setCurrentDay(2));
     await seedStack(page);
     await page.goto('/boundless-ops/#/stack');
     await expect(page.getByTestId('fasted-hold')).toContainText('Hold this block');

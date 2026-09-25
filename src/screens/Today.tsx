@@ -1,7 +1,8 @@
 import { useState } from 'preact/hooks';
 import { navigate } from '@/router';
 import { program, getDay, BLOCK_DAYS, BLOCK_WEEKS } from '@/data/program';
-import { block, dayN, todayYmd, startBlock, habitDone, toggleHabit, logs, blockLabel, dayLabel, dateOfDay, vitals, saveVital } from '@/lib/store';
+import { block, dayN, todayYmd, startBlock, habitDone, toggleHabit, logs, blockLabel, dayLabel, vitals, saveVital, remainingToday, completeDay } from '@/lib/store';
+import { daySessions } from '@/lib/progress';
 import { settings } from '@/lib/settings';
 import { fmtDate, daysBetween } from '@/lib/time';
 import { SessionRow } from '@/components/SessionRow';
@@ -21,7 +22,7 @@ function StartDateCard({ title, next = false }: { title: string; next?: boolean 
   return (
     <div class="card stack" data-testid="start-date-card">
       <h3>{title}</h3>
-      <p class="muted small">Pick the calendar day for Day 01. The app computes today's day in Phoenix time.</p>
+      <p class="muted small">Pick the calendar day Day 01 opens. After that, Today moves to the next day only when you complete the current one.</p>
       <input class="input" type="date" value={date} onInput={(e) => setDate((e.target as HTMLInputElement).value)} data-testid="start-date-input" />
       <button type="button" class="btn btn-primary btn-lg" data-testid="start-block" onClick={() => date && startBlock(date)}>{next ? `Start ${blockLabel((block.value?.n ?? 0) + 1)}` : 'Start Operation Block 01'}</button>
     </div>
@@ -80,7 +81,7 @@ export function Today() {
         <span class="chip chip-outline">Week {day.week} / {BLOCK_WEEKS}</span>
         <LoadChip load={day.load} />
       </div>
-      <div class="muted small">{fmtDate(dateOfDay(n!)!)} · about {day.timeEstimate}{s.callsign ? ` · ${s.callsign}` : ''}</div>
+      <div class="muted small">{fmtDate(today)} · about {day.timeEstimate}{s.callsign ? ` · ${s.callsign}` : ''}</div>
       {exportWarn && <div class="banner warn" data-testid="export-warning"><span>Over 7 days since your last backup. Export your data in Kit; iOS can evict on-device storage.</span><button type="button" class="btn" style="min-height:40px" onClick={() => navigate('/kit')}>Export</button></div>}
 
       <section class="card active stack" data-testid="card-am">
@@ -95,6 +96,8 @@ export function Today() {
         <div class="row between"><h3>RECOVERY</h3><span class="chip chip-muted">PM</span></div>
         {day.pm.length ? day.pm.map((r, i) => <SessionRow key={i} r={r} day={n!} slot="pm" />) : <div class="muted small">Nothing scheduled. Post-meal walk and evening breaths.</div>}
       </section>
+
+      <CompleteAllCard n={n!} />
 
       <StackStrip />
 
@@ -124,6 +127,44 @@ export function Today() {
         <div class="muted small">If resting HR is 7+ bpm above baseline or HRV is clearly down, swap today's intensity for the aerobic block and mobility.</div>
       </section>
     </main>
+  );
+}
+
+/**
+ * Day progress and the Complete All button. Today only moves on when every required
+ * session is logged; this logs whatever is still open in one tap and advances.
+ */
+function CompleteAllCard({ n }: { n: number }) {
+  const [busy, setBusy] = useState(false);
+  const required = daySessions(n).filter((s) => !s.optional).length;
+  const remaining = remainingToday.value.length;
+  const done = required - remaining;
+  const last = n >= BLOCK_DAYS;
+  const nextLabel = last ? `finish ${blockLabel(block.value?.n ?? 1)}` : `move to ${dayLabel(n + 1)}`;
+  const run = async () => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await completeDay(n);
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <section class="card stack" data-testid="complete-all-card">
+      <div class="row between">
+        <h3>DAY PROGRESS</h3>
+        <span class={`chip ${remaining === 0 ? 'chip-rest' : 'chip-muted'}`} data-testid="day-progress">{done}/{required} done</span>
+      </div>
+      <p class="muted small" style="margin:0">
+        {remaining === 0
+          ? `Every required session is logged. Tap to ${nextLabel}.`
+          : `${remaining} required session${remaining === 1 ? '' : 's'} left. Log each one from its card, or mark the rest done and ${nextLabel}. Optional sessions never hold the day.`}
+      </p>
+      <button type="button" class="btn btn-primary btn-lg btn-block" data-testid="complete-all" disabled={busy} onClick={() => void run()}>
+        {remaining === 0 ? (last ? 'FINISH BLOCK' : 'NEXT DAY') : 'COMPLETE ALL'}
+      </button>
+    </section>
   );
 }
 

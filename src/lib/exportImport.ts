@@ -8,6 +8,7 @@ const BlockSchema = z.object({
   n: z.number().int(),
   startDate: z.string(),
   shift: z.number().int().default(0),
+  currentDay: z.number().int().min(1).optional(),
   createdAt: z.string(),
   endedAt: z.string().optional(),
 });

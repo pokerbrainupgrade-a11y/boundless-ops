@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { program, getDay, BLOCK_DAYS, BLOCK_WEEKS } from '@/data/program';
-import { block, dayN, dateOfDay, setStartDate, shiftRemaining, startBlock, blockLabel, logsFor, todayYmd } from '@/lib/store';
+import { block, dayN, dateOfDay, setStartDate, setCurrentDay, startBlock, blockLabel, dayLabel, logsFor, todayYmd } from '@/lib/store';
 import { fmtShortDate } from '@/lib/time';
 import { SessionRow } from '@/components/SessionRow';
 
@@ -21,6 +21,7 @@ export function Schedule() {
   const [editStart, setEditStart] = useState(false);
   const [date, setDate] = useState(b?.startDate ?? todayYmd.value);
   const [nextDate, setNextDate] = useState(todayYmd.value);
+  const [jump, setJump] = useState('');
 
   const cell = (n: number) => {
     const d = getDay(n);
@@ -28,10 +29,11 @@ export function Schedule() {
     const done = logsFor(n).filter((l) => l.completed).length;
     const isToday = cur === n;
     const past = cur !== null && n < cur;
+    const date = b ? dateOfDay(n) : null;
     return (
-      <button type="button" key={n} class={`daycell ${isToday ? 'today' : ''} ${past ? 'past' : ''}`} onClick={() => setPreview(n)} data-testid={`day-${n}`} aria-label={`Day ${n}`}>
+      <button type="button" key={n} class={`daycell ${isToday ? 'today' : ''} ${past ? 'past' : ''}`} onClick={() => setPreview(n)} data-testid={`day-${n}`} data-state={isToday ? 'current' : past ? 'done' : 'upcoming'} aria-label={`Day ${n}`}>
         <div class="row between"><span class="d">D{String(d.day).padStart(2, '0')}</span><span class={`chip ${cls}`} style="font-size:0.5rem;padding:1px 5px">{d.load.split(' ')[0]}</span></div>
-        <span class="s">{b ? fmtShortDate(dateOfDay(n)!) : `Day ${n}`}</span>
+        <span class="s">{date ? fmtShortDate(date) : past ? 'done' : isToday ? 'today' : `Day ${n}`}</span>
         <span class="s">{letters(n)}</span>
         {done > 0 && <span class="s" style="color:var(--rest-hi)">{done} logged</span>}
       </button>
@@ -41,7 +43,8 @@ export function Schedule() {
   return (
     <main class="screen">
       <div class="section-h"><h1>Schedule</h1></div>
-      {b && <div class="muted small">{blockLabel(b.n)} · starts {b.startDate}{b.shift ? ` · shifted +${b.shift}` : ''}</div>}
+      {b && <div class="muted small">{blockLabel(b.n)} · starts {b.startDate}{cur !== null && cur >= 1 ? ` · on ${cur > BLOCK_DAYS ? 'the finish line' : dayLabel(cur)}` : ''}</div>}
+      <p class="muted small" style="margin:0">Days do not follow the calendar. Today moves on when the current day's required sessions are all logged, or when you tap Complete All.</p>
       {Array.from({ length: Math.ceil(BLOCK_WEEKS / 2) }, (_, r) => (
         <div class="sched" key={r}>
           {[r * 2 + 1, r * 2 + 2].filter((w) => w <= BLOCK_WEEKS).map((w) => (
@@ -53,7 +56,11 @@ export function Schedule() {
 
       <div class="card stack">
         <h3>ADJUST</h3>
-        <button type="button" class="btn" data-testid="shift-btn" disabled={!b} onClick={() => confirm('Push the remaining days by one day?') && shiftRemaining(1)}>Shift remaining days +1 (missed a day)</button>
+        <div class="row">
+          <input class="input grow" type="number" inputMode="numeric" min={1} max={BLOCK_DAYS} placeholder={cur !== null && cur >= 1 && cur <= BLOCK_DAYS ? `Jump to day (now ${cur})` : 'Jump to day'} value={jump} onInput={(e) => setJump((e.target as HTMLInputElement).value)} data-testid="jump-day-input" disabled={!b} />
+          <button type="button" class="btn" data-testid="jump-day-btn" disabled={!b || !jump || Number(jump) < 1 || Number(jump) > BLOCK_DAYS} onClick={() => { void setCurrentDay(Number(jump)); setJump(''); }}>Set current day</button>
+        </div>
+        <p class="muted small" style="margin:0">Skip ahead after a missed day, or go back to redo one. Logged sessions stay in the AAR.</p>
         {!editStart ? (
           <button type="button" class="btn" onClick={() => setEditStart(true)}>{b ? 'Edit start date' : 'Set start date'}</button>
         ) : (
@@ -78,7 +85,7 @@ export function Schedule() {
 
       {preview !== null && (
         <div class="modal-full stack" role="dialog" aria-label={`Day ${preview}`} data-testid="day-preview">
-          <div class="row between modal-head"><div><h2>Day {String(preview).padStart(2, '0')} · W{getDay(preview).week} D{getDay(preview).day}</h2><div class="muted small">{getDay(preview).load} · {getDay(preview).timeEstimate}{b ? ` · ${fmtShortDate(dateOfDay(preview)!)}` : ''}</div></div><button type="button" class="btn btn-ghost" onClick={() => setPreview(null)}>Close</button></div>
+          <div class="row between modal-head"><div><h2>Day {String(preview).padStart(2, '0')} · W{getDay(preview).week} D{getDay(preview).day}</h2><div class="muted small">{getDay(preview).load} · {getDay(preview).timeEstimate}{b && dateOfDay(preview) ? ` · ${fmtShortDate(dateOfDay(preview)!)}` : ''}</div></div><button type="button" class="btn btn-ghost" onClick={() => setPreview(null)}>Close</button></div>
           <p class="muted small" style="margin:0">Tap a session to see its exercises and cues before you start it.</p>
           <section class="card stack"><h3>AM PT</h3>{getDay(preview).am.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="am" />)}</section>
           <section class="card stack"><h3>MAIN EFFORT</h3>{getDay(preview).main.map((r, i) => <SessionRow key={i} r={r} day={preview} slot="main" />)}</section>

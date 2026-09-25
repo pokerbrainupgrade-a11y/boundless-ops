@@ -6,8 +6,15 @@ export interface Block {
   /** Operation Block number, 1-based. */
   n: number;
   startDate: string; // YYYY-MM-DD (Phoenix)
-  /** Days the remaining schedule has been shifted (missed days). */
+  /** Legacy: days the schedule was shifted when Today still followed the calendar. Kept for old backups. */
   shift: number;
+  /**
+   * The program day Today shows, 1-based. It advances only when a day's required
+   * sessions are all logged complete (or Complete All is used). BLOCK_DAYS + 1 means
+   * the block is finished. Undefined on blocks created before this field existed;
+   * the store fills it in from the logs on load.
+   */
+  currentDay?: number;
   createdAt: string;
   endedAt?: string;
 }
