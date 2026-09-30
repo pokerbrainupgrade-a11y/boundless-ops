@@ -15,10 +15,18 @@ import { BoxBreath } from '@/components/BreathPacer';
 import { flash } from '@/components/Flash';
 import { SessionBrief } from '@/components/SessionBrief';
 import { chime, tickBeep } from '@/lib/audio';
+import { fmtClock } from '@/lib/engine';
 import { readActiveRun } from '@/lib/activeRun';
 import { readReportDraft } from '@/lib/reportDraft';
 
-type Phase = { kind: 'setup' } | { kind: 'run' } | { kind: 'log'; draft: SessionLog; note?: string };
+type Phase =
+  | { kind: 'setup' }
+  | { kind: 'run' }
+  | { kind: 'short'; draft: SessionLog; note?: string; elapsedMs: number }
+  | { kind: 'log'; draft: SessionLog; note?: string };
+
+/** Sessions shorter than this are usually a mis-tap: ask before opening the report. */
+const SHORT_SESSION_MS = 60_000;
 
 export function Session() {
   const r = route.value;
@@ -62,11 +70,17 @@ export function Session() {
     data,
   });
 
+  if (phase.kind === 'short') {
+    const { draft: d, note } = phase;
+    return <ShortSessionCheck session={session} elapsedMs={phase.elapsedMs} onKeep={() => setPhase({ kind: 'log', draft: d, note })} onDiscard={() => navigate('/today', true)} />;
+  }
   if (phase.kind === 'log') {
     return <LogForm session={session} draft={phase.draft} note={phase.note} draftKey={formKey} onSaved={() => navigate('/today', true)} onCancel={() => navigate('/today', true)} />;
   }
 
-  const onStepper = (res: StepperResult, note?: string) => setPhase({ kind: 'log', draft: draft(res, res.data), note });
+  const report = (d: SessionLog, elapsedMs: number, note?: string) =>
+    setPhase(elapsedMs < SHORT_SESSION_MS ? { kind: 'short', draft: d, note, elapsedMs } : { kind: 'log', draft: d, note });
+  const onStepper = (res: StepperResult, note?: string) => report(draft(res, res.data), Date.parse(res.endedAt) - Date.parse(res.startedAt), note);
   const abort = () => navigate('/today', true);
   const preset: TimerPreset = session.timerPreset;
 
@@ -92,7 +106,24 @@ export function Session() {
   }
   if (preset === 'decompression') return <DecompressionPacer title={session.name} onDone={onStepper} onAbort={abort} />;
 
-  return <IntervalSession key={session.id + variant} session={session} week={week} day={day} variant={variant} onDone={(res, data, note) => setPhase({ kind: 'log', draft: draft(res, data), note })} onAbort={abort} />;
+  return <IntervalSession key={session.id + variant} session={session} week={week} day={day} variant={variant} onDone={(res, data, note) => report(draft(res, data), res.elapsedMs, note)} onAbort={abort} />;
+}
+
+function ShortSessionCheck({ session, elapsedMs, onKeep, onDiscard }: { session: SessionT; elapsedMs: number; onKeep: () => void; onDiscard: () => void }) {
+  return (
+    <main class="screen" data-testid="short-session">
+      <div class="section-h"><h1>Short session</h1></div>
+      <div class="card stack">
+        <div class="muted small">{session.name}</div>
+        <div class="mono" style="font-size:1.4rem" data-testid="short-elapsed">{fmtClock(elapsedMs)}</div>
+        <p style="margin:0">This session ran for under a minute. Keep it and file a report, or discard it?</p>
+      </div>
+      <div class="row">
+        <button type="button" class="btn btn-ghost" data-testid="short-discard" onClick={onDiscard}>Discard</button>
+        <button type="button" class="btn btn-primary btn-lg grow" data-testid="short-keep" onClick={onKeep}>KEEP AND REPORT</button>
+      </div>
+    </main>
+  );
 }
 
 /* ---------------- interval presets ---------------- */

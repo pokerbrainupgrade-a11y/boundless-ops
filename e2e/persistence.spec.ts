@@ -57,6 +57,7 @@ test.describe('reload survival', () => {
     await page.getByTestId('start').click();
     await page.getByTestId('end').click();
     await page.getByTestId('log-it').click();
+    await page.getByTestId('short-keep').click();
     await expect(page.getByTestId('log-form')).toBeVisible();
   };
 

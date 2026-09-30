@@ -156,6 +156,8 @@ test.describe('timer presets (mocked clock)', () => {
     await page.getByTestId('rep-done').click();
     await page.getByTestId('rep-done').click();
     await page.getByTestId('rep-done').click();
+    // Three taps in a row is a sub-minute session: the short-session check comes first.
+    await page.getByTestId('short-keep').click();
     await expect(page.getByTestId('log-form')).toBeVisible();
     await page.getByTestId('save-log').click();
     await page.goto('/boundless-ops/#/today');

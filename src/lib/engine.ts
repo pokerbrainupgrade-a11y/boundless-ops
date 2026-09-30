@@ -103,7 +103,7 @@ export class IntervalEngine {
       segment: seg,
       segmentElapsedMs: elapsed,
       segmentRemainingMs: remaining,
-      totalElapsedMs: this.status === 'done' ? this.totalDurationMs : this.completedMs + elapsed,
+      totalElapsedMs: this.status === 'done' ? this.completedMs : this.completedMs + elapsed,
       totalDurationMs: this.totalDurationMs,
       secondsLeft: remaining === Infinity ? Math.floor(elapsed / 1000) : Math.ceil(remaining / 1000),
     };
@@ -166,6 +166,12 @@ export class IntervalEngine {
   /** End the whole session now. */
   end(): void {
     if (this.status === 'done' || this.status === 'idle') return;
+    // Ended early: count the part of the current segment that actually ran.
+    const seg = this.segments[this.index];
+    if (seg) {
+      const elapsed = this.segElapsed();
+      this.completedMs += seg.open ? elapsed : Math.min(elapsed, seg.durationMs);
+    }
     this.stopTicking();
     this.status = 'done';
     this.pausedAt = null;

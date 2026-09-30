@@ -113,10 +113,22 @@ describe('IntervalEngine', () => {
     vi.advanceTimersByTime(500);
     e.end();
     expect(e.getState().status).toBe('done');
+    expect(e.getState().totalElapsedMs).toBe(500);
     expect(done).toBe(1);
     e.end();
     expect(done).toBe(1);
     expect(e.getState().segment).toBeNull();
+  });
+
+  it('end() reports the time actually run, not the planned total', () => {
+    const e = new IntervalEngine(tabata());
+    e.start();
+    vi.advanceTimersByTime(12_300); // 10 s prep + 2.3 s into round 1
+    e.pause();
+    vi.advanceTimersByTime(60_000); // paused time doesn't count
+    e.end();
+    expect(e.getState().totalElapsedMs).toBe(12_300);
+    expect(e.getState().totalElapsedMs).toBeLessThan(e.totalDurationMs);
   });
 
   it('fires 3-2-1 countdown beeps and a zero beep per timed segment', () => {
