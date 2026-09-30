@@ -15,6 +15,7 @@ import { BoxBreath } from '@/components/BreathPacer';
 import { flash } from '@/components/Flash';
 import { SessionBrief } from '@/components/SessionBrief';
 import { chime, tickBeep } from '@/lib/audio';
+import { readActiveRun } from '@/lib/activeRun';
 
 type Phase = { kind: 'setup' } | { kind: 'run' } | { kind: 'log'; draft: SessionLog; note?: string };
 
@@ -101,6 +102,8 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
   const dayIdx = dayObj ? [1, 3, 5].indexOf(dayObj.day) : -1;
   const defaultMove = variant ?? (dayIdx >= 0 ? rotation[dayIdx] : rotation[0]) ?? 'bike';
   const allowedMoves = tabataMoves();
+  const r = route.value;
+  const runKey = r.path + '?' + r.query.toString();
   const [opts, setOpts] = useState<PresetOptions>(() => ({
     leadInSec: s.leadInSec,
     week,
@@ -111,6 +114,8 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
     cycles: 2,
     restSec: 90,
     swimRounds: 10,
+    // A timer running before a reload comes back with the options it was started with.
+    ...(readActiveRun(runKey)?.config as PresetOptions | undefined),
   }));
   const built = useMemo(() => buildPreset(preset, opts), [preset, opts]);
   const collected = useRef<Record<string, unknown>>({});
@@ -300,7 +305,7 @@ function IntervalSession({ session, week, day, variant, onDone, onAbort }: {
 
   const skipLabel = preset === 'superSlow' ? 'FAILURE' : preset === 'swim' ? 'LAP DONE' : undefined;
   const subtitle = preset === 'tabata' ? allowedMoves.find((m) => m.id === opts.tabataMove)?.name : preset === 'superSlow' ? 'push → pull → squat → hinge' : undefined;
-  return <TimerRunner built={built} title={session.name} subtitle={subtitle} preStart={preStart} renderSegment={renderSegment} onTick={onTick} onSegmentStart={onSegmentStart} onDone={finish} onAbort={onAbort} skipLabel={skipLabel} snapshotKey={session.id} />;
+  return <TimerRunner built={built} title={session.name} subtitle={subtitle} preStart={preStart} renderSegment={renderSegment} onTick={onTick} onSegmentStart={onSegmentStart} onDone={finish} onAbort={onAbort} skipLabel={skipLabel} snapshotKey={runKey} snapshotConfig={opts} />;
 }
 
 function Metronome({ elapsedMs, repLengthSec }: { elapsedMs: number; repLengthSec: number }) {

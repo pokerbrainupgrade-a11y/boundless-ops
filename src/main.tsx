@@ -10,11 +10,17 @@ import './styles/base.css';
 import { App } from './app';
 import { registerSW } from 'virtual:pwa-register';
 import { boot } from './lib/store';
+import { route, navigate } from './router';
+import { readActiveRun } from './lib/activeRun';
 
 registerSW({ immediate: true });
 
 render(<App />, document.getElementById('app')!);
-void boot();
+void boot().then(() => {
+  // iOS relaunches a killed PWA at the start URL: send it back to a timer that is still running.
+  const run = readActiveRun();
+  if (run && route.value.parts[0] !== 'session') navigate(run.path);
+});
 
 // Test/debug hook (no personal data; on-device only).
 import { db } from './lib/db';

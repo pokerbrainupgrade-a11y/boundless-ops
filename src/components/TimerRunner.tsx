@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
-import { IntervalEngine, fmtClock, fmtClockDown, type EngineState, type Segment } from '@/lib/engine';
+import { IntervalEngine, fmtClock, fmtClockDown, type EngineEvents, type EngineState, type Segment } from '@/lib/engine';
+import { readActiveRun, writeActiveRun, clearActiveRun } from '@/lib/activeRun';
 import { STATE_COPY, type BuiltPreset } from '@/lib/presets';
 import { unlockAudio, countdownBeep, longBeep } from '@/lib/audio';
 import { requestWakeLock, releaseWakeLock } from '@/lib/wakelock';
@@ -38,57 +39,72 @@ export interface TimerRunnerProps {
   skipLabel?: string;
   /** Show an elapsed (count-up) clock instead of the remaining one. */
   countUp?: boolean;
-  /** Optional id for the localStorage snapshot (resume after reload). */
+  /** Route of this session. When set, a running timer is saved under it and resumed after a reload. */
   snapshotKey?: string;
+  /** Preset options saved with the snapshot so the wrapper can rebuild the same segments. */
+  snapshotConfig?: object;
   /** Hide the skip button. */
   noSkip?: boolean;
 }
 
-const SNAP_KEY = 'bops.active';
-
 export function TimerRunner(p: TimerRunnerProps) {
   const [state, setState] = useState<EngineState | null>(null);
-  const [startedAt, setStartedAt] = useState<string | null>(null);
   const [showSilentWarn, setShowSilentWarn] = useState(false);
   const doneRef = useRef(false);
   const apiRef = useRef<RunnerApi | null>(null);
   const startedAtRef = useRef<string | null>(null);
+  const restoredRef = useRef(false);
 
   const engine = useMemo(() => {
-    const e = new IntervalEngine(p.built.segments, {
+    // Resume only if the saved run was built from the same segments.
+    const saved = p.snapshotKey ? readActiveRun(p.snapshotKey) : null;
+    const resume = saved && saved.snap.segments.length === p.built.segments.length ? saved : null;
+    // While restore() catches up on segments that elapsed during the reload, stay quiet:
+    // no flashes, no wrapper callbacks, no setState during render.
+    let live = false;
+    let e: IntervalEngine | undefined;
+    const events: EngineEvents = {
       onSegmentStart: (i, seg, prev) => {
+        if (!live || !e) return;
         if (prev) flash(seg.kind === 'work' ? 'work' : 'rest');
         if (apiRef.current) p.onSegmentStart?.(i, seg, { ...apiRef.current, state: e.getState(), segment: seg });
         persist(e);
       },
-      onCountdown: (n) => countdownBeep(n),
-      onSegmentZero: () => longBeep(),
+      onCountdown: (n) => { if (live) countdownBeep(n); },
+      onSegmentZero: () => { if (live) longBeep(); },
       onTick: (s) => {
+        if (!live || !e) return;
         setState(s);
         const api = { state: s, segment: s.segment, engine: e };
         apiRef.current = api;
         p.onTick?.(api);
       },
       onStatus: (st) => {
+        if (!e) return;
         setState(e.getState());
         if (st === 'paused' || st === 'running') persist(e);
       },
       onDone: () => {
         doneRef.current = true;
-        try { localStorage.removeItem(SNAP_KEY); } catch { /* ignore */ }
+        clearActiveRun();
         void releaseWakeLock();
-        setState(e.getState());
+        if (live && e) setState(e.getState());
       },
-    });
+    };
+    if (resume) {
+      startedAtRef.current = resume.startedAt;
+      restoredRef.current = true;
+      e = IntervalEngine.restore(resume.snap, events);
+    } else {
+      e = new IntervalEngine(p.built.segments, events);
+    }
+    live = true;
+    if (resume && e.getState().status !== 'done') persist(e);
     apiRef.current = { state: e.getState(), segment: e.getState().segment, engine: e };
     return e;
     function persist(en: IntervalEngine) {
-      if (!p.snapshotKey) return;
-      try {
-        localStorage.setItem(SNAP_KEY, JSON.stringify({ key: p.snapshotKey, snap: en.snapshot(), startedAt: startedAtRef.current }));
-      } catch {
-        /* ignore */
-      }
+      if (!p.snapshotKey || !startedAtRef.current) return;
+      writeActiveRun({ path: p.snapshotKey, startedAt: startedAtRef.current, config: p.snapshotConfig, snap: en.snapshot() });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.built]);
@@ -100,6 +116,7 @@ export function TimerRunner(p: TimerRunnerProps) {
     };
     document.addEventListener('visibilitychange', onVis);
     window.addEventListener('focus', onVis);
+    if (restoredRef.current && engine.getState().status === 'running') void requestWakeLock();
     return () => {
       document.removeEventListener('visibilitychange', onVis);
       window.removeEventListener('focus', onVis);
@@ -111,9 +128,7 @@ export function TimerRunner(p: TimerRunnerProps) {
   const start = () => {
     unlockAudio();
     void requestWakeLock();
-    const now = new Date().toISOString();
-    startedAtRef.current = now;
-    setStartedAt(now);
+    startedAtRef.current = new Date().toISOString();
     if (settings.value.sound && !settings.value.silentSwitchWarned) {
       setShowSilentWarn(true);
       void updateSettings({ silentSwitchWarned: true });
@@ -123,7 +138,7 @@ export function TimerRunner(p: TimerRunnerProps) {
 
   const finish = () => {
     const s = engine.getState();
-    p.onDone({ startedAt: startedAt ?? new Date().toISOString(), endedAt: new Date().toISOString(), completed: s.status === 'done', elapsedMs: s.totalElapsedMs });
+    p.onDone({ startedAt: startedAtRef.current ?? new Date().toISOString(), endedAt: new Date().toISOString(), completed: s.status === 'done', elapsedMs: s.totalElapsedMs });
   };
 
   const st = state ?? engine.getState();
@@ -139,7 +154,7 @@ export function TimerRunner(p: TimerRunnerProps) {
   const barColor = kind === 'work' ? 'var(--signal)' : kind === 'rest' ? 'var(--rest)' : 'var(--tan)';
 
   return (
-    <div class="screen-full" data-testid="timer" data-status={st.status} data-index={st.index} data-segments={p.built.segments.length} data-total-ms={p.built.totalMs} data-kind={kind}>
+    <div class="screen-full" data-testid="timer" data-status={st.status} data-index={st.index} data-segments={p.built.segments.length} data-total-ms={p.built.totalMs} data-elapsed-ms={Math.floor(st.totalElapsedMs)} data-kind={kind}>
       <div class="row between" style="margin-bottom:6px">
         <div class="grow" style="min-width:0">
           <div class="wordmark" style="font-size:1rem">{p.title}</div>
