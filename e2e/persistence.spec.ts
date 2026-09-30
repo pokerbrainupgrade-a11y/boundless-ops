@@ -51,4 +51,63 @@ test.describe('reload survival', () => {
     await page.reload();
     await expect(page.getByTestId('timer')).toHaveAttribute('data-status', 'idle');
   });
+
+  const openReport = async (page: Page) => {
+    await page.goto(LIGHT);
+    await page.getByTestId('start').click();
+    await page.getByTestId('end').click();
+    await page.getByTestId('log-it').click();
+    await expect(page.getByTestId('log-form')).toBeVisible();
+  };
+
+  test('an unsaved report draft survives a reload and is cleared once filed', async ({ page }) => {
+    await openReport(page);
+    const form = page.getByTestId('log-form');
+    await form.getByRole('radio', { name: '6' }).click();
+    await page.getByTestId('hr-avg').fill('118');
+    await page.getByTestId('hr-max').fill('131');
+    await form.getByLabel('Notes').fill('Easy loop around the block');
+
+    await page.reload();
+    await expect(form).toBeVisible();
+    await expect(form.getByRole('radio', { name: '6' })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByTestId('hr-avg')).toHaveValue('118');
+    await expect(page.getByTestId('hr-max')).toHaveValue('131');
+    await expect(form.getByLabel('Notes')).toHaveValue('Easy loop around the block');
+
+    // A relaunch at the start URL goes back to the unfiled report.
+    await page.goto('/boundless-ops/#/today');
+    await page.reload();
+    await expect(form).toBeVisible();
+    await expect(page.getByTestId('hr-avg')).toHaveValue('118');
+
+    await page.getByTestId('save-log').click();
+    await expect(page).toHaveURL(/#\/today$/);
+    expect(await page.evaluate(() => localStorage.getItem('bops.report'))).toBeNull();
+    await page.goto('/boundless-ops/#/aar');
+    await expect(page.getByTestId('aar')).toContainText('avg HR 118');
+  });
+
+  test('discarding a report clears its draft', async ({ page }) => {
+    await openReport(page);
+    await page.getByTestId('hr-avg').fill('120');
+    await page.getByTestId('discard-log').click();
+    await expect(page).toHaveURL(/#\/today$/);
+    expect(await page.evaluate(() => localStorage.getItem('bops.report'))).toBeNull();
+    await page.goto(LIGHT);
+    await expect(page.getByTestId('timer')).toHaveAttribute('data-status', 'idle');
+  });
+
+  test('an edit to a filed report survives a reload', async ({ page }) => {
+    await openReport(page);
+    await page.getByTestId('hr-avg').fill('118');
+    await page.getByTestId('save-log').click();
+    await expect(page).toHaveURL(/#\/today$/);
+    await page.goto('/boundless-ops/#/aar');
+    await page.getByTestId('aar').getByRole('button', { name: 'Edit' }).first().click();
+    await expect(page.getByTestId('log-form')).toBeVisible();
+    await page.getByTestId('hr-avg').fill('124');
+    await page.reload();
+    await expect(page.getByTestId('hr-avg')).toHaveValue('124');
+  });
 });

@@ -16,6 +16,7 @@ import { flash } from '@/components/Flash';
 import { SessionBrief } from '@/components/SessionBrief';
 import { chime, tickBeep } from '@/lib/audio';
 import { readActiveRun } from '@/lib/activeRun';
+import { readReportDraft } from '@/lib/reportDraft';
 
 type Phase = { kind: 'setup' } | { kind: 'run' } | { kind: 'log'; draft: SessionLog; note?: string };
 
@@ -27,7 +28,12 @@ export function Session() {
   const slot = (q.get('slot') ?? 'main') as SessionLog['slot'];
   const variant = q.get('variant') ?? undefined;
   const session = program.sessions[sessionId];
-  const [phase, setPhase] = useState<Phase>({ kind: 'setup' });
+  const formKey = r.path + '?' + q.toString();
+  // An unsaved report from before a reload reopens the form where it was left.
+  const [phase, setPhase] = useState<Phase>(() => {
+    const saved = readReportDraft(formKey);
+    return saved ? { kind: 'log', draft: saved.log, note: saved.note } : { kind: 'setup' };
+  });
 
   if (!session) {
     return (
@@ -57,7 +63,7 @@ export function Session() {
   });
 
   if (phase.kind === 'log') {
-    return <LogForm session={session} draft={phase.draft} note={phase.note} onSaved={() => navigate('/today', true)} onCancel={() => navigate('/today', true)} />;
+    return <LogForm session={session} draft={phase.draft} note={phase.note} draftKey={formKey} onSaved={() => navigate('/today', true)} onCancel={() => navigate('/today', true)} />;
   }
 
   const onStepper = (res: StepperResult, note?: string) => setPhase({ kind: 'log', draft: draft(res, res.data), note });

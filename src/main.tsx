@@ -12,14 +12,19 @@ import { registerSW } from 'virtual:pwa-register';
 import { boot } from './lib/store';
 import { route, navigate } from './router';
 import { readActiveRun } from './lib/activeRun';
+import { readReportDraft } from './lib/reportDraft';
 
 registerSW({ immediate: true });
 
 render(<App />, document.getElementById('app')!);
 void boot().then(() => {
-  // iOS relaunches a killed PWA at the start URL: send it back to a timer that is still running.
+  // iOS relaunches a killed PWA at the start URL: send it back to a timer that is still
+  // running, or to a finished session's report that was never filed.
+  if (route.value.parts[0] === 'session') return;
   const run = readActiveRun();
-  if (run && route.value.parts[0] !== 'session') navigate(run.path);
+  const report = readReportDraft();
+  if (run) navigate(run.path);
+  else if (report?.path.startsWith('/session/')) navigate(report.path);
 });
 
 // Test/debug hook (no personal data; on-device only).

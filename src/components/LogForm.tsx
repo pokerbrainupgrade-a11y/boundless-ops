@@ -6,6 +6,7 @@ import { buildHealthRequest, parseHealthResponse, shortcutUrl, healthErrorMessag
 import { saveLog } from '@/lib/store';
 import { hrMax, settings } from '@/lib/settings';
 import { unlockAudio } from '@/lib/audio';
+import { readReportDraft, writeReportDraft, clearReportDraft } from '@/lib/reportDraft';
 
 export interface LogFormProps {
   session: Session;
@@ -14,6 +15,8 @@ export interface LogFormProps {
   onCancel: () => void;
   /** Extra note shown at the top (e.g. "Finish with a cold shower"). */
   note?: string;
+  /** Route to autosave the draft under; a saved draft for it is restored on load. */
+  draftKey?: string;
 }
 
 export function sessionKey(sessionId: string, startedAt: string): string {
@@ -26,8 +29,18 @@ function num(v: unknown): number | undefined {
 }
 
 /** After Action Report form: per-preset fields, RPE, HR (manual or Health paste), notes. */
-export function LogForm({ session, draft, onSaved, onCancel, note }: LogFormProps) {
-  const [log, setLog] = useState<SessionLog>(draft);
+export function LogForm({ session, draft, onSaved, onCancel, note, draftKey }: LogFormProps) {
+  // Autosave on open (so the session itself survives) and synchronously on every edit,
+  // so a reload straight after the last keystroke still has it.
+  const [log, setLogState] = useState<SessionLog>(() => {
+    const initial = (draftKey && readReportDraft(draftKey)?.log) || draft;
+    if (draftKey) writeReportDraft(draftKey, initial, note);
+    return initial;
+  });
+  const setLog = (next: SessionLog) => {
+    setLogState(next);
+    if (draftKey) writeReportDraft(draftKey, next, note);
+  };
   const [hrMsg, setHrMsg] = useState<string | null>(null);
   const [pasteBox, setPasteBox] = useState('');
   const [saving, setSaving] = useState(false);
@@ -67,6 +80,7 @@ export function LogForm({ session, draft, onSaved, onCancel, note }: LogFormProp
     unlockAudio();
     setSaving(true);
     const id = await saveLog(log);
+    if (draftKey) clearReportDraft();
     onSaved(id);
   };
 
@@ -184,7 +198,7 @@ export function LogForm({ session, draft, onSaved, onCancel, note }: LogFormProp
       <label class="field"><span>Notes</span><textarea class="input" value={log.notes ?? ''} onInput={(e) => setLog({ ...log, notes: (e.target as HTMLTextAreaElement).value })} /></label>
 
       <div class="row">
-        <button type="button" class="btn btn-ghost" onClick={onCancel}>Discard</button>
+        <button type="button" class="btn btn-ghost" data-testid="discard-log" onClick={() => { if (draftKey) clearReportDraft(); onCancel(); }}>Discard</button>
         <button type="button" class="btn btn-primary btn-lg grow" data-testid="save-log" disabled={saving} onClick={save}>FILE REPORT</button>
       </div>
     </main>

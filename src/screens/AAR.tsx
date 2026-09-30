@@ -40,7 +40,7 @@ export function AAR() {
 
   if (editId && editing) {
     const s = program.sessions[editing.sessionId]!;
-    return <LogForm session={s} draft={editing} onSaved={() => { void reloadLogs(); navigate('/aar', true); }} onCancel={() => navigate('/aar', true)} />;
+    return <LogForm session={s} draft={editing} draftKey={r.path} onSaved={() => { void reloadLogs(); navigate('/aar', true); }} onCancel={() => navigate('/aar', true)} />;
   }
 
   const shown = allLogs.filter((l) => blockId === 'all' || l.blockId === blockId);
